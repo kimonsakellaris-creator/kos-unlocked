@@ -90,6 +90,7 @@ const DEFAULT_PLACES = {
     { id:"v23", hours:"18:00–02:00", name:"Thea Rooftop Bar", phone:"", website:"", social:"",  emoji:"🌹", cat:"bars", desc:"Sophisticated and elegant rooftop bar with a romantic atmosphere, beautiful lighting and expertly crafted cocktails. One of the most refined bars on the island.", tip:"Perfect for a special evening or date night. The cocktail menu is creative and the views are gorgeous.", rating:"4.9", lat:36.8942, lng:27.2882 },
     { id:"v24", hours:"18:00–03:00", name:"Kaseta", phone:"", website:"", social:"", emoji:"⚓", cat:"bars", desc:"A beloved bar right on the harbour of Kos Town — one of the most characterful spots on the waterfront. Great atmosphere, cold drinks and one of the best spots on the island to watch the boats come and go as the evening unfolds.", tip:"Grab a seat facing the harbour as the sun goes down. The harbour lighting at night makes this one of the most atmospheric bars in Kos Town.", rating:"4.7", lat:36.8962, lng:27.2938 },
     { id:"v25", hours:"20:00–03:00", name:"Scholargio", phone:"", website:"", social:"", emoji:"🎓", cat:"bars", desc:"A well-loved Kos Town bar with a loyal following among both locals and tourists. Great drinks, a relaxed vibe and the kind of place you end up staying far longer than you planned.", tip:"A great spot to start the evening — friendly crowd and good music without the intensity of Bar Street.", rating:"4.6", lat:36.8918, lng:27.2875 },
+    { id:"v26", hours:"19:00–03:00", name:"Kentriko", phone:"", website:"", social:"", emoji:"🏛️", cat:"bars", desc:"A classic Kos Town bar right in the heart of the action — Kentriko (meaning Central) lives up to its name as a central meeting point for locals and tourists alike. Great atmosphere, good drinks and that unmistakable buzz of a bar that has been a firm favourite for years.", tip:"One of the most central bars in Kos Town — perfect for people watching and starting the evening. Always a friendly crowd.", rating:"4.6", lat:36.8932, lng:27.2878 },
   ],
   sights: [
     { id:"s1",  name:"Asklepion", emoji:"🏛️", cat:"sights", desc:"The most significant archaeological site on Kos. Ancient healing sanctuary and medical school of Hippocrates, one of the most renowned in the ancient world. Three terraced levels with stunning sea views.", tip:"Hire a local guide to bring the history to life. Take bus Line 5 from Kos Town.", rating:"4.9", lat:36.8700, lng:27.2500 },
@@ -286,6 +287,7 @@ const PHOTO_QUERIES = {
   v23:"rooftop bar romantic evening cocktails greece",
   v24:"harbour bar kos waterfront evening",
   v25:"cosy bar kos town greece drinks",
+  v26:"central bar kos town greece evening",
 };
 
 function getPhotoUrl(id, size=400) {
@@ -363,26 +365,39 @@ function MapView({ items, onSelect, selected }) {
         ))}
       </div>
 
-      {/* Scrollable pin list */}
-      <div style={{ marginTop:8 }}>
-        <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", marginBottom:8, letterSpacing:1, textTransform:"uppercase" }}>Tap a place to open in Maps</div>
-        <div style={{ display:"flex", gap:8, overflowX:"auto", paddingBottom:4 }}>
-          {items.map(item => {
-            const col = CAT_COLOR[item.cat];
-            const isSel = selected && selected.id === item.id;
-            const mapsUrl = "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(item.name+", Kos, Greece");
-            return (
-              <a key={item.id} href={mapsUrl} target="_blank" rel="noreferrer" style={{ textDecoration:"none", flexShrink:0 }}
-                onClick={e => { e.preventDefault(); handlePin(item); }}>
-                <div style={{ background:isSel?col+"22":"rgba(255,255,255,0.05)", border:"1px solid "+(isSel?col+"60":"rgba(240,230,211,0.08)"), borderRadius:12, padding:"8px 12px", display:"flex", alignItems:"center", gap:6, transition:"all 0.2s" }}>
-                  <span style={{ fontSize:16 }}>{item.emoji}</span>
-                  <span style={{ fontSize:12, color:isSel?col:"#94a3b8", fontFamily:"sans-serif", fontWeight:isSel?600:400, whiteSpace:"nowrap" }}>{item.name}</span>
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </div>
+      {/* Category filter tabs + place list */}
+      {(() => {
+        const [mapCat, setMapCat] = useState("beaches");
+        const filteredPins = items.filter(i => i.cat === mapCat);
+        const cat = CATS.find(c => c.key === mapCat);
+        return (
+          <div style={{ marginTop:10 }}>
+            {/* Category tabs */}
+            <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:8, scrollbarWidth:"none" }}>
+              {CATS.map(c => (
+                <button key={c.key} onClick={() => setMapCat(c.key)} style={{ flexShrink:0, padding:"7px 14px", borderRadius:50, border:mapCat===c.key?"1.5px solid "+c.color:"1.5px solid rgba(240,230,211,0.12)", background:mapCat===c.key?c.color+"22":"rgba(255,255,255,0.04)", color:mapCat===c.key?c.color:"#64748b", fontSize:12, cursor:"pointer", fontFamily:"sans-serif", display:"flex", alignItems:"center", gap:5 }}>
+                  <span>{c.icon}</span><span>{c.label}</span>
+                </button>
+              ))}
+            </div>
+            {/* Place pills */}
+            <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", marginBottom:6, letterSpacing:1, textTransform:"uppercase" }}>Tap to see details</div>
+            <div style={{ display:"flex", gap:8, overflowX:"auto", paddingBottom:4, scrollbarWidth:"none" }}>
+              {filteredPins.map(item => {
+                const col = CAT_COLOR[item.cat];
+                const isSel = selected && selected.id === item.id;
+                return (
+                  <div key={item.id} onClick={() => handlePin(item)} style={{ flexShrink:0, background:isSel?col+"22":"rgba(255,255,255,0.05)", border:"1px solid "+(isSel?col+"60":"rgba(240,230,211,0.08)"), borderRadius:12, padding:"8px 12px", display:"flex", alignItems:"center", gap:6, cursor:"pointer", transition:"all 0.2s" }}>
+                    <span style={{ fontSize:16 }}>{item.emoji}</span>
+                    <span style={{ fontSize:12, color:isSel?col:"#94a3b8", fontFamily:"sans-serif", fontWeight:isSel?600:400, whiteSpace:"nowrap" }}>{item.name}</span>
+                  </div>
+                );
+              })}
+              {filteredPins.length === 0 && <div style={{ fontSize:12, color:"#475569", fontFamily:"sans-serif", padding:"8px 4px" }}>No places in this category</div>}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Selected place card */}
       {selected && (
@@ -1033,8 +1048,84 @@ function TripPlannerTab({ places }) {
   );
 }
 
+// ── Home Page ────────────────────────────────────────────────────────────────
+function HomePage({ onExplore }) {
+  return (
+    <div style={{ position:"relative", zIndex:1, minHeight:"100vh", display:"flex", flexDirection:"column", justifyContent:"space-between", padding:"60px 24px 140px" }}>
+      {/* Background glow */}
+      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, background:"radial-gradient(ellipse at 30% 20%, rgba(14,165,233,0.12) 0%, transparent 55%), radial-gradient(ellipse at 70% 80%, rgba(232,160,32,0.08) 0%, transparent 55%)", pointerEvents:"none", zIndex:0 }}/>
+
+      {/* Logo */}
+      <div style={{ position:"relative", zIndex:1 }}>
+        {/* Hero text */}
+        <div style={{ fontSize:11, letterSpacing:4, color:"#e8a020", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:16, marginTop:8 }}>Welcome to Kos</div>
+        <h1 style={{ fontFamily:"Georgia, serif", fontSize:38, fontWeight:300, lineHeight:1.15, marginBottom:24, background:"linear-gradient(135deg,#f0e6d3 40%,#7dd3fc 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
+          The island is<br/>yours to discover.
+        </h1>
+
+        {/* Personal note */}
+        <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"22px 20px", marginBottom:24, position:"relative" }}>
+          <div style={{ fontSize:32, marginBottom:12, lineHeight:1 }}>🌊</div>
+          <p style={{ margin:0, fontSize:15, color:"#cbd5e1", lineHeight:1.8, fontFamily:"Georgia, serif", fontStyle:"italic" }}>
+            "Everything you'll find in this guide is based on my own personal experience of living on this island. These are the places I love, the beaches I go to and the spots I take my friends when they visit."
+          </p>
+          <div style={{ marginTop:14, fontSize:12, color:"#e8a020", fontFamily:"sans-serif", letterSpacing:1 }}>— Your local guide, Kos</div>
+        </div>
+
+        {/* Disclaimer card */}
+        <div style={{ background:"rgba(232,160,32,0.08)", border:"1px solid rgba(232,160,32,0.2)", borderRadius:16, padding:"16px 18px", marginBottom:24 }}>
+          <div style={{ fontSize:13, fontWeight:600, color:"#e8a020", fontFamily:"sans-serif", marginBottom:8 }}>A word before you explore</div>
+          <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.7 }}>
+            Kos is a living, breathing island full of hidden gems, family-run tavernas down side streets and secret beaches only locals know about. This guide is a starting point — not the whole picture.
+          </p>
+          <p style={{ margin:"10px 0 0", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.7 }}>
+            The real magic of Kos is getting off the main road, wandering into a bar that catches your eye, sitting down at a taverna because it smells good and stumbling across a cove that isn't on any map. Use this guide to get oriented — then go explore for yourself. 🗺️
+          </p>
+        </div>
+
+        {/* Under construction banner */}
+        <div style={{ background:"rgba(234,179,8,0.08)", border:"1px solid rgba(234,179,8,0.25)", borderRadius:14, padding:"12px 16px", marginBottom:24, display:"flex", gap:10, alignItems:"center" }}>
+          <span style={{ fontSize:20, flexShrink:0 }}>🚧</span>
+          <p style={{ margin:0, fontSize:12, color:"#ca8a04", fontFamily:"sans-serif", lineHeight:1.6 }}>
+            <strong>Work in progress</strong> — This app is still being built and improved. Some information may be incomplete. We're adding more local gems every day!
+          </p>
+        </div>
+
+        {/* Quick stats */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:10, marginBottom:32 }}>
+          {[
+            ["🏖️","16","Beaches"],
+            ["🍽️","21","Restaurants"],
+            ["🍹","26","Bars"],
+            ["🏛️","20","Sights"],
+            ["🏘️","12","Villages"],
+            ["🎯","12","Activities"],
+          ].map(([icon,num,label]) => (
+            <div key={label} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.07)", borderRadius:14, padding:"14px 10px", textAlign:"center" }}>
+              <div style={{ fontSize:20, marginBottom:4 }}>{icon}</div>
+              <div style={{ fontSize:20, fontWeight:700, color:"#f0e6d3", fontFamily:"Georgia, serif", lineHeight:1 }}>{num}</div>
+              <div style={{ fontSize:10, color:"#475569", fontFamily:"sans-serif", marginTop:3 }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div style={{ position:"relative", zIndex:1 }}>
+        <button onClick={onExplore} style={{ width:"100%", padding:"18px", background:"linear-gradient(135deg,rgba(14,165,233,0.3),rgba(14,165,233,0.15))", border:"1.5px solid rgba(14,165,233,0.5)", borderRadius:16, color:"#7dd3fc", fontSize:16, cursor:"pointer", fontFamily:"Georgia, serif", fontWeight:600, letterSpacing:1, marginBottom:12 }}>
+          Start Exploring →
+        </button>
+        <p style={{ margin:0, textAlign:"center", fontSize:11, color:"#334155", fontFamily:"sans-serif", lineHeight:1.6 }}>
+          Listings are personal recommendations. Featured ⭐ partners support this guide.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ── Main App ──────────────────────────────────────────────────────────────────
 const NAV = [
+  { key:"home",    label:"Home",    icon:"🏠" },
   { key:"explore", label:"Explore", icon:"🧭" },
   { key:"events",  label:"Events",  icon:"🎉" },
   { key:"nearby",  label:"Nearby",  icon:"📍" },
@@ -1902,7 +1993,7 @@ function NearbyTab() {
 
 function App() {
   const [places, setPlaces] = useState(loadPlaces);
-  const [nav, setNav] = useState("explore");
+  const [nav, setNav] = useState("home");
   const [mapMode, setMapMode] = useState(false);
   const [activeCat, setActiveCat] = useState("beaches");
   const [selected, setSelected] = useState(null);
@@ -2169,6 +2260,7 @@ function App() {
       )}
 
       {/* Nearby */}
+      {nav==="home" && <HomePage onExplore={() => setNav("explore")}/>}
       {nav==="events" && <EventsTab/>}
       {nav==="islands" && <IslandsTab/>}
       {nav==="trip" && <TripPlannerTab places={places}/>}
