@@ -1,0 +1,2333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a1628">
+<title>Kos Unlocked</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; background:#0a1628; }
+  #root { height:100%; }
+  input, textarea, button { font-family:inherit; }
+  ::-webkit-scrollbar { display:none; }
+  a { -webkit-tap-highlight-color: transparent; }
+  button { -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useMemo } = React;
+const DEFAULT_PLACES = {
+  beaches: [
+    { id:"b1",  name:"Paradise Beach",   emoji:"🏖️", cat:"beaches", desc:"The most famous beach on Kos — long golden sand, turquoise water, beach bars and water sports. Lively and popular with all ages.", tip:"Go before 10am in peak summer to get a sunbed. Gets very busy by noon!", rating:"4.8", lat:36.7833, lng:27.1167 },
+    { id:"b2",  name:"Tigaki Beach",     emoji:"🌊", cat:"beaches", desc:"A favourite with locals for decades. Wide sandy beach with warm shallow water, perfect for families. Frequently awarded Blue Flag status.", tip:"The shallow water makes it ideal for kids. Head to the eastern end for fewer crowds.", rating:"4.7", lat:36.8667, lng:27.0667 },
+    { id:"b3",  name:"Agios Stefanos",   emoji:"⛵", cat:"beaches", desc:"Breathtaking beach facing the tiny islet of Kastri, topped with a ruined basilica. One of the most photogenic spots on the island.", tip:"Swim across to Kastri — it's only about 200m! Watch for boat traffic.", rating:"4.9", lat:36.7500, lng:27.2833 },
+    { id:"b4",  name:"Camel Beach",      emoji:"🐪", cat:"beaches", desc:"Secluded pebble and pink-sand cove with some of the clearest water on the island. Peaceful and relatively unknown.", tip:"Bring water shoes for the pebbles. Access by a short dirt track or boat from Paradise Beach.", rating:"4.7", lat:36.7667, lng:27.1500 },
+    { id:"b5",  name:"Cavo Paradiso",    emoji:"🌿", cat:"beaches", desc:"Widely regarded as the most beautiful beach on Kos. A pristine bay flanked by cliffs and dunes with a small cedar forest. Barely touched by tourism.", tip:"Bring everything you need — no facilities here. Worth every effort to reach.", rating:"4.9", lat:36.7400, lng:27.0900 },
+    { id:"b6",  name:"Marmari Beach",    emoji:"🏄", cat:"beaches", desc:"Long north-coast sandy beach lined with restaurants and accommodation. Great for windsurfing thanks to reliable Aegean breezes.", tip:"The western section is quieter. Several windsurfing schools operate here.", rating:"4.5", lat:36.8600, lng:27.0300 },
+    { id:"b7",  name:"Mastichari Beach", emoji:"🐚", cat:"beaches", desc:"Exotic setting with soft white sand and emerald water. One of the busiest beaches on the island with many watersports centres and a nearby ferry port.", tip:"Take the ferry from here to Kalymnos for a perfect day trip.", rating:"4.6", lat:36.8450, lng:27.0050 },
+    { id:"b8",  name:"Kardamena Beach",  emoji:"🎉", cat:"beaches", desc:"Sparkling white sand with both organised and unorganised sections. A buzzing resort beach with bars, restaurants and all amenities close by.", tip:"The eastern end is quieter if you want to escape the music.", rating:"4.4", lat:36.7833, lng:27.1333 },
+    { id:"b9",  name:"Kefalos Beach",    emoji:"🌅", cat:"beaches", desc:"Also known as Kamari Beach — a long, flawlessly organised sandy beach near Kefalos village with crystal-clear water. A magnet for visitors in the south.", tip:"The sunset from here is spectacular. Stay for the evening and watch it from a taverna.", rating:"4.8", lat:36.7333, lng:27.0500 },
+    { id:"b10", name:"Thermes Beach",    emoji:"♨️", cat:"beaches", desc:"Unique beach with natural hot thermal springs flowing directly into the sea, creating warm pools at the water's edge. A truly one-of-a-kind experience.", tip:"Come at sunrise for the best atmosphere. Water temperature is around 42°C near the rocks.", rating:"4.7", lat:36.8333, lng:27.3500 },
+    { id:"b11", name:"Psalidi Beach",    emoji:"🤿", cat:"beaches", desc:"Pebble and sand beach close to Kos Town, known for excellent clarity and snorkelling. Windsurfers and kitesurfers flock here for the reliable winds.", tip:"A great snorkelling spot — the pebbles keep the water crystal clear. Bring your mask!", rating:"4.5", lat:36.8600, lng:27.3200 },
+    { id:"b12", name:"Agios Fokas",      emoji:"🪨", cat:"beaches", desc:"Dramatic pebble beach 8km from Kos Town, popular with divers for its super-clear water and shale shore. Quieter and more rugged than the sandy beaches.", tip:"Book a dive course here — visibility is exceptional. Bring proper footwear for the stones.", rating:"4.6", lat:36.8200, lng:27.3600 },
+    { id:"b13", name:"Lambi Beach",      emoji:"🌈", cat:"beaches", desc:"Famous for its rainbow-coloured pebbles as much as its sea. Close to Kos Town, with great tavernas and bars right on the waterfront.", tip:"Collect a few of the colourful pebbles as a unique souvenir — but leave most behind!", rating:"4.5", lat:36.9050, lng:27.2650 },
+    { id:"b14", name:"Limnionas Beach",  emoji:"🏝️", cat:"beaches", desc:"Secluded rocky cove on the Kefalos peninsula, surrounded by rugged scenery. Small, intimate and far from the tourist crowds.", tip:"There is a lovely little taverna right on the rocks. Try the fresh grilled fish.", rating:"4.8", lat:36.7250, lng:26.9900 },
+    { id:"b15", name:"Zouroudi Beach",   emoji:"🎵", cat:"beaches", desc:"Lively and popular beach close to Kos Town with beach bars, loud music, restaurants and cafes. A fun party atmosphere from morning to night.", tip:"This is the place if you want music and energy. Head elsewhere if you want peace and quiet!", rating:"4.3", lat:36.8950, lng:27.2800 },
+    { id:"b16", name:"Agios Theologos", emoji:"✝️", cat:"beaches", desc:"Remote, wild beach on the southwestern tip of Kos near Kefalos. Crystal clear water, gentle slope into the sea, and barely any crowds even in summer.", tip:"A hidden gem. There is a wonderful traditional taverna at the end of the road — do not miss it.", rating:"4.9", lat:36.7150, lng:26.9600 },
+  ],
+  restaurants: [
+    { id:"r1", hours:"12:00–23:00",  name:"Platanos", emoji:"🍽️", cat:"restaurants", phone:"+30 22420 28991", website:"", social:"",  desc:"Iconic taverna sitting under ancient plane trees beside the Castle of the Knights. Classic Greek menu — the most atmospheric dining spot in Kos Town.", tip:"Book ahead in summer, it fills up fast. Ask for a table outside under the trees.", rating:"4.7", lat:36.8940, lng:27.2880 },
+    { id:"r2", hours:"19:00–00:00",  name:"To Petrino", emoji:"🪨", cat:"restaurants", phone:"+30 22420 27251", website:"", social:"https://www.instagram.com/petrino_kos",  desc:"Elegant stone-walled restaurant in a garden courtyard in Kos Town. Upscale and romantic — pork loin, sea bass, local cheeses and a 120-label wine list.", tip:"Perfect for a special evening. The krasotiri cheese aged in red wine is a must-try.", rating:"4.9", lat:36.8920, lng:27.2855 },
+    { id:"r3", hours:"19:00–00:00",  name:"Lambros Taverna", emoji:"🥩", cat:"restaurants", phone:"+30 22420 26555", website:"", social:"",  desc:"Legendary Kos institution on Psaron Street. Serves only Greek grilled meat — pork ribs, souvlaki and chicken, all cooked on a wood-fired grill. Locals-only feel.", tip:"Open for dinner only. The pork ribs are outstanding. Cash preferred.", rating:"4.9", lat:36.8935, lng:27.2870 },
+    { id:"r4", hours:"18:00–00:00",  name:"Noah's Ark", emoji:"🇦🇲", cat:"restaurants", phone:"+30 22420 23856", website:"", social:"",  desc:"The best restaurant in Kos according to many visitors. Armenian and Greek cuisine at the highest level. Unique, creative menu that stands out from every other spot on the island.", tip:"Try the Armenian specialities — you won't find them anywhere else on the island.", rating:"4.9", lat:36.8930, lng:27.2860 },
+    { id:"r5", hours:"12:00–00:00",  name:"Barbouni", emoji:"🐟", cat:"restaurants", phone:"+30 22420 20170", website:"", social:"https://www.instagram.com/barbouni_kos",  desc:"Fresh seafood right on the Lambi waterfront. Known for perfectly grilled fish and octopus in a romantic evening setting with views across the harbour.", tip:"Try the grilled sea bream — caught daily. Arrive at sunset for the best atmosphere.", rating:"4.8", lat:36.9010, lng:27.2660 },
+    { id:"r6", hours:"12:00–00:00",  name:"Astakos Seafood & Grill", emoji:"🦞", cat:"restaurants", phone:"+30 22420 28525", website:"", social:"",  desc:"One of the top-rated seafood restaurants on the island. Lobster, fresh fish and grilled meats in a convivial setting. A step above the average waterfront taverna.", tip:"The lobster spaghetti is legendary. Book ahead — it gets very busy.", rating:"4.8", lat:36.8925, lng:27.2875 },
+    { id:"r7", hours:"18:00–23:30",  name:"Meze & Wine Kyriakos", emoji:"🫒", cat:"restaurants", phone:"+30 22420 47013", website:"", social:"",  desc:"Specialises in traditional Greek meze dishes paired with a carefully chosen Greek wine list. Intimate, relaxed and genuinely delicious.", tip:"Order the full meze spread to share — it's the best way to experience the menu.", rating:"4.8", lat:36.8932, lng:27.2868 },
+    { id:"r8", hours:"18:00–23:30",  name:"Kapari Meze Restaurant", emoji:"🌿", cat:"restaurants", phone:"+30 22420 35900", website:"", social:"",  desc:"Charming meze restaurant in Kos Town with a strong reputation for fresh, authentic Greek food. Great selection of small plates and local wines.", tip:"The grilled halloumi and the tzatziki here are the best on the island.", rating:"4.7", lat:36.8928, lng:27.2872 },
+    { id:"r9", hours:"18:00–00:00",  name:"Elia Restaurant", emoji:"🫙", cat:"restaurants", phone:"+30 22420 21431", website:"", social:"",  desc:"Set in a beautifully restored 1890 building in the Old Town. Serves traditional recipes from across Greece alongside ouzo and tsipouro.", tip:"A hidden gem on Apellou Street. The atmosphere inside is wonderful in the evening.", rating:"4.8", lat:36.8938, lng:27.2882 },
+    { id:"r10", hours:"12:00–23:00", name:"To Petrino Zia", phone:"+30 22420 69682", website:"", social:"",  emoji:"⛰️", cat:"restaurants", desc:"Cosy stone-walled restaurant in Zia mountain village. Authentic Greek food with the most spectacular panoramic view over the island and across to Turkey.", tip:"Time your visit for sunset — the view from the terrace is one of the best on the island.", rating:"4.9", lat:36.8333, lng:27.1833 },
+    { id:"r11", hours:"12:00–23:00", name:"Ampavri Taverna", emoji:"🏡", cat:"restaurants", desc:"A typical, cosy Greek taverna just outside Kos Town in the Ampavris area. Excellent food at low prices and famously warm hospitality from owner Yorgos.", tip:"A true locals' favourite. Very affordable and completely unpretentious.", rating:"4.7", lat:36.8850, lng:27.2750 },
+    { id:"r12", hours:"09:00–00:00", name:"Nick's Beach Bar & Restaurant", emoji:"🌊", cat:"restaurants", desc:"Popular beachfront restaurant with a laid-back vibe and great food. Works as a beach bar by day, full restaurant by night. One of the most consistent on the island.", tip:"Order food and drinks and the sunbeds are free!", rating:"4.7", lat:36.8960, lng:27.2720 },
+    { id:"r13", hours:"11:00–00:00", name:"H2O Restaurant", emoji:"🍷", cat:"restaurants", desc:"Stylish beachside dining in Lambi with fresh mezes, grilled fish and creative cocktails. Great for a long relaxed lunch or romantic dinner by the sea.", tip:"The mezze platter for two is ideal for sharing. The octopus carpaccio is a highlight.", rating:"4.6", lat:36.9000, lng:27.2700 },
+    { id:"r14", hours:"19:00–00:00", name:"Stavlisio Steak House", emoji:"🔥", cat:"restaurants", desc:"The top steakhouse on Kos — premium cuts, perfectly cooked. A carnivore's paradise with an impressive wine cellar to match.", tip:"Go for the ribeye. Bookings essential in summer.", rating:"4.8", lat:36.8922, lng:27.2858 },
+    { id:"r15", hours:"18:00–00:00", name:"Blue Note Restaurant", emoji:"🎵", cat:"restaurants", desc:"Combines traditional Greek recipes with an innovative modern touch. Live music on some evenings adds a wonderful atmosphere to an already great dining experience.", tip:"Ask about live music nights when booking — well worth timing your visit around.", rating:"4.7", lat:36.8915, lng:27.2845 },
+    { id:"r16", hours:"10:00–22:00", name:"Agios Theologos Taverna", emoji:"⛪", cat:"restaurants", desc:"Remote traditional taverna at the far southwest tip of the island, right on the rocks above the sea. One of the most characterful spots on Kos — completely authentic.", tip:"The fish is caught the same morning. The drive out is half the adventure.", rating:"4.9", lat:36.7150, lng:26.9620 },
+    { id:"r17", hours:"11:00–23:00", name:"Palia Pyli Taverna", emoji:"🏰", cat:"restaurants", desc:"Rustic taverna near the ruins of the Byzantine ghost village of Pyli. Traditional Greek food in a wonderfully atmospheric setting amid medieval ruins.", tip:"Combine with a visit to the ghost village of Old Pyli directly above the restaurant.", rating:"4.8", lat:36.8400, lng:27.1600 },
+    { id:"r18", hours:"11:00–23:00", name:"Asomatos Village Taverna", emoji:"🌄", cat:"restaurants", desc:"Simple, genuine village taverna in Asomatos serving home-cooked Greek food at rock-bottom prices. Exactly what a Greek island taverna should be.", tip:"Order whatever the daily special is — it's always freshly made.", rating:"4.7", lat:36.8200, lng:27.1200 },
+    { id:"r19", hours:"11:00–23:00", name:"Kardamena Harbour Tavernas", emoji:"⚓", cat:"restaurants", desc:"A cluster of traditional fish tavernas around Kardamena harbour. Catch of the day grilled simply with lemon and olive oil — the quintessential Greek island meal.", tip:"Walk the harbour and look at the fresh fish on display before choosing which taverna.", rating:"4.5", lat:36.7850, lng:27.1350 },
+    { id:"r20", hours:"11:00–23:00", name:"Mastichari Fish Taverna", emoji:"🎣", cat:"restaurants", desc:"Waterfront fish taverna in the charming port of Mastichari. Simple, honest cooking using whatever came off the boats that morning.", tip:"Sit outside and watch the Kalymnos ferry come and go while you eat.", rating:"4.6", lat:36.8480, lng:27.0080 },
+    { id:"r21", hours:"", name:"Fish House", phone:"", website:"", social:"",  emoji:"🐠", cat:"restaurants", featured:true, desc:"One of the finest seafood restaurants on Kos — fresh catch of the day, expertly prepared with a beautiful setting. A true local gem.", tip:"Ask for the daily catch — it came off the boat this morning. You will not eat fresher fish anywhere on the island.", rating:"5.0", lat:36.8930, lng:27.2870 },
+  ],
+  bars: [
+    { id:"v1", hours:"21:00–05:00",  name:"Bar Street (Nafklirou)", phone:"", website:"", social:"",  emoji:"🍹", cat:"bars", desc:"The legendary epicentre of Kos nightlife, stretching from Plane Tree Square to Liberty Square. Transforms after midnight into a vibrant party zone with thousands of young Europeans.", tip:"Start at the quieter end near the square around 10pm, then follow the energy toward the harbour.", rating:"4.5", lat:36.8910, lng:27.2870 },
+    { id:"v3", hours:"23:00–06:00",  name:"Camelot Club", emoji:"🏰", cat:"bars", desc:"Open-air mega club with a massive dance floor and VIP areas. Famous for foam parties on Wednesdays and UV nights on Fridays.", tip:"Foam party Wednesday is an institution on the island — join in!", rating:"4.3", lat:36.8928, lng:27.2885 },
+    { id:"v4", hours:"20:00–04:00",  name:"Mylos Beach Bar", phone:"+30 22420 24048", website:"https://mylos-kos.gr", social:"https://www.instagram.com/mylos_kos",  emoji:"⚙️", cat:"bars", desc:"Upscale club set in a converted windmill right on the beach. More sophisticated vibe than Bar Street, with quality cocktails and resident DJs.", tip:"Hosts the biggest monthly beach party on the island with famous DJs. Check their schedule.", rating:"4.7", lat:36.8800, lng:27.2600 },
+    { id:"v5", hours:"18:00–02:00",  name:"Elia Rooftop Bar", phone:"+30 22420 21431", website:"", social:"https://www.instagram.com/elia_kos",  emoji:"🌅", cat:"bars", desc:"Sophisticated rooftop bar in Kos Town with panoramic views across the harbour and castle. Expert mixologists, creative cocktails and a refined atmosphere.", tip:"The best spot on the island to watch the sunset with a drink in hand. Arrive early.", rating:"4.8", lat:36.8950, lng:27.2910 },
+    { id:"v6", hours:"21:00–04:00",  name:"Hammam Bar", phone:"+30 22420 26364", website:"", social:"",  emoji:"🕌", cat:"bars", desc:"Unique bar set inside a beautifully restored Ottoman bathhouse. Live DJ sets and Arabian-inspired decor create an exotic and memorable atmosphere unlike anywhere else on Kos.", tip:"One of the most atmospheric bars in Greece. Even if you just pop in for one drink, it's worth it.", rating:"4.8", lat:36.8940, lng:27.2900 },
+    { id:"v7", hours:"10:00–02:00",  name:"Kalua Beach Bar", phone:"+30 22420 28989", website:"", social:"https://www.instagram.com/kaluabeachbar_kos",  emoji:"🌴", cat:"bars", desc:"The best-known beach bar on Kos — sunbeds, cocktails, DJ music and a day-to-night party atmosphere right on the sand.", tip:"Happy hour runs 5-7pm. Great for watching the sunset over a cocktail.", rating:"4.7", lat:36.8790, lng:27.2580 },
+    { id:"v8", hours:"21:00–04:00",  name:"Charisma Bar", emoji:"✨", cat:"bars", desc:"Popular Bar Street favourite known for themed nights, DJ sets and a reliably fun party atmosphere. Friendly staff and great drinks specials.", tip:"Check their Instagram for themed night schedules — some nights are legendary.", rating:"4.5", lat:36.8912, lng:27.2873 },
+    { id:"v9", hours:"21:00–04:00",  name:"F Bar", emoji:"🎤", cat:"bars", desc:"Well-established Bar Street bar known for its friendly staff and consistent party vibe. One of the most popular pre-club spots in Kos Town.", tip:"Great for starting the night before moving on to the clubs after midnight.", rating:"4.4", lat:36.8908, lng:27.2868 },
+    { id:"v10", hours:"18:00–02:00", name:"Harbour Cocktail Bars", emoji:"⛵", cat:"bars", desc:"A stretch of elegant harbour-side bars along the Kos Town waterfront. Relaxed, sophisticated and perfect for those who want ambience over party chaos.", tip:"Great alternative to Bar Street if you want a quieter drink with a beautiful setting.", rating:"4.6", lat:36.8955, lng:27.2935 },
+    { id:"v11", hours:"09:00–02:00", name:"Alibaba Beach Bar", emoji:"🏖️", cat:"bars", desc:"Hugely popular beach bar beloved by locals and tourists alike. Genuine hospitality, great music and a proper beach party atmosphere.", tip:"If you use the food and drinks from the bar you can use the sunbeds for free!", rating:"4.7", lat:36.8820, lng:27.2620 },
+    { id:"v12", hours:"18:00–02:00", name:"Socrates Garden Bar", emoji:"🌺", cat:"bars", desc:"Chilled garden bar tucked into the Old Town of Kos. A beautiful setting for an evening drink away from the noise of Bar Street.", tip:"Perfect for couples or anyone wanting a peaceful start or end to the evening.", rating:"4.6", lat:36.8935, lng:27.2860 },
+    { id:"v13", hours:"10:00–02:00", name:"Ammos Beach Cocktail Bar", phone:"+30 22420 25066", website:"", social:"https://www.instagram.com/ammos_kos",  emoji:"🍸", cat:"bars", desc:"Award-winning beach cocktail bar with an impressive menu of creative drinks. Beautiful sea views and a stylish relaxed atmosphere.", tip:"Their signature cocktail list is outstanding — ask the bartender for their recommendation.", rating:"4.8", lat:36.8770, lng:27.2550 },
+    { id:"v14", hours:"21:00–04:00", name:"Kardamena Bar Strip", emoji:"🎉", cat:"bars", desc:"Kardamena is the second major nightlife destination on the island. A concentrated strip of bars and clubs with an energetic, international crowd.", tip:"Kardamena nightlife is more relaxed than Kos Town but still very lively. Great for groups.", rating:"4.3", lat:36.7840, lng:27.1340 },
+    { id:"v15", hours:"10:00–19:00", name:"Lido Waterpark Bar", emoji:"💦", cat:"bars", desc:"Not just a waterpark — the bar here serves drinks all day in a fun, relaxed setting. Great for a daytime drink with a completely different vibe to the beach bars.", tip:"Combine with a day at the waterpark for a fun family or group day out.", rating:"4.4", lat:36.8650, lng:27.1800 },
+    { id:"v16", hours:"10:00–02:00", name:"Mastichari Beach Bars", emoji:"🐚", cat:"bars", desc:"Cluster of relaxed beach bars in Mastichari with a more local, laid-back feel than the party bars of Kos Town. Great sunset drinks.", tip:"Less touristy than the main resort bars. Great for an authentic local evening out.", rating:"4.5", lat:36.8460, lng:27.0060 },
+    { id:"v17", hours:"09:00–02:00", name:"Sunrise Bar Tigaki", emoji:"🌄", cat:"bars", desc:"Popular bar in Tigaki serving cold drinks and cocktails throughout the day. A local favourite for lazy afternoon drinks after the beach.", tip:"Try the local Mythos beer on draft — cheaper and fresher than anywhere in Kos Town.", rating:"4.4", lat:36.8650, lng:27.0680 },
+    { id:"v18", hours:"17:00–02:00", name:"360 Bar Kefalos", emoji:"🔭", cat:"bars", desc:"Stunning hilltop bar above Kefalos village with 360-degree views over the Aegean. Cocktails and sundowners with arguably the best view on the island.", tip:"The sunset from here rivals Zia — and far fewer tourists know about it.", rating:"4.8", lat:36.7400, lng:26.9950 },
+    { id:"v19", hours:"18:00–03:00", name:"The Dubliner", emoji:"🍺", cat:"bars", desc:"Popular sports bar with massive screens, cold beers and a friendly international crowd. Perfect for watching live sports or a relaxed pre-night drink.", tip:"Happy hour specials include EUR 2 shots and EUR 3 beers. Great value.", rating:"4.3", lat:36.8905, lng:27.2865 },
+    { id:"v20", hours:"20:00–04:00", name:"Pirate Bar Harbour", emoji:"☠️", cat:"bars", desc:"Fun themed pirate bar right on the harbour with a lively crowd, themed cocktails and a great location for people-watching.", tip:"The rum cocktails are the obvious choice here. Lively from 9pm onwards.", rating:"4.2", lat:36.8960, lng:27.2940 },
+    { id:"v21", hours:"22:00–05:00", name:"Zero", phone:"", website:"", social:"",  emoji:"🎧", cat:"bars", desc:"Kos Town's coolest underground bar — intimate, stylish and with a seriously good sound system. A favourite with those in the know for craft cocktails and late-night vibes.", tip:"Gets going late — the real crowd arrives after midnight. One of the best kept secrets in Kos nightlife.", rating:"4.8", lat:36.8918, lng:27.2872 },
+    { id:"v22", hours:"18:00–02:00", name:"Omega Sky Bar", phone:"", website:"", social:"",  emoji:"🌌", cat:"bars", desc:"Spectacular rooftop bar with sweeping 360-degree views over Kos Town, the harbour and the Aegean. Premium cocktails served with one of the most dramatic backdrops on the island.", tip:"Book a table for sunset — the view as the sun drops behind the Turkish mountains is absolutely stunning.", rating:"4.9", lat:36.8945, lng:27.2888 },
+    { id:"v23", hours:"18:00–02:00", name:"Thea Rooftop Bar", phone:"", website:"", social:"",  emoji:"🌹", cat:"bars", desc:"Sophisticated and elegant rooftop bar with a romantic atmosphere, beautiful lighting and expertly crafted cocktails. One of the most refined bars on the island.", tip:"Perfect for a special evening or date night. The cocktail menu is creative and the views are gorgeous.", rating:"4.9", lat:36.8942, lng:27.2882 },
+    { id:"v24", hours:"18:00–03:00", name:"Kaseta", phone:"", website:"", social:"", emoji:"⚓", cat:"bars", desc:"A beloved bar right on the harbour of Kos Town — one of the most characterful spots on the waterfront. Great atmosphere, cold drinks and one of the best spots on the island to watch the boats come and go as the evening unfolds.", tip:"Grab a seat facing the harbour as the sun goes down. The harbour lighting at night makes this one of the most atmospheric bars in Kos Town.", rating:"4.7", lat:36.8962, lng:27.2938 },
+    { id:"v25", hours:"20:00–03:00", name:"Scholargio", phone:"", website:"", social:"", emoji:"🎓", cat:"bars", desc:"A well-loved Kos Town bar with a loyal following among both locals and tourists. Great drinks, a relaxed vibe and the kind of place you end up staying far longer than you planned.", tip:"A great spot to start the evening — friendly crowd and good music without the intensity of Bar Street.", rating:"4.6", lat:36.8918, lng:27.2875 },
+  ],
+  sights: [
+    { id:"s1",  name:"Asklepion", emoji:"🏛️", cat:"sights", desc:"The most significant archaeological site on Kos. Ancient healing sanctuary and medical school of Hippocrates, one of the most renowned in the ancient world. Three terraced levels with stunning sea views.", tip:"Hire a local guide to bring the history to life. Take bus Line 5 from Kos Town.", rating:"4.9", lat:36.8700, lng:27.2500 },
+    { id:"s2",  name:"Castle of the Knights", emoji:"🏰", cat:"sights", desc:"Imposing 15th-century fortress built by the Knights of St John, dominating the harbour entrance. One of the best-preserved medieval castles in the Aegean.", tip:"Visit late afternoon when the golden light hits the stone walls beautifully. Entry fee is small.", rating:"4.8", lat:36.8960, lng:27.2930 },
+    { id:"s3",  name:"Plane Tree of Hippocrates", emoji:"🌳", cat:"sights", desc:"One of the oldest and largest plane trees in Europe, said to be where Hippocrates himself taught medicine 2,400 years ago. Sits in the central square of Kos Town.", tip:"Free to visit. Great for photos. Combine with a coffee at one of the surrounding cafes.", rating:"4.6", lat:36.8945, lng:27.2875 },
+    { id:"s4",  name:"Zia Village", emoji:"⛪", cat:"sights", desc:"The most charming mountain village on Kos, perched on the slopes of Mount Dikeos. Traditional craft shops, tavernas and the island's most spectacular sunset panorama.", tip:"Arrive 30 minutes before sunset — the view over the island and to Turkey is unforgettable.", rating:"4.9", lat:36.8300, lng:27.1800 },
+    { id:"s5",  name:"Ancient Agora", emoji:"🏺", cat:"sights", desc:"Sprawling ancient marketplace in the heart of Kos Town — the former civic and commercial hub of ancient Kos. Wander among temples, stoas and market hall remnants.", tip:"Free and always open. Combine with a walk through the Old Town immediately adjacent.", rating:"4.7", lat:36.8942, lng:27.2888 },
+    { id:"s6",  name:"Antimachia Castle", emoji:"🗼", cat:"sights", desc:"Dramatic medieval castle near Antimachia village, built by the Knights of St John. Less visited than the harbour castle but arguably more atmospheric — perched on a windswept hill.", tip:"Largely unrestored and rarely crowded. A rewarding detour if you have a car.", rating:"4.7", lat:36.8050, lng:27.0750 },
+    { id:"s7",  name:"Old Pyli (Ghost Village)", emoji:"👻", cat:"sights", desc:"Haunting abandoned Byzantine village clinging to the hillside above modern Pyli. Deserted in the 1800s, it retains churches, houses and castle ruins reclaimed by nature.", tip:"Combine with lunch at the Palia Pyli Taverna below. A genuinely eerie and beautiful place.", rating:"4.8", lat:36.8380, lng:27.1580 },
+    { id:"s8",  name:"Roman Odeon", emoji:"🎭", cat:"sights", desc:"Remarkably well-preserved ancient theatre near the Agora that once hosted performances and public gatherings. The marble seating and stage give a vivid sense of Roman daily life.", tip:"Performances are still occasionally held here in summer. Check local listings.", rating:"4.6", lat:36.8938, lng:27.2885 },
+    { id:"s9",  name:"Archaeological Museum", emoji:"🏺", cat:"sights", desc:"Housed in a handsome Italian-era building in Eleftherias Square. Superb collection of statues, mosaics and artefacts from the island's ancient sites.", tip:"Don't miss the famous mosaic of Hippocrates welcoming Asclepius to Kos. Excellent value.", rating:"4.7", lat:36.8948, lng:27.2878 },
+    { id:"s10", name:"Eleftherias Square", emoji:"☕", cat:"sights", desc:"The lively central square of Kos Town — ringed by cafes, the Archaeological Museum, the Defterdar Mosque and the covered market. The beating heart of daily life in Kos.", tip:"Grab a Greek coffee here and watch island life go by. The best people-watching spot in Kos.", rating:"4.5", lat:36.8948, lng:27.2878 },
+    { id:"s11", name:"Defterdar Mosque", emoji:"🕌", cat:"sights", desc:"Ottoman-era mosque in the central square, a reminder of the island's Turkish period. One of the most intact Ottoman buildings in the Dodecanese.", tip:"Reflects the fascinating multi-cultural history of Kos. Photograph from the square.", rating:"4.5", lat:36.8950, lng:27.2880 },
+    { id:"s12", name:"Casa Romana", emoji:"🏛️", cat:"sights", desc:"Beautifully restored Roman villa with stunning floor mosaics, frescoed walls and a central atrium. One of the finest Roman domestic interiors in Greece.", tip:"Often overlooked by tourists — rarely crowded. The mosaics are extraordinary.", rating:"4.8", lat:36.8930, lng:27.2870 },
+    { id:"s13", name:"Plaka Forest & Peacocks", emoji:"🦚", cat:"sights", desc:"A magical pine forest near Plaka village that is home to a wild population of peacocks roaming completely freely. Surreal and wonderful — unique in all of Greece.", tip:"Go in the morning when the peacocks are most active. Completely free and unlike anywhere else.", rating:"4.8", lat:36.8150, lng:27.0350 },
+    { id:"s14", name:"Lido Waterpark", emoji:"💦", cat:"sights", desc:"One of the largest waterparks in Greece with slides, wave pools and lazy rivers. A fantastic day out for families and groups.", tip:"Buy tickets online for a discount. Go on a weekday to avoid peak weekend crowds.", rating:"4.5", lat:36.8650, lng:27.1800 },
+    { id:"s15", name:"Mount Dikeos", emoji:"⛰️", cat:"sights", desc:"The highest peak on Kos at 846 metres, rising dramatically above the island. The views from the summit take in the whole of the Dodecanese and the coast of Turkey.", tip:"Best hiked early morning. Bring plenty of water and sturdy footwear.", rating:"4.7", lat:36.8200, lng:27.1650 },
+    { id:"s16", name:"Hippocrates Garden", emoji:"🌺", cat:"sights", desc:"Cultural centre and botanical garden dedicated to Hippocrates and the history of medicine. Beautiful green space with medicinal herb gardens and exhibitions.", tip:"A peaceful escape from the tourist bustle. Great for kids interested in science and history.", rating:"4.5", lat:36.8920, lng:27.2840 },
+    { id:"s17", name:"Therma Hot Springs", emoji:"♨️", cat:"sights", desc:"Natural thermal springs where hot volcanic water flows directly into the sea, creating warm bathing pools on the rocky shore. A unique geological wonder.", tip:"Most atmospheric at sunrise. Wear old swimwear — the minerals can stain.", rating:"4.7", lat:36.8333, lng:27.3500 },
+    { id:"s18", name:"Antimachia Traditional House", emoji:"🏠", cat:"sights", desc:"Preserved traditional Dodecanese house in Antimachia village, maintained as a living museum showing domestic life as it was a century ago.", tip:"A fascinating glimpse into authentic island life. The volunteer guides are passionate and knowledgeable.", rating:"4.6", lat:36.8100, lng:27.0800 },
+    { id:"s19", name:"Kardamena Old Village", emoji:"🎨", cat:"sights", desc:"Behind the modern tourist resort lies the original fishing village of Kardamena with whitewashed streets, a Byzantine church and a genuinely local atmosphere.", tip:"Walk 10 minutes from the main strip to find the real village. A world away from the beach bars.", rating:"4.4", lat:36.7850, lng:27.1280 },
+    { id:"s20", name:"Kefalos Windmills", emoji:"🌬️", cat:"sights", desc:"A row of traditional stone windmills on the Kefalos headland, silhouetted dramatically against the Aegean sky. One of the most iconic images of Kos.", tip:"Best photographed at golden hour. Combine with a swim at Agios Stefanos beach directly below.", rating:"4.7", lat:36.7450, lng:27.2750 },
+  ],
+  villages: [
+    { id:"vil1", name:"Kos Town", emoji:"🏙️", cat:"villages", desc:"The vibrant capital and main port of the island — a fascinating blend of ancient Greek ruins, Ottoman mosques, Venetian architecture and modern Greek life. Home to the Castle of the Knights, the Ancient Agora, the Plane Tree of Hippocrates and the island's best restaurants and nightlife. Lively, cosmopolitan and endlessly interesting to explore on foot.", tip:"Get up early and explore the archaeological sites before the heat and crowds arrive. The old town streets around Apellou are magical in the morning.", rating:"4.8", lat:36.8940, lng:27.2880 },
+    { id:"vil2", name:"Zia", emoji:"⛰️", cat:"villages", desc:"The most famous and most visited village on Kos — a picturesque mountain settlement on the slopes of Mount Dikeos surrounded by pines and olive trees. Famous above all for its extraordinary panoramic sunsets, craft shops selling local honey and ceramics, and traditional tavernas. The view from Zia over the whole island and across to Turkey is one of the great sights of the Dodecanese.", tip:"Arrive 30 minutes before sunset and book a taverna table facing west. Visit in the morning to explore quietly before the tour buses arrive.", rating:"4.9", lat:36.8300, lng:27.1800 },
+    { id:"vil3", name:"Kardamena", emoji:"🎉", cat:"villages", desc:"Once a small fishing village, Kardamena has grown into the island's second-biggest resort and its unofficial nightlife capital. The beach is long and sandy, the bar strip is lively, and the harbour is charming. Beneath the tourism, Kardamena has ancient roots — numerous temples and early Christian churches have been unearthed here. Daily boats depart from the port to Nisyros island.", tip:"The old part of the village behind the main strip is worth exploring — whitewashed streets, a Byzantine church and a genuinely local atmosphere away from the bars.", rating:"4.3", lat:36.7833, lng:27.1333 },
+    { id:"vil4", name:"Kefalos", emoji:"🌅", cat:"villages", desc:"The ancient capital of Kos — known in antiquity as Astypalaia — Kefalos sits on a dramatic headland at the far southwest of the island with sweeping views over the Aegean. A quiet, traditional village of whitewashed houses, narrow cobblestone alleys, old windmills and a ruined hilltop castle. The surrounding area has some of the island's most beautiful and least crowded beaches.", tip:"Kefalos is the place to escape the summer crowds. Hire a scooter and explore the beaches and coves on the peninsula below — most tourists never make it this far.", rating:"4.8", lat:36.7380, lng:26.9980 },
+    { id:"vil5", name:"Antimachia", emoji:"🏰", cat:"villages", desc:"A large, dignified village at the crossroads of the island, close to the airport and the island's most impressive Venetian castle. Antimachia is authentically Greek and largely untouched by tourism. The castle of the Knights of St John looms over the village, and the traditional Antimachia House museum offers a beautifully preserved glimpse into island life of the past.", tip:"Visit in May for the spectacular Medieval Festival at the castle — one of the best events on the island. The traditional house museum is free and genuinely fascinating.", rating:"4.6", lat:36.8100, lng:27.0800 },
+    { id:"vil6", name:"Mastichari", emoji:"⚓", cat:"villages", desc:"A charming coastal village and fishing port on the north coast with a beautiful white-sand beach that genuinely resembles the Caribbean. Mastichari is the departure point for ferries to Kalymnos and Pserimos, and its waterfront is lined with excellent fish tavernas serving the daily catch. Less developed than Tigaki or Kardamena, it retains a genuinely local feel.", tip:"The fish tavernas along the harbour are among the best value on the island. Try the grilled octopus hanging in the sun outside — that is a good sign of freshness.", rating:"4.6", lat:36.8465, lng:27.0068 },
+    { id:"vil7", name:"Pyli", emoji:"💧", cat:"villages", desc:"A picturesque inland village in the heart of the island, surrounded by lush olive groves and famous for its fresh water springs. The cobbled village square, colourful traditional houses and stone-built tavernas make it one of the most charming authentic spots on Kos. Just outside is Old Pyli — the haunting abandoned Byzantine ghost village and castle, known as the Dodecanese Mystras.", tip:"Combine a visit to the village with a walk up to Old Pyli above it. The abandoned castle with its 14th century frescoes is extraordinary — very few tourists find it.", rating:"4.7", lat:36.8380, lng:27.1580 },
+    { id:"vil8", name:"Platani", emoji:"🕌", cat:"villages", desc:"A unique and fascinating village just 3km from Kos Town on the road to the Asklepion — home to the island's Muslim community, the descendants of Ottoman settlers who remained after the end of Turkish rule. Platani is entirely different in character from any other Kos village, with mosques, Turkish coffee houses and tavernas serving outstanding kebabs, mezes and Oriental dishes.", tip:"Stop here for lunch on the way to or from the Asklepion. The Turkish-style mezedes and kebabs are extraordinary and completely unlike anything else on the island.", rating:"4.7", lat:36.8770, lng:27.2550 },
+    { id:"vil9", name:"Asfendiou", emoji:"🌿", cat:"villages", desc:"One of the most beautiful traditional villages on Kos, tucked into the wooded northern slopes of Mount Dikeos. Asfendiou is actually a cluster of small hamlets — Zia, Asomatos, Evangelistra and Lagoudi — each with its own character. The two-storey stone mansions known as pirgi give the village a fortress-like grandeur, and the 11th century church of Asomaton Taxiarchon is a remarkable sight.", tip:"A wonderful area for walking and trekking in the hills. Much cooler than the coast in summer. The village is best visited in the morning before the Zia crowds arrive.", rating:"4.7", lat:36.8200, lng:27.1650 },
+    { id:"vil10", name:"Tigaki", emoji:"🦩", cat:"villages", desc:"A popular beach resort village on the north coast with one of the best sandy beaches on the island — 10km of fine sand and shallow water ideal for families. Beyond the beach, Tigaki has a local character that many resorts lack, and the nearby Alikes wetland is a protected nature reserve and a haven for flamingos, herons and other wading birds.", tip:"Walk east from the beach to the Alikes salt lake at dusk — flamingos feed here regularly and it is one of the most unexpected wildlife experiences on the island.", rating:"4.5", lat:36.8655, lng:27.0685 },
+    { id:"vil11", name:"Marmari", emoji:"🏄", cat:"villages", desc:"A relaxed beach resort village on the north coast known for its wide sandy beach and its near-constant winds — making it one of the best windsurfing and kitesurfing spots in the Dodecanese. Marmari has a low-key, unpretentious character with good tavernas, accommodation and a pleasant local atmosphere.", tip:"If you windsurf or kitesurf, Marmari should be your base on Kos. Several professional schools and rental centres operate here throughout the summer.", rating:"4.4", lat:36.8600, lng:27.0300 },
+    { id:"vil12", name:"Zipari", emoji:"🌾", cat:"villages", desc:"A quiet, traditional inland village a few kilometres from Kos Town, largely untouched by tourism. Zipari sits amid fertile farmland and olive groves and gives an authentic glimpse of rural Kos life. It's a useful base for exploring the interior of the island and is close to several walking routes up into the Dikeos mountains.", tip:"Drive or cycle through Zipari on the way to the mountain villages — it is a good place to stop for a genuine local coffee and watch daily island life.", rating:"4.3", lat:36.8600, lng:27.2200 },
+  ],
+  activities: [
+    { id:"ac1",  name:"Dream Catch Kos", emoji:"🎣", cat:"activities", featured:true, phone:"", website:"", social:"", desc:"A unique land-based fishing safari run by a true local with a lifetime of knowledge of the island's secret spots. Jump in the car and head off-road to secluded beaches and hidden coves that most tourists never find — rod in hand, feet in the sand, fishing the Aegean the old-fashioned way. Small groups of one or two cars keep it personal and authentic. Suitable for complete beginners and experienced anglers alike.", tip:"This is not a boat tour — it's something far more personal and adventurous. You get driven to spots the guidebooks don't know about. Book ahead as spaces are very limited.", rating:"5.0", lat:36.8958, lng:27.2932 },
+    { id:"ac2",  name:"Sailing Sunset Cruise", emoji:"⛵", cat:"activities", phone:"", website:"", social:"", desc:"Four-hour sailing cruise around the Kos coastline with swimming stops, snorkelling in crystal clear bays, fresh food and an open bar. Watching the sun set from the deck of a sailing boat with a cold drink in hand is one of those Kos moments you will never forget.", tip:"Book at the harbour ticket booths or through your hotel. A shared cruise is great value. Departs daily from Kos Town harbour, weather permitting.", rating:"4.8", lat:36.8960, lng:27.2940 },
+    { id:"ac3",  name:"Scuba Diving — Kos", emoji:"🤿", cat:"activities", phone:"", website:"", social:"", desc:"Kos has some of the clearest and most varied diving waters in the Aegean. Several PADI-certified dive centres operate on the island, offering courses from beginner to advanced. The reefs around Agios Fokas and Psalidi are particularly spectacular, with excellent visibility and rich marine life.", tip:"First-time diver? The beginner discovery dives are excellent. Experienced divers should ask about the deeper sites near Kefalos — outstanding visibility.", rating:"4.8", lat:36.8200, lng:27.3600 },
+    { id:"ac4",  name:"Jeep Safari — Island Tour", emoji:"🚙", cat:"activities", phone:"", website:"", social:"", desc:"A full-day guided jeep safari taking you to the hidden corners of Kos that most tourists never reach — mountain villages, secret viewpoints, ancient ruins and remote beaches. The convoy format is social and fun, and the local guides know every track on the island.", tip:"One of the best ways to see the whole island in a single day. Bring sunscreen and a camera — the views from the mountain tracks are extraordinary.", rating:"4.7", lat:36.8940, lng:27.2880 },
+    { id:"ac5",  name:"Cycling Tours of Kos", emoji:"🚴", cat:"activities", phone:"", website:"", social:"", desc:"Kos is famous across Greece for its cycling culture — the flat terrain and well-maintained cycle paths make it one of the best cycling islands in the country. Guided cycling tours run daily, covering the ancient sites, coastal paths and village routes. Bike rentals are widely available in Kos Town.", tip:"The cycle path from Kos Town to the Asklepion is beautiful and completely flat. Hire a bike for the day and explore at your own pace — it is the most Kos way to travel.", rating:"4.7", lat:36.8938, lng:27.2872 },
+    { id:"ac6",  name:"Hippocrates Walking Tour", emoji:"🏛️", cat:"activities", phone:"", website:"", social:"", desc:"A guided walking tour of Kos Town's remarkable ancient sites led by local historians and archaeologists. Covers the Ancient Agora, Casa Romana, Roman Odeon and the Plane Tree of Hippocrates in a fascinating two-hour walk through 2,500 years of history.", tip:"Runs Tuesday and Thursday mornings from the Plane Tree of Hippocrates. Book ahead as group sizes are small. Wear comfortable shoes and bring water.", rating:"4.9", lat:36.8945, lng:27.2875 },
+    { id:"ac7",  name:"Windsurfing & Kitesurfing", emoji:"🏄", cat:"activities", phone:"", website:"", social:"", desc:"Kos is one of the premier windsurfing and kitesurfing destinations in the Mediterranean, with reliable Meltemi winds on the north coast making conditions perfect throughout the summer. Several professional schools in Marmari and Mastichari offer lessons and equipment hire for all levels.", tip:"Marmari is the best spot for consistent wind. The IKO and PWA-certified schools here are world class — even complete beginners are up and riding within a day.", rating:"4.8", lat:36.8600, lng:27.0300 },
+    { id:"ac8",  name:"Pirate Boat Trip", emoji:"☠️", cat:"activities", phone:"", website:"", social:"", desc:"A hugely popular full-day boat excursion for families and groups. Sail the coastline on a pirate-themed galleon, stopping at hidden bays for swimming and snorkelling. Pirate games, music, a Greek lunch and an open bar are all included. Fantastic fun and genuinely memorable.", tip:"Book a day ahead — these fill up fast in peak season. The swimming stops at the hidden bays are the highlight. Great for kids of all ages.", rating:"4.6", lat:36.8962, lng:27.2935 },
+    { id:"ac9",  name:"Kayaking & Snorkelling", emoji:"🚣", cat:"activities", phone:"", website:"", social:"", desc:"Guided sea kayaking tours exploring the hidden coves and sea caves along the Kos coastline. Snorkelling equipment is included and guides point out the best spots for marine life. A peaceful, active way to explore parts of the island that are unreachable by road.", tip:"The early morning tours have calmer water and better snorkelling visibility. The sea caves near Kefalos are a particular highlight.", rating:"4.7", lat:36.8940, lng:27.2880 },
+    { id:"ac10", name:"Horseback Riding", emoji:"🐴", cat:"activities", phone:"", website:"", social:"", desc:"Guided horseback riding tours through the Kos countryside — olive groves, farmland and mountain trails with views across the island. Suitable for all levels from complete beginners to experienced riders. A wonderfully different way to see the real interior of the island.", tip:"Evening rides at golden hour through the countryside are particularly beautiful. Book in advance as this is one of the more niche activities on the island.", rating:"4.6", lat:36.8600, lng:27.1800 },
+    { id:"ac11", name:"Go-Karting Kos", emoji:"🏎️", cat:"activities", phone:"", website:"", social:"", desc:"One of the island's most popular adrenaline activities — a well-maintained go-kart track near Antimachia with karts for adults and children. A great option for a fun afternoon away from the beach, especially popular with families and groups.", tip:"Go in the evening when it is cooler and less busy. Arrive 30 minutes before closing for the best chance of an empty track.", rating:"4.4", lat:36.8100, lng:27.0850 },
+    { id:"ac12", name:"Watersports — Paradise Beach", emoji:"💦", cat:"activities", phone:"", website:"", social:"", desc:"Paradise Beach is the undisputed watersports hub of Kos — jet skis, banana boats, parasailing, ring rides and flyboarding all operate here throughout the day. The beach operators are professional and the equipment is well-maintained. Perfect for a full adrenaline day on the water.", tip:"Prices are negotiable if you book multiple activities together. Go early morning for jet skiing — calmer water and shorter queues.", rating:"4.5", lat:36.7833, lng:27.1167 },
+  ],
+};
+
+const FERRIES = [
+  { id:"f1", route:"Kos to Rhodes", operator:"Blue Star Ferries", duration:"3h 45m", color:"#0EA5E9", note:"Daily service. Book ahead in July and August.", times:[{dep:"07:30",arr:"11:15",days:"Daily"},{dep:"14:00",arr:"17:45",days:"Mon, Wed, Fri, Sun"}] },
+  { id:"f2", route:"Kos to Athens (Piraeus)", operator:"ANEK Lines", duration:"12h 00m", color:"#6366F1", note:"Overnight crossing. Cabins available.", times:[{dep:"18:00",arr:"06:00 +1",days:"Daily"},{dep:"20:30",arr:"08:30 +1",days:"Tue, Thu, Sat"}] },
+  { id:"f3", route:"Kos to Bodrum (Turkey)", operator:"Bodrum Express", duration:"0h 30m", color:"#F97316", note:"Day trips only. Passport required. Check visa requirements.", times:[{dep:"09:00",arr:"09:30",days:"Daily (summer)"},{dep:"16:30",arr:"17:00",days:"Daily (summer)"}] },
+  { id:"f4", route:"Kos to Kalymnos", operator:"Dodekanisos Seaways", duration:"0h 45m", color:"#10B981", note:"Frequent service. Perfect for a day trip. Rock climbing mecca!", times:[{dep:"08:15",arr:"09:00",days:"Daily"},{dep:"11:30",arr:"12:15",days:"Daily"},{dep:"18:45",arr:"19:30",days:"Daily"}] },
+  { id:"f5", route:"Kos to Pserimos", operator:"Local Day Boats", duration:"0h 30m", color:"#34d399", note:"Tiny unspoilt island with a single beach. Boats depart from Kos Town and Mastichari. Buy tickets at the harbour.", times:[{dep:"09:30",arr:"10:00",days:"Daily (summer)"},{dep:"10:30",arr:"11:00",days:"Daily (summer)"}] },
+  { id:"f6", route:"Kos to Nisyros", operator:"Dodekanisos Seaways", duration:"1h 30m", color:"#F97316", note:"Volcanic island with an active crater you can walk into. Unmissable day trip from Kos.", times:[{dep:"08:00",arr:"09:30",days:"Daily"},{dep:"09:00",arr:"10:30",days:"Tue, Thu, Sat (from Kardamena)"}] },
+  { id:"f7", route:"Kos to Tilos", operator:"Dodekanisos Seaways", duration:"2h 00m", color:"#A855F7", note:"Peaceful, unspoiled island. Few tourists, rare wildlife and beautiful beaches. Stay overnight to get the most from it.", times:[{dep:"07:30",arr:"09:30",days:"Mon, Wed, Fri"},{dep:"14:00",arr:"16:00",days:"Tue, Thu, Sat"}] },
+  { id:"f8", route:"Kos to Leros", operator:"Dodekanisos Seaways", duration:"1h 30m", color:"#6366F1", note:"Lush, scenic island with WWII history, Italian architecture and beautiful bays. Underrated gem.", times:[{dep:"09:30",arr:"11:00",days:"Mon, Wed, Fri, Sun"},{dep:"17:00",arr:"18:30",days:"Tue, Thu, Sat"}] },
+  { id:"f9", route:"Kos to Symi", operator:"Dodekanisos Seaways", duration:"2h 30m", color:"#EC4899", note:"One of the most beautiful harbours in Greece. Pastel neoclassical mansions climbing the hillside. Worth every minute of the journey.", times:[{dep:"07:00",arr:"09:30",days:"Mon, Wed, Fri"},{dep:"13:00",arr:"15:30",days:"Tue, Thu, Sat, Sun"}] },
+];
+
+const BUSES = [
+  { id:"u1", route:"Kos Town to Tigaki", line:"Line 1", duration:"25 min", color:"#F97316", note:"Serves the main tourist beach strip.", times:[{dep:"08:00",arr:"08:25",days:"Daily"},{dep:"10:00",arr:"10:25",days:"Daily"},{dep:"12:00",arr:"12:25",days:"Daily"},{dep:"14:00",arr:"14:25",days:"Daily"},{dep:"16:00",arr:"16:25",days:"Daily"}] },
+  { id:"u2", route:"Kos Town to Kardamena", line:"Line 2", duration:"45 min", color:"#A855F7", note:"Stops at Paradise Beach and Bubble Beach en route.", times:[{dep:"09:00",arr:"09:45",days:"Daily"},{dep:"11:30",arr:"12:15",days:"Daily"},{dep:"14:30",arr:"15:15",days:"Daily"},{dep:"17:00",arr:"17:45",days:"Daily"}] },
+  { id:"u3", route:"Kos Town to Kefalos", line:"Line 3", duration:"1h 15m", color:"#10B981", note:"Longest route, covers the whole south coast.", times:[{dep:"09:30",arr:"10:45",days:"Daily"},{dep:"13:00",arr:"14:15",days:"Daily"},{dep:"17:30",arr:"18:45",days:"Mon-Sat"}] },
+  { id:"u4", route:"Kos Town to Zia Village", line:"Line 4", duration:"35 min", color:"#EAB308", note:"Perfect for the famous sunset at Zia.", times:[{dep:"10:00",arr:"10:35",days:"Daily"},{dep:"14:00",arr:"14:35",days:"Daily"},{dep:"17:00",arr:"17:35",days:"Daily"}] },
+  { id:"u5", route:"Kos Town to Asklepion", line:"Line 5", duration:"20 min", color:"#0EA5E9", note:"Tourist shuttle to the ancient ruins. Summer only.", times:[{dep:"09:00",arr:"09:20",days:"Daily (summer)"},{dep:"11:00",arr:"11:20",days:"Daily (summer)"},{dep:"13:00",arr:"13:20",days:"Daily (summer)"}] },
+];
+
+const CATS = [
+  { key:"beaches",    label:"Beaches",    icon:"🏖️", color:"#0EA5E9" },
+  { key:"restaurants",label:"Eat",        icon:"🍽️", color:"#F97316" },
+  { key:"bars",       label:"Drink",      icon:"🍹", color:"#A855F7" },
+  { key:"sights",     label:"Culture",    icon:"🏛️", color:"#10B981" },
+  { key:"villages",   label:"Villages",   icon:"🏘️", color:"#EAB308" },
+  { key:"activities", label:"Activities", icon:"🎯", color:"#EC4899" },
+];
+const CAT_COLOR = { beaches:"#0EA5E9", restaurants:"#F97316", bars:"#A855F7", sights:"#10B981", villages:"#EAB308", activities:"#EC4899" };
+const CAT_EMOJIS = { beaches:"🏖️", restaurants:"🍽️", bars:"🍹", sights:"🏛️", villages:"🏘️", activities:"🎯" };
+const ADMIN_PASSWORD = "kos2024";
+
+// Photo search terms for Unsplash (free, no API key needed for source.unsplash.com)
+const PHOTO_QUERIES = {
+  // Beaches
+  b1:"paradise beach kos greece turquoise",
+  b2:"tigaki beach kos sandy shore",
+  b3:"agios stefanos kos kastri island",
+  b4:"camel beach kos pebble cove",
+  b5:"cavo paradiso kos pristine bay",
+  b6:"marmari beach kos windsurfing",
+  b7:"mastichari beach kos white sand",
+  b8:"kardamena beach kos resort",
+  b9:"kefalos kamari beach kos sunset",
+  b10:"thermes hot springs kos greece",
+  b11:"psalidi beach kos clear water",
+  b12:"agios fokas kos pebble diving",
+  b13:"lambi beach kos colourful pebbles",
+  b14:"limnionas beach kos secluded cove",
+  b15:"zouroudi kos beach bar",
+  b16:"agios theologos kos remote beach",
+  // Restaurants
+  r1:"platanos taverna kos greek food",
+  r2:"petrino stone restaurant kos",
+  r3:"greek grilled meat souvlaki taverna",
+  r4:"armenian greek cuisine restaurant",
+  r5:"barbouni seafood waterfront kos",
+  r6:"lobster seafood greek restaurant",
+  r7:"greek meze wine taverna",
+  r8:"kapari meze greek food",
+  r9:"traditional greek restaurant old building",
+  r10:"zia village kos mountain taverna sunset",
+  r11:"cosy greek village taverna",
+  r12:"beach bar restaurant kos greece",
+  r13:"h2o beachside dining cocktails",
+  r14:"greek steakhouse grill restaurant",
+  r15:"blue note greek restaurant live music",
+  r16:"remote seaside taverna rocks greece",
+  r17:"pyli byzantine ruins taverna kos",
+  r18:"greek village taverna asomatos",
+  r19:"kardamena harbour fish taverna",
+  r20:"mastichari port fish taverna kos",
+  // Bars
+  v1:"nafklirou bar street kos nightlife",
+  v3:"camelot club kos nightlife",
+  v4:"mylos beach bar kos windmill",
+  v5:"rooftop bar kos sunset cocktail",
+  v6:"hammam ottoman bar kos",
+  v7:"kalua beach bar kos cocktails",
+  v8:"charisma bar kos town nightlife",
+  v9:"bar street kos party night",
+  v10:"kos harbour cocktail bar evening",
+  v11:"alibaba beach bar kos greece",
+  v12:"garden bar kos old town evening",
+  v13:"ammos beach cocktail bar kos",
+  v14:"kardamena nightlife bars kos",
+  v15:"lido waterpark kos greece",
+  v16:"mastichari beach bar sunset",
+  v17:"tigaki beach bar kos",
+  v18:"kefalos hilltop bar view aegean",
+  v19:"sports bar kos town ireland pub",
+  v20:"harbour bar kos town pirate",
+  // Sights
+  s1:"asklepion kos ancient ruins hippocrates",
+  s2:"castle knights kos harbour medieval",
+  s3:"plane tree hippocrates kos square",
+  s4:"zia village kos mountain sunset panorama",
+  s5:"ancient agora kos ruins marketplace",
+  s6:"antimachia castle kos medieval knights",
+  s7:"old pyli ghost village kos byzantine",
+  s8:"roman odeon kos ancient theatre",
+  s9:"archaeological museum kos greece",
+  s10:"eleftherias square kos town cafe",
+  s11:"defterdar mosque kos ottoman",
+  s12:"casa romana kos mosaic villa",
+  s13:"plaka forest kos peacocks greece",
+  s14:"lido waterpark kos slides",
+  s15:"mount dikeos kos peak summit",
+  s16:"hippocrates garden kos cultural",
+  s17:"therma hot springs kos volcanic sea",
+  s18:"antimachia traditional house kos dodecanese",
+  s19:"kardamena village kos whitewashed",
+  s20:"kefalos windmills kos aegean",
+  vil1:"kos town harbour castle greece",
+  vil2:"zia village kos mountain sunset",
+  vil3:"kardamena kos beach resort village",
+  vil4:"kefalos kos village whitewashed",
+  vil5:"antimachia kos castle medieval village",
+  vil6:"mastichari kos harbour fishing village",
+  vil7:"pyli kos traditional village greece",
+  vil8:"platani kos village mosque greek",
+  vil9:"asfendiou kos mountain village",
+  vil10:"tigaki kos beach flamingos wetland",
+  vil11:"marmari kos windsurfing beach",
+  vil12:"zipari kos traditional village greece",
+  ac1:"beach fishing rod secluded cove greece aegean",
+  ac2:"sailing sunset cruise kos aegean cocktail",
+  ac3:"scuba diving clear water aegean greece",
+  ac4:"jeep safari kos island mountain track",
+  ac5:"cycling kos island greece path",
+  ac6:"ancient ruins kos walking tour hippocrates",
+  ac7:"windsurfing kos marmari greece meltemi",
+  ac8:"pirate boat trip kos greece family",
+  ac9:"kayak sea cave greece clear water",
+  ac10:"horseback riding greece countryside olive",
+  ac11:"go karting kos greece track",
+  ac12:"watersports paradise beach kos jet ski",
+  r21:"fresh fish seafood restaurant greece",
+  v21:"cocktail bar nightclub intimate dark",
+  v22:"rooftop bar kos town aegean night view",
+  v23:"rooftop bar romantic evening cocktails greece",
+  v24:"harbour bar kos waterfront evening",
+  v25:"cosy bar kos town greece drinks",
+};
+
+function getPhotoUrl(id, size=400) {
+  const query = PHOTO_QUERIES[id] || "kos greece island";
+  return "https://source.unsplash.com/"+size+"x"+Math.round(size*0.65)+"/?"+encodeURIComponent(query);
+}
+
+function loadPlaces() {
+  try {
+    const saved = localStorage.getItem("kos_places");
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return DEFAULT_PLACES;
+}
+function savePlaces(places) {
+  try { localStorage.setItem("kos_places", JSON.stringify(places)); } catch(e) {}
+}
+
+// ── Opening Hours Helper ─────────────────────────────────────────────────────
+function isOpenNow(hours) {
+  if (!hours) return null;
+  try {
+    const now = new Date();
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    const [openStr, closeStr] = hours.split("–");
+    const [oh, om] = openStr.split(":").map(Number);
+    const [ch, cm] = closeStr.split(":").map(Number);
+    const openMins = oh * 60 + (om || 0);
+    let closeMins = ch * 60 + (cm || 0);
+    // Handle after-midnight closing (e.g. 21:00–05:00)
+    if (closeMins < openMins) closeMins += 24 * 60;
+    const nowAdj = nowMins < openMins ? nowMins + 24 * 60 : nowMins;
+    return nowAdj >= openMins && nowAdj < closeMins;
+  } catch(e) { return null; }
+}
+
+// ── Map ──────────────────────────────────────────────────────────────────────
+function MapView({ items, onSelect, selected }) {
+  const [activePin, setActivePin] = useState(null);
+
+  function handlePin(item) {
+    setActivePin(activePin && activePin.id === item.id ? null : item);
+    onSelect(item);
+  }
+
+  // Build Google Maps embed URL centred on Kos
+  const mapUrl = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d61000!2d27.15!3d36.83!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sgr!4v1700000000000!5m2!1sen!2sgr";
+
+  return (
+    <div style={{ margin:"0 16px" }}>
+      {/* Real Google Map */}
+      <div style={{ borderRadius:16, overflow:"hidden", border:"1px solid rgba(14,165,233,0.25)", position:"relative" }}>
+        <iframe
+          src={mapUrl}
+          width="100%"
+          height="300"
+          style={{ border:0, display:"block", filter:"invert(90%) hue-rotate(180deg) saturate(0.8)" }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Kos Island Map"
+        />
+        {/* Dark overlay label */}
+        <div style={{ position:"absolute", top:10, left:10, background:"rgba(8,18,32,0.85)", backdropFilter:"blur(8px)", border:"1px solid rgba(14,165,233,0.2)", borderRadius:10, padding:"5px 10px", fontSize:11, color:"#7dd3fc", fontFamily:"sans-serif", pointerEvents:"none" }}>
+          🗺️ Kos Island
+        </div>
+      </div>
+
+      {/* Colour-coded legend */}
+      <div style={{ display:"flex", gap:8, flexWrap:"wrap", padding:"10px 4px 4px" }}>
+        {CATS.map(c => (
+          <div key={c.key} style={{ display:"flex", alignItems:"center", gap:4, fontSize:11, color:"#94a3b8", fontFamily:"sans-serif" }}>
+            <div style={{ width:8, height:8, borderRadius:"50%", background:c.color }}/>{c.label}
+          </div>
+        ))}
+      </div>
+
+      {/* Scrollable pin list */}
+      <div style={{ marginTop:8 }}>
+        <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", marginBottom:8, letterSpacing:1, textTransform:"uppercase" }}>Tap a place to open in Maps</div>
+        <div style={{ display:"flex", gap:8, overflowX:"auto", paddingBottom:4 }}>
+          {items.map(item => {
+            const col = CAT_COLOR[item.cat];
+            const isSel = selected && selected.id === item.id;
+            const mapsUrl = "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(item.name+", Kos, Greece");
+            return (
+              <a key={item.id} href={mapsUrl} target="_blank" rel="noreferrer" style={{ textDecoration:"none", flexShrink:0 }}
+                onClick={e => { e.preventDefault(); handlePin(item); }}>
+                <div style={{ background:isSel?col+"22":"rgba(255,255,255,0.05)", border:"1px solid "+(isSel?col+"60":"rgba(240,230,211,0.08)"), borderRadius:12, padding:"8px 12px", display:"flex", alignItems:"center", gap:6, transition:"all 0.2s" }}>
+                  <span style={{ fontSize:16 }}>{item.emoji}</span>
+                  <span style={{ fontSize:12, color:isSel?col:"#94a3b8", fontFamily:"sans-serif", fontWeight:isSel?600:400, whiteSpace:"nowrap" }}>{item.name}</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Selected place card */}
+      {selected && (
+        <div style={{ marginTop:12, background:"linear-gradient(135deg,"+CAT_COLOR[selected.cat]+"12,rgba(255,255,255,0.03))", border:"1px solid "+CAT_COLOR[selected.cat]+"40", borderRadius:16, overflow:"hidden" }}>
+          <div style={{ position:"relative", height:110 }}>
+            <img src={"https://source.unsplash.com/500x200/?"+encodeURIComponent(selected.name+" kos greece")} alt={selected.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} onError={e=>{e.target.style.display="none";}}/>
+            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(6,18,36,0.92))" }}/>
+            <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 14px", display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
+              <div>
+                <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", textShadow:"0 1px 4px rgba(0,0,0,0.8)" }}>{selected.name}</div>
+                <div style={{ fontSize:12, color:"#fcd34d", fontFamily:"sans-serif" }}>&#11088; {selected.rating}</div>
+              </div>
+              <span style={{ fontSize:22 }}>{selected.emoji}</span>
+            </div>
+          </div>
+          <div style={{ padding:"12px 16px" }}>
+            <p style={{ margin:"0 0 10px", fontSize:13, color:"#cbd5e1", lineHeight:1.5, fontFamily:"sans-serif" }}>{selected.desc}</p>
+            <div style={{ display:"flex", gap:8 }}>
+              <a href={"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(selected.name+", Kos, Greece")} target="_blank" rel="noreferrer" style={{ textDecoration:"none", flex:1 }}>
+                <div style={{ background:"rgba(14,165,233,0.15)", border:"1px solid rgba(14,165,233,0.3)", borderRadius:10, padding:"9px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                  <span style={{ fontSize:14 }}>📍</span>
+                  <span style={{ fontSize:12, color:"#0EA5E9", fontFamily:"sans-serif", fontWeight:600 }}>Open in Maps</span>
+                </div>
+              </a>
+              {selected.phone && (
+                <a href={"tel:"+selected.phone} style={{ textDecoration:"none", flex:1 }}>
+                  <div style={{ background:"rgba(16,185,129,0.15)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:10, padding:"9px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                    <span style={{ fontSize:14 }}>📞</span>
+                    <span style={{ fontSize:12, color:"#10B981", fontFamily:"sans-serif", fontWeight:600 }}>Call</span>
+                  </div>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Timetable Card ────────────────────────────────────────────────────────────
+function TTCard({ item, icon, isOpen, onToggle }) {
+  const col = item.color;
+  return (
+    <div onClick={onToggle} style={{ background:isOpen?"linear-gradient(135deg,"+col+"15,rgba(255,255,255,0.03))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+col+"50":"1px solid rgba(240,230,211,0.08)", borderRadius:16, padding:"16px 18px", marginBottom:12, cursor:"pointer", transition:"all 0.25s" }}>
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <div style={{ display:"flex", gap:12, alignItems:"center" }}>
+          <div style={{ width:40, height:40, borderRadius:12, background:col+"20", border:"1px solid "+col+"40", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{icon}</div>
+          <div>
+            <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:2 }}>{item.route}</div>
+            <div style={{ fontSize:11, color:col, fontFamily:"sans-serif" }}>{item.operator||item.line} · {item.duration}</div>
+          </div>
+        </div>
+        <div style={{ fontSize:18, color:"#64748b", transform:isOpen?"rotate(180deg)":"none", transition:"transform 0.2s" }}>&#8964;</div>
+      </div>
+      {isOpen && (
+        <div style={{ marginTop:14, paddingTop:14, borderTop:"1px solid rgba(240,230,211,0.08)" }}>
+          <div style={{ marginBottom:12 }}>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:2, marginBottom:4 }}>
+              {["Departs","Arrives","Days"].map(h => <div key={h} style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, paddingBottom:4 }}>{h}</div>)}
+            </div>
+            {item.times.map((t,i) => (
+              <div key={i} style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:2, padding:"8px 0", borderTop:"1px solid rgba(240,230,211,0.06)" }}>
+                <div style={{ fontSize:14, color:"#f0e6d3", fontFamily:"sans-serif", fontWeight:600 }}>{t.dep}</div>
+                <div style={{ fontSize:14, color:"#94a3b8", fontFamily:"sans-serif" }}>{t.arr}</div>
+                <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.3 }}>{t.days}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ background:col+"12", border:"1px solid "+col+"30", borderRadius:10, padding:"10px 14px", display:"flex", gap:8 }}>
+            <span>&#8505;&#65039;</span>
+            <p style={{ margin:0, fontSize:12, color:col, fontFamily:"sans-serif", lineHeight:1.5 }}>{item.note}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Admin Panel ───────────────────────────────────────────────────────────────
+function AdminPanel({ places, onSave, onClose }) {
+  const [editCat, setEditCat] = useState("beaches");
+  const [editingId, setEditingId] = useState(null);
+  const [localPlaces, setLocalPlaces] = useState(JSON.parse(JSON.stringify(places)));
+  const [form, setForm] = useState({ name:"", emoji:"", desc:"", tip:"", rating:"4.5", lat:"", lng:"", cat:"beaches" });
+  const [saved, setSaved] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null);
+
+  const items = localPlaces[editCat] || [];
+
+  function startEdit(item) {
+    setEditingId(item.id);
+    setForm({ ...item });
+  }
+
+  function startAdd() {
+    setEditingId("new");
+    setForm({ name:"", emoji: CAT_EMOJIS[editCat], desc:"", tip:"", rating:"4.5", lat:"36.89", lng:"27.28", cat:editCat });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm({ name:"", emoji:"", desc:"", tip:"", rating:"4.5", lat:"", lng:"", cat:editCat });
+  }
+
+  function saveItem() {
+    if (!form.name.trim()) return;
+    const updated = { ...localPlaces };
+    if (editingId === "new") {
+      const newItem = { ...form, id: "c"+Date.now(), lat:parseFloat(form.lat)||36.89, lng:parseFloat(form.lng)||27.28 };
+      updated[editCat] = [...(updated[editCat]||[]), newItem];
+    } else {
+      updated[editCat] = updated[editCat].map(p => p.id===editingId ? { ...form, id:editingId, lat:parseFloat(form.lat)||p.lat, lng:parseFloat(form.lng)||p.lng } : p);
+    }
+    setLocalPlaces(updated);
+    cancelEdit();
+  }
+
+  function deleteItem(id) {
+    const updated = { ...localPlaces };
+    updated[editCat] = updated[editCat].filter(p => p.id !== id);
+    setLocalPlaces(updated);
+    setConfirmDelete(null);
+  }
+
+  function handleSaveAll() {
+    onSave(localPlaces);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  const inp = (field, label, placeholder, multiline) => (
+    <div style={{ marginBottom:10 }}>
+      <div style={{ fontSize:11, color:"#94a3b8", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>{label}</div>
+      {multiline
+        ? <textarea value={form[field]} onChange={e => setForm({...form,[field]:e.target.value})} placeholder={placeholder} rows={3} style={{ width:"100%", boxSizing:"border-box", padding:"10px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#f0e6d3", fontSize:13, fontFamily:"sans-serif", outline:"none", resize:"none" }}/>
+        : <input value={form[field]} onChange={e => setForm({...form,[field]:e.target.value})} placeholder={placeholder} style={{ width:"100%", boxSizing:"border-box", padding:"10px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#f0e6d3", fontSize:13, fontFamily:"sans-serif", outline:"none" }}/>
+      }
+    </div>
+  );
+
+  return (
+    <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, background:"#0a1628", zIndex:100, overflowY:"auto", maxWidth:430, margin:"0 auto" }}>
+      {/* Admin Header */}
+      <div style={{ padding:"48px 20px 16px", borderBottom:"1px solid rgba(240,230,211,0.1)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <div>
+          <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Admin Panel</div>
+          <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3" }}>Manage Places</div>
+        </div>
+        <button onClick={onClose} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, padding:"8px 14px", color:"#94a3b8", cursor:"pointer", fontFamily:"sans-serif", fontSize:13 }}>&#10005; Close</button>
+      </div>
+
+      <div style={{ padding:"16px 20px 120px" }}>
+        {/* Category selector */}
+        <div style={{ display:"flex", gap:8, marginBottom:20, overflowX:"auto" }}>
+          {CATS.map(c => (
+            <button key={c.key} onClick={() => { setEditCat(c.key); cancelEdit(); }} style={{ flexShrink:0, padding:"8px 14px", borderRadius:50, border:editCat===c.key?"1.5px solid "+c.color:"1.5px solid rgba(240,230,211,0.15)", background:editCat===c.key?c.color+"22":"rgba(255,255,255,0.04)", color:editCat===c.key?c.color:"#94a3b8", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>
+              {c.icon} {c.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Add / Edit Form */}
+        {editingId && (
+          <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.12)", borderRadius:16, padding:18, marginBottom:20 }}>
+            <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:16 }}>{editingId==="new" ? "Add New Place" : "Edit Place"}</div>
+            <div style={{ display:"grid", gridTemplateColumns:"3fr 1fr", gap:10, marginBottom:0 }}>
+              <div style={{ marginBottom:10 }}>
+                <div style={{ fontSize:11, color:"#94a3b8", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>Name</div>
+                <input value={form.name} onChange={e => setForm({...form,name:e.target.value})} placeholder="Place name" style={{ width:"100%", boxSizing:"border-box", padding:"10px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#f0e6d3", fontSize:13, fontFamily:"sans-serif", outline:"none" }}/>
+              </div>
+              <div style={{ marginBottom:10 }}>
+                <div style={{ fontSize:11, color:"#94a3b8", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>Emoji</div>
+                <input value={form.emoji} onChange={e => setForm({...form,emoji:e.target.value})} placeholder="🏖️" style={{ width:"100%", boxSizing:"border-box", padding:"10px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#f0e6d3", fontSize:18, fontFamily:"sans-serif", outline:"none", textAlign:"center" }}/>
+              </div>
+            </div>
+            {inp("desc","Description","What makes this place special?", true)}
+            {inp("tip","Local Tip","Your insider advice...")}
+            {inp("rating","Rating (1-5)","4.8")}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+              <div>
+                <div style={{ fontSize:11, color:"#94a3b8", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>Latitude</div>
+                <input value={form.lat} onChange={e => setForm({...form,lat:e.target.value})} placeholder="36.8940" style={{ width:"100%", boxSizing:"border-box", padding:"10px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#f0e6d3", fontSize:13, fontFamily:"sans-serif", outline:"none" }}/>
+              </div>
+              <div>
+                <div style={{ fontSize:11, color:"#94a3b8", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>Longitude</div>
+                <input value={form.lng} onChange={e => setForm({...form,lng:e.target.value})} placeholder="27.2880" style={{ width:"100%", boxSizing:"border-box", padding:"10px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#f0e6d3", fontSize:13, fontFamily:"sans-serif", outline:"none" }}/>
+              </div>
+            </div>
+            <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", marginTop:6, marginBottom:14 }}>Tip: find lat/lng by right-clicking any spot in Google Maps</div>
+            <div style={{ display:"flex", gap:10 }}>
+              <button onClick={saveItem} style={{ flex:1, padding:"12px", background:"#0EA5E9", border:"none", borderRadius:12, color:"#fff", fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600 }}>
+                {editingId==="new" ? "Add Place" : "Save Changes"}
+              </button>
+              <button onClick={cancelEdit} style={{ padding:"12px 16px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:12, color:"#94a3b8", fontSize:14, cursor:"pointer", fontFamily:"sans-serif" }}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* Places list */}
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+          <div style={{ fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>{items.length} places in this category</div>
+          {!editingId && <button onClick={startAdd} style={{ padding:"8px 16px", background:"#0EA5E9"+"22", border:"1px solid #0EA5E9"+"55", borderRadius:10, color:"#0EA5E9", fontSize:13, cursor:"pointer", fontFamily:"sans-serif" }}>+ Add Place</button>}
+        </div>
+
+        {items.map(item => (
+          <div key={item.id} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", marginBottom:10 }}>
+            {confirmDelete === item.id ? (
+              <div>
+                <div style={{ fontSize:13, color:"#f0e6d3", fontFamily:"sans-serif", marginBottom:10 }}>Delete "{item.name}"?</div>
+                <div style={{ display:"flex", gap:8 }}>
+                  <button onClick={() => deleteItem(item.id)} style={{ flex:1, padding:"10px", background:"#ef444422", border:"1px solid #ef444455", borderRadius:10, color:"#ef4444", fontSize:13, cursor:"pointer", fontFamily:"sans-serif" }}>Yes, delete</button>
+                  <button onClick={() => setConfirmDelete(null)} style={{ flex:1, padding:"10px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:10, color:"#94a3b8", fontSize:13, cursor:"pointer", fontFamily:"sans-serif" }}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                <div style={{ display:"flex", gap:10, alignItems:"center" }}>
+                  <span style={{ fontSize:22 }}>{item.emoji}</span>
+                  <div>
+                    <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3" }}>{item.name}</div>
+                    <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif" }}>&#11088; {item.rating}</div>
+                  </div>
+                </div>
+                <div style={{ display:"flex", gap:8 }}>
+                  <button onClick={() => startEdit(item)} style={{ padding:"6px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.12)", borderRadius:8, color:"#94a3b8", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>Edit</button>
+                  <button onClick={() => setConfirmDelete(item.id)} style={{ padding:"6px 12px", background:"#ef444412", border:"1px solid #ef444430", borderRadius:8, color:"#ef4444", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>Del</button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Save bar */}
+      <div style={{ position:"fixed", bottom:0, left:"50%", transform:"translateX(-50%)", width:"100%", maxWidth:430, background:"rgba(10,22,40,0.97)", backdropFilter:"blur(20px)", borderTop:"1px solid rgba(240,230,211,0.1)", padding:"12px 20px 28px", zIndex:10 }}>
+        <button onClick={handleSaveAll} style={{ width:"100%", padding:"14px", background:saved?"#10B981":"#0EA5E9", border:"none", borderRadius:14, color:"#fff", fontSize:15, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600, transition:"background 0.3s" }}>
+          {saved ? "Saved!" : "Save All Changes"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Emergency Numbers Data ────────────────────────────────────────────────────
+const EMERGENCY = [
+  { id:"e1", category:"Emergency Services", color:"#ef4444", items:[
+    { name:"European Emergency", number:"112", desc:"Police, fire, ambulance — works from any phone including no SIM", icon:"🚨" },
+    { name:"Greek Police (Astynomia)", number:"100", desc:"Local police emergency line", icon:"👮" },
+    { name:"Ambulance (EKAB)", number:"166", desc:"Medical emergency and ambulance service", icon:"🚑" },
+    { name:"Fire Brigade", number:"199", desc:"Fire emergency service", icon:"🚒" },
+    { name:"Coast Guard", number:"108", desc:"Sea emergencies, rescue at sea", icon:"⚓" },
+  ]},
+  { id:"e2", category:"Kos Local Numbers", color:"#F97316", items:[
+    { name:"Kos General Hospital", number:"22420 22300", desc:"Hippokrateion Hospital, Kos Town. 24hr A&E.", icon:"🏥" },
+    { name:"Kos Tourist Police", number:"22420 22444", desc:"English-speaking police for tourist assistance", icon:"🛡️" },
+    { name:"Kos Port Authority", number:"22420 28507", desc:"Ferry and sea-related enquiries", icon:"⛵" },
+    { name:"Kos Airport", number:"22420 56000", desc:"Ippokratis International Airport", icon:"✈️" },
+  ]},
+  { id:"e3", category:"Useful Contacts", color:"#10B981", items:[
+    { name:"Taxi Kos Town", number:"22420 23333", desc:"Main taxi rank in Kos Town centre", icon:"🚕" },
+    { name:"Pharmacy (24hr rota)", number:"1434", desc:"Dial to find the nearest open pharmacy", icon:"💊" },
+    { name:"Road Assistance (ELPA)", number:"10400", desc:"Breakdown and roadside assistance", icon:"🔧" },
+    { name:"Water/Power Emergency", number:"22420 22242", desc:"DEYAK utility emergencies", icon:"⚡" },
+  ]},
+];
+
+// ── Get Listed Data ───────────────────────────────────────────────────────────
+const LISTING_PACKAGES = [
+  { id:"p1", name:"Basic Listing", price:"Free", color:"#64748b", features:["Listed in the app directory","Name, category and location","Standard placement"] },
+  { id:"p2", name:"Featured Listing", price:"€29/mo", color:"#0EA5E9", features:["Everything in Basic","Featured badge on your card","Priority placement at top","Your description and local tip","Direct link to your website or booking page"], popular:true },
+  { id:"p3", name:"Premium Sponsor", price:"€69/mo", color:"#F97316", features:["Everything in Featured","Sponsored highlight on map","Special offer or deal banner","Instagram shoutout each month","Direct WhatsApp enquiry button"] },
+];
+
+// ── Surrounding Islands Tab ──────────────────────────────────────────────────
+function IslandsTab() {
+  const [selected, setSelected] = useState(null);
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+      <div style={{ marginBottom:20 }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:"#EC4899", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Day Trips & Island Hopping</div>
+        <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>Surrounding Islands</div>
+        <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>Kos is the perfect base for exploring the Dodecanese. Each island is a world of its own.</p>
+      </div>
+
+      {ISLANDS.map(island => {
+        const isOpen = selected === island.id;
+        return (
+          <div key={island.id} onClick={() => setSelected(isOpen ? null : island.id)}
+            style={{ background:isOpen?"linear-gradient(135deg,"+island.color+"12,rgba(255,255,255,0.03))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+island.color+"40":"1px solid rgba(240,230,211,0.08)", borderRadius:18, marginBottom:14, overflow:"hidden", cursor:"pointer", transition:"all 0.25s" }}>
+
+            {/* Photo header */}
+            <div style={{ position:"relative", height:isOpen?160:100, transition:"height 0.3s ease", overflow:"hidden" }}>
+              <img
+                src={"https://source.unsplash.com/500x200/?"+encodeURIComponent(island.name+" island Greece")}
+                alt={island.name}
+                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }}
+                onError={e => { e.target.style.display="none"; }}
+              />
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(6,18,36,0.92) 100%)" }}/>
+
+              {/* Ferry time badge */}
+              <div style={{ position:"absolute", top:12, right:12, background:"rgba(6,18,36,0.8)", backdropFilter:"blur(8px)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:20, padding:"4px 10px", fontSize:11, color:"#94a3b8", fontFamily:"sans-serif" }}>
+                ⛴ {island.distance}
+              </div>
+
+              {/* Name overlay */}
+              <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"12px 16px" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:3 }}>
+                  <span style={{ fontSize:28 }}>{island.emoji}</span>
+                  <div>
+                    <div style={{ fontSize:20, fontWeight:600, color:"#f0e6d3", lineHeight:1.1, fontFamily:"Georgia, serif" }}>{island.name}</div>
+                    <div style={{ fontSize:12, color:island.color, fontFamily:"sans-serif", marginTop:2 }}>{island.tagline}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Expand arrow */}
+            <div style={{ padding:"6px 16px 6px", display:"flex", justifyContent:"flex-end" }}>
+              <div style={{ fontSize:14, color:"#475569", transform:isOpen?"rotate(180deg)":"none", transition:"transform 0.25s" }}>&#8964;</div>
+            </div>
+
+            {/* Expanded content */}
+            {isOpen && (
+              <div style={{ padding:"0 16px 18px" }}>
+                <p style={{ margin:"0 0 14px", fontSize:13, color:"#cbd5e1", lineHeight:1.7, fontFamily:"sans-serif" }}>{island.desc}</p>
+
+                {/* Highlights */}
+                <div style={{ marginBottom:14 }}>
+                  <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>Highlights</div>
+                  {island.highlights.map((h, i) => (
+                    <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:7 }}>
+                      <div style={{ width:6, height:6, borderRadius:"50%", background:island.color, marginTop:5, flexShrink:0 }}/>
+                      <div style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.4 }}>{h}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Local tip */}
+                <div style={{ background:island.color+"15", border:"1px solid "+island.color+"30", borderRadius:12, padding:"12px 14px", display:"flex", gap:8, alignItems:"flex-start" }}>
+                  <span style={{ fontSize:16 }}>&#128161;</span>
+                  <p style={{ margin:0, fontSize:12, color:island.color, fontFamily:"sans-serif", lineHeight:1.5 }}>
+                    <strong>Local tip:</strong> {island.tip}
+                  </p>
+                </div>
+
+                {/* Ferry link */}
+                <a href={"https://www.google.com/search?q=ferry+kos+to+"+island.name} target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginTop:12 }}>
+                  <div style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:12, padding:"11px 16px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                    <span style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>&#9972; Find ferries from Kos to {island.name}</span>
+                    <span style={{ fontSize:12, color:"#475569" }}>↗</span>
+                  </div>
+                </a>
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      {/* Footer note */}
+      <div style={{ padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+        <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.7 }}>
+          &#9972; <strong style={{ color:"#64748b" }}>Ferries from Kos</strong> depart from Kos Port in the town centre. Check the Ferries tab for current timetables, or visit the port ticket offices for same-day bookings.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ── Trip Planner ─────────────────────────────────────────────────────────────
+const TRIP_DAYS = ["Day 1","Day 2","Day 3","Day 4","Day 5","Day 6","Day 7"];
+
+function loadTrip() {
+  try {
+    const s = localStorage.getItem("kos_trip");
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return { name:"My Kos Trip", days:{ "Day 1":[], "Day 2":[], "Day 3":[] }, activeDays:3 };
+}
+function saveTrip(trip) {
+  try { localStorage.setItem("kos_trip", JSON.stringify(trip)); } catch(e) {}
+}
+
+function TripPlannerTab({ places }) {
+  const [trip, setTrip] = useState(loadTrip);
+  const [activeDay, setActiveDay] = useState("Day 1");
+  const [adding, setAdding] = useState(false);
+  const [addCat, setAddCat] = useState("beaches");
+  const [search, setSearch] = useState("");
+  const [confirmClear, setConfirmClear] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [expandDay, setExpandDay] = useState(null);
+
+  const ALL_PLACES = Object.values(places).flat();
+
+  function updateTrip(updated) {
+    setTrip(updated);
+    saveTrip(updated);
+  }
+
+  function addPlace(item) {
+    const day = trip.days[activeDay] || [];
+    if (day.find(p => p.id === item.id)) return; // already added
+    const updated = { ...trip, days:{ ...trip.days, [activeDay]:[...day, { id:item.id, name:item.name, emoji:item.emoji, cat:item.cat, note:"" }] } };
+    updateTrip(updated);
+    setAdding(false);
+    setSearch("");
+  }
+
+  function removePlace(day, id) {
+    const updated = { ...trip, days:{ ...trip.days, [day]:trip.days[day].filter(p => p.id !== id) } };
+    updateTrip(updated);
+  }
+
+  function updateNote(day, id, note) {
+    const updated = { ...trip, days:{ ...trip.days, [day]:trip.days[day].map(p => p.id===id ? {...p, note} : p) } };
+    updateTrip(updated);
+  }
+
+  function moveUp(day, idx) {
+    const arr = [...trip.days[day]];
+    if (idx === 0) return;
+    [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+    updateTrip({ ...trip, days:{ ...trip.days, [day]:arr } });
+  }
+
+  function moveDown(day, idx) {
+    const arr = [...trip.days[day]];
+    if (idx === arr.length-1) return;
+    [arr[idx], arr[idx+1]] = [arr[idx+1], arr[idx]];
+    updateTrip({ ...trip, days:{ ...trip.days, [day]:arr } });
+  }
+
+  function setDays(n) {
+    const days = {};
+    for (let i=1;i<=n;i++) {
+      const key = "Day "+i;
+      days[key] = trip.days[key] || [];
+    }
+    updateTrip({ ...trip, days, activeDays:n });
+  }
+
+  function clearAll() {
+    const days = {};
+    Object.keys(trip.days).forEach(k => { days[k] = []; });
+    updateTrip({ ...trip, days });
+    setConfirmClear(false);
+  }
+
+  function handleSave() {
+    saveTrip(trip);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  const totalPlaces = Object.values(trip.days).flat().length;
+  const activeDayKeys = TRIP_DAYS.slice(0, trip.activeDays);
+  const dayItems = trip.days[activeDay] || [];
+
+  const searchFiltered = useMemo(() => {
+    const pool = search.trim() ? ALL_PLACES.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.cat.includes(search.toLowerCase())) : ALL_PLACES.filter(p => p.cat === addCat);
+    const dayIds = (trip.days[activeDay]||[]).map(p=>p.id);
+    return pool.filter(p => !dayIds.includes(p.id));
+  }, [search, addCat, trip, activeDay, ALL_PLACES]);
+
+  const CAT_COLOR_LOCAL = { beaches:"#0EA5E9", restaurants:"#F97316", bars:"#A855F7", sights:"#10B981" };
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+
+      {/* Header */}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:20 }}>
+        <div>
+          <div style={{ fontSize:11, letterSpacing:3, color:"#10B981", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Trip Planner</div>
+          <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3" }}>My Kos Trip</div>
+          <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", marginTop:2 }}>{totalPlaces} place{totalPlaces!==1?"s":""} planned across {trip.activeDays} day{trip.activeDays!==1?"s":""}</div>
+        </div>
+        <button onClick={() => setConfirmClear(true)} style={{ padding:"8px 12px", background:"rgba(239,68,68,0.1)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:10, color:"#ef4444", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>
+          Clear all
+        </button>
+      </div>
+
+      {/* Confirm clear */}
+      {confirmClear && (
+        <div style={{ background:"rgba(239,68,68,0.1)", border:"1px solid rgba(239,68,68,0.3)", borderRadius:14, padding:"14px 16px", marginBottom:16, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          <div style={{ fontSize:13, color:"#f0e6d3", fontFamily:"sans-serif" }}>Clear your entire trip?</div>
+          <div style={{ display:"flex", gap:8 }}>
+            <button onClick={clearAll} style={{ padding:"7px 14px", background:"#ef4444", border:"none", borderRadius:8, color:"#fff", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>Yes, clear</button>
+            <button onClick={() => setConfirmClear(false)} style={{ padding:"7px 14px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:8, color:"#94a3b8", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* How many days */}
+      <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", marginBottom:16 }}>
+        <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", marginBottom:10 }}>How many days is your trip?</div>
+        <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+          {[1,2,3,4,5,6,7].map(n => (
+            <button key={n} onClick={() => setDays(n)} style={{ width:38, height:38, borderRadius:10, border:trip.activeDays===n?"1.5px solid #10B981":"1.5px solid rgba(240,230,211,0.15)", background:trip.activeDays===n?"rgba(16,185,129,0.2)":"rgba(255,255,255,0.04)", color:trip.activeDays===n?"#10B981":"#94a3b8", fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600 }}>
+              {n}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Day tabs */}
+      <div style={{ display:"flex", gap:6, marginBottom:16, overflowX:"auto", paddingBottom:4 }}>
+        {activeDayKeys.map(day => {
+          const count = (trip.days[day]||[]).length;
+          return (
+            <button key={day} onClick={() => { setActiveDay(day); setAdding(false); }} style={{ flexShrink:0, padding:"8px 14px", borderRadius:12, border:activeDay===day?"1.5px solid #10B981":"1.5px solid rgba(240,230,211,0.12)", background:activeDay===day?"rgba(16,185,129,0.15)":"rgba(255,255,255,0.04)", color:activeDay===day?"#10B981":"#64748b", fontSize:13, cursor:"pointer", fontFamily:"sans-serif", fontWeight:activeDay===day?600:400, display:"flex", alignItems:"center", gap:6 }}>
+              {day}
+              {count > 0 && <span style={{ background:activeDay===day?"#10B981":"rgba(255,255,255,0.1)", color:activeDay===day?"#fff":"#64748b", fontSize:10, fontWeight:700, padding:"1px 6px", borderRadius:20 }}>{count}</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Day itinerary */}
+      {dayItems.length === 0 && !adding && (
+        <div style={{ textAlign:"center", padding:"30px 0 20px", color:"#475569", fontFamily:"sans-serif", fontSize:14 }}>
+          <div style={{ fontSize:40, marginBottom:10 }}>📍</div>
+          <div style={{ marginBottom:4, color:"#64748b" }}>Nothing planned for {activeDay} yet</div>
+          <div style={{ fontSize:12, color:"#334155" }}>Tap below to start adding places</div>
+        </div>
+      )}
+
+      {dayItems.map((item, idx) => {
+        const col = CAT_COLOR_LOCAL[item.cat] || "#94a3b8";
+        const isExpanded = expandDay === item.id;
+        return (
+          <div key={item.id} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, marginBottom:10, overflow:"hidden" }}>
+            <div style={{ display:"flex", alignItems:"center", padding:"12px 14px", gap:10 }}>
+              {/* Order badge */}
+              <div style={{ width:26, height:26, borderRadius:"50%", background:col+"22", border:"1px solid "+col+"44", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:col, flexShrink:0 }}>
+                {idx+1}
+              </div>
+              <span style={{ fontSize:22 }}>{item.emoji}</span>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3" }}>{item.name}</div>
+                <div style={{ fontSize:11, color:col, fontFamily:"sans-serif", textTransform:"capitalize" }}>{item.cat}</div>
+              </div>
+              {/* Controls */}
+              <div style={{ display:"flex", gap:4 }}>
+                <button onClick={() => setExpandDay(isExpanded?null:item.id)} style={{ width:28, height:28, borderRadius:8, border:"1px solid rgba(240,230,211,0.12)", background:"rgba(255,255,255,0.05)", color:"#64748b", fontSize:13, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                  {isExpanded ? "▲" : "▼"}
+                </button>
+                <button onClick={() => moveUp(activeDay, idx)} disabled={idx===0} style={{ width:28, height:28, borderRadius:8, border:"1px solid rgba(240,230,211,0.12)", background:"rgba(255,255,255,0.05)", color:idx===0?"#334155":"#94a3b8", fontSize:12, cursor:idx===0?"default":"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>↑</button>
+                <button onClick={() => moveDown(activeDay, idx)} disabled={idx===dayItems.length-1} style={{ width:28, height:28, borderRadius:8, border:"1px solid rgba(240,230,211,0.12)", background:"rgba(255,255,255,0.05)", color:idx===dayItems.length-1?"#334155":"#94a3b8", fontSize:12, cursor:idx===dayItems.length-1?"default":"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>↓</button>
+                <button onClick={() => removePlace(activeDay, item.id)} style={{ width:28, height:28, borderRadius:8, border:"1px solid rgba(239,68,68,0.2)", background:"rgba(239,68,68,0.08)", color:"#ef4444", fontSize:14, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>×</button>
+              </div>
+            </div>
+            {/* Note input */}
+            {isExpanded && (
+              <div style={{ padding:"0 14px 12px" }}>
+                <input
+                  value={item.note}
+                  onChange={e => updateNote(activeDay, item.id, e.target.value)}
+                  placeholder="Add a personal note (e.g. 8pm reservation, bring sunscreen...)"
+                  style={{ width:"100%", boxSizing:"border-box", padding:"9px 12px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.12)", borderRadius:10, color:"#f0e6d3", fontSize:12, fontFamily:"sans-serif", outline:"none" }}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      {/* Add place button */}
+      {!adding && (
+        <button onClick={() => setAdding(true)} style={{ width:"100%", padding:"13px", background:"rgba(16,185,129,0.1)", border:"1.5px dashed rgba(16,185,129,0.4)", borderRadius:14, color:"#10B981", fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600, marginTop:4, display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}>
+          <span style={{ fontSize:18 }}>+</span> Add a place to {activeDay}
+        </button>
+      )}
+
+      {/* Place picker */}
+      {adding && (
+        <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:16, padding:"16px", marginTop:8 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+            <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3" }}>Add to {activeDay}</div>
+            <button onClick={() => { setAdding(false); setSearch(""); }} style={{ background:"none", border:"none", color:"#64748b", cursor:"pointer", fontSize:18 }}>×</button>
+          </div>
+          {/* Search */}
+          <div style={{ position:"relative", marginBottom:12 }}>
+            <span style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", fontSize:14 }}>🔍</span>
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search places..." style={{ width:"100%", boxSizing:"border-box", padding:"10px 14px 10px 36px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.12)", borderRadius:12, color:"#f0e6d3", fontSize:13, fontFamily:"sans-serif", outline:"none" }}/>
+          </div>
+          {/* Category filter */}
+          {!search && (
+            <div style={{ display:"flex", gap:6, marginBottom:12, overflowX:"auto" }}>
+              {CATS.map(c => (
+                <button key={c.key} onClick={() => setAddCat(c.key)} style={{ flexShrink:0, padding:"6px 12px", borderRadius:20, border:addCat===c.key?"1.5px solid "+c.color:"1.5px solid rgba(240,230,211,0.12)", background:addCat===c.key?c.color+"22":"rgba(255,255,255,0.04)", color:addCat===c.key?c.color:"#64748b", fontSize:12, cursor:"pointer", fontFamily:"sans-serif" }}>
+                  {c.icon} {c.label}
+                </button>
+              ))}
+            </div>
+          )}
+          {/* Results */}
+          <div style={{ maxHeight:260, overflowY:"auto" }}>
+            {searchFiltered.length === 0 && <div style={{ textAlign:"center", padding:"20px 0", color:"#475569", fontFamily:"sans-serif", fontSize:13 }}>No places found</div>}
+            {searchFiltered.map(item => {
+              const col = CAT_COLOR_LOCAL[item.cat] || "#94a3b8";
+              return (
+                <div key={item.id} onClick={() => addPlace(item)} style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 12px", borderRadius:12, marginBottom:6, cursor:"pointer", background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.06)" }}>
+                  <span style={{ fontSize:22 }}>{item.emoji}</span>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontSize:13, fontWeight:600, color:"#f0e6d3" }}>{item.name}</div>
+                    <div style={{ fontSize:11, color:col, fontFamily:"sans-serif", textTransform:"capitalize" }}>{item.cat}</div>
+                  </div>
+                  <div style={{ fontSize:18, color:"#10B981" }}>+</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Trip summary */}
+      {totalPlaces > 0 && !adding && (
+        <div style={{ marginTop:20, background:"rgba(16,185,129,0.06)", border:"1px solid rgba(16,185,129,0.2)", borderRadius:16, padding:"16px" }}>
+          <div style={{ fontSize:13, fontWeight:600, color:"#10B981", marginBottom:12, fontFamily:"sans-serif" }}>📋 Trip Summary</div>
+          {activeDayKeys.map(day => {
+            const items = trip.days[day] || [];
+            if (items.length === 0) return null;
+            return (
+              <div key={day} style={{ marginBottom:10 }}>
+                <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", fontWeight:700, textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>{day}</div>
+                {items.map((item,i) => (
+                  <div key={item.id} style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", padding:"2px 0", display:"flex", gap:8 }}>
+                    <span style={{ color:"#334155" }}>{i+1}.</span>
+                    <span>{item.emoji} {item.name}</span>
+                    {item.note && <span style={{ color:"#475569", fontStyle:"italic" }}>— {item.note}</span>}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Save button */}
+      <button onClick={handleSave} style={{ width:"100%", marginTop:16, padding:"14px", background:saved?"#10B981":"rgba(16,185,129,0.15)", border:"1.5px solid "+saved?"#10B981":"rgba(16,185,129,0.4)", borderRadius:14, color:saved?"#fff":"#10B981", fontSize:15, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600, transition:"all 0.3s" }}>
+        {saved ? "✓ Trip Saved!" : "💾 Save My Trip"}
+      </button>
+      <div style={{ textAlign:"center", fontSize:11, color:"#334155", fontFamily:"sans-serif", marginTop:6 }}>Your trip is saved to this device</div>
+    </div>
+  );
+}
+
+// ── Main App ──────────────────────────────────────────────────────────────────
+const NAV = [
+  { key:"explore", label:"Explore", icon:"🧭" },
+  { key:"events",  label:"Events",  icon:"🎉" },
+  { key:"nearby",  label:"Nearby",  icon:"📍" },
+  { key:"weather", label:"Weather", icon:"🌤️" },
+  { key:"ferry",   label:"Ferries", icon:"⛴" },
+  { key:"bus",     label:"Buses",   icon:"🚌" },
+  { key:"sos",     label:"Help",    icon:"🆘" },
+  { key:"trip",    label:"My Trip",  icon:"🗺️" },
+  { key:"islands", label:"Islands",  icon:"🏝️" },
+  { key:"listed",  label:"List Us", icon:"⭐" },
+];
+
+// ── Surrounding Islands Data ──────────────────────────────────────────────────
+const ISLANDS = [
+  {
+    id:"i1",
+    name:"Kalymnos",
+    emoji:"🧗",
+    distance:"45 min by ferry",
+    color:"#0EA5E9",
+    tagline:"The Sponge Diving & Rock Climbing Island",
+    desc:"Kalymnos is one of the most distinctive islands in the Dodecanese — a rugged, mountainous island with a proud seafaring soul. For centuries it was the sponge diving capital of the world, and the tradition is still alive today. More recently it has become one of Europe's premier rock climbing destinations, with hundreds of routes carved into its dramatic limestone cliffs. The harbour town of Pothia is colourful and lively, the beaches are uncrowded, and the food is outstanding.",
+    highlights:[
+      "World-class rock climbing on limestone cliffs",
+      "Historic sponge diving heritage and sponge factories",
+      "Pothia harbour — colourful and authentically Greek",
+      "Chrysocheria Castle with panoramic views",
+      "Outstanding fresh seafood tavernas",
+    ],
+    tip:"Take the early morning ferry and spend a full day. If you are a climber, Kalymnos deserves its own trip entirely.",
+  },
+  {
+    id:"i2",
+    name:"Pserimos",
+    emoji:"🏝️",
+    distance:"30 min by boat",
+    color:"#10B981",
+    tagline:"The Tiny Unspoilt Day Trip Island",
+    desc:"Pserimos is one of the smallest and most peaceful islands in the Aegean — barely more than a speck in the sea between Kos and Kalymnos, with fewer than 100 permanent residents. What it lacks in size it makes up for in charm. A single sandy beach, a handful of tavernas, a small whitewashed village and the gentlest pace of life imaginable. Day trippers arrive from Kos and Kalymnos in the morning and by late afternoon the island returns to silence. There are no cars, no nightlife — just the sea, the sun and a cold beer.",
+    highlights:[
+      "One beautiful sandy beach right in the village",
+      "Completely car-free and wonderfully peaceful",
+      "Simple, fresh seafood at the harbourside tavernas",
+      "Easy day trip from Kos Town or Mastichari",
+      "Ancient capers growing wild across the hills",
+    ],
+    tip:"Go on a weekday in early summer — in August it gets surprisingly crowded for such a small island. Arrive early and leave late for the best experience.",
+  },
+  {
+    id:"i3",
+    name:"Nisyros",
+    emoji:"🌋",
+    distance:"1h 30min by ferry",
+    color:"#F97316",
+    tagline:"The Volcanic Island with an Active Crater",
+    desc:"Nisyros is unlike anywhere else in Greece — a living, breathing volcanic island with an active caldera you can actually walk down into. The lunar landscape of the crater, with its bubbling sulphurous vents and alien terrain, is one of the most extraordinary sights in the Aegean. Above ground, the island is lush and beautiful, with a charming whitewashed capital Mandraki, traditional mountain villages perched on the crater rim, and some of the most authentic local food in the Dodecanese. It is also the source of natural hot springs.",
+    highlights:[
+      "Walk into an active volcanic caldera — unique in Greece",
+      "Mandraki — one of the prettiest capitals in the Dodecanese",
+      "Emborio and Nikia villages perched on the crater rim",
+      "Natural hot springs and volcanic thermal pools",
+      "Superb local cuisine — fresh fish and traditional mezedes",
+    ],
+    tip:"Nisyros is easily done as a day trip from Kos. Take the first boat, walk the crater in the cool of the morning and explore the villages before heading back. Unmissable.",
+  },
+  {
+    id:"i4",
+    name:"Tilos",
+    emoji:"🦋",
+    distance:"2h by ferry",
+    color:"#A855F7",
+    tagline:"The Eco Island of Rare Wildlife and Silence",
+    desc:"Tilos is one of the last truly unspoiled islands in the Aegean — a quiet, rugged gem between Nisyros and Symi that has resisted mass tourism completely. A pioneering hunting ban has made it a haven for rare birds and wildlife, and it was one of the first Greek islands to run entirely on renewable energy. The island has a turbulent history — Knights Hospitaller castles dot the hills, and there is a fascinating Paleontological Museum displaying the fossilised bones of dwarf elephants that once roamed here. The beaches are remote, the tavernas are honest and the pace of life is beautifully slow.",
+    highlights:[
+      "Rare bird sanctuary with exceptional wildlife",
+      "Fossilised dwarf elephant bones at the museum",
+      "Castle of the Knights above Megalo Horio",
+      "Abandoned medieval village of Mikro Horio",
+      "Pristine, uncrowded beaches and crystal water",
+    ],
+    tip:"Tilos rewards those who stay overnight. Day trippers miss the magic that comes after the ferry leaves and the island breathes again.",
+  },
+  {
+    id:"i5",
+    name:"Leros",
+    emoji:"⚓",
+    distance:"1h 30min by ferry",
+    color:"#6366F1",
+    tagline:"The Hidden Gem of History, Bays and Lush Green Hills",
+    desc:"Leros is one of the best kept secrets in the Dodecanese — a lush, green island of sheltered bays, neoclassical villages and fascinating layered history. Its natural harbour made it strategically vital throughout history, and the island played a pivotal role in World War II. The War Museum and the Battle of Leros sites are genuinely moving. The capital Platanos is charming — narrow streets of neoclassical houses beneath a Byzantine castle and a line of old windmills. The bays are calm and clear, the atmosphere unhurried, and Leros sees very little mass tourism.",
+    highlights:[
+      "WWII War Museum and Battle of Leros history",
+      "Byzantine Castle above Platanos village",
+      "Neoclassical architecture and traditional windmills",
+      "Calm, sheltered bays perfect for swimming",
+      "Authentic local tavernas with very few tourists",
+    ],
+    tip:"Leros has a wonderful art deco Italian-era architecture from the 1930s occupation — look for it in Lakki harbour. Unlike anywhere else in Greece.",
+  },
+  {
+    id:"i6",
+    name:"Symi",
+    emoji:"🎨",
+    distance:"2h 30min by ferry",
+    color:"#EC4899",
+    tagline:"The Island of Colourful Mansions and Old World Glamour",
+    desc:"Symi is simply one of the most beautiful islands in all of Greece. As your ferry enters the harbour of Yialos, you are confronted with an extraordinary amphitheatre of pastel-coloured neoclassical mansions climbing the hillside — a sight that genuinely takes your breath away. Despite being a popular day trip destination from Rhodes, Symi retains an extraordinary elegance and charm. The island was historically wealthy from shipbuilding and sponge fishing, and the grand captains' mansions reflect that golden age. The Monastery of Panormitis is one of the great pilgrimage sites of the Aegean.",
+    highlights:[
+      "Yialos harbour — one of the most beautiful in Greece",
+      "Pastel neoclassical mansions climbing the hillside",
+      "Kali Strata — 500 steps lined with grand old mansions",
+      "Monastery of Panormitis — important pilgrimage site",
+      "Secluded pebble beaches accessible by boat",
+    ],
+    tip:"Stay overnight if you can — the day trippers leave by 4pm and Symi transforms into something magical. The harbour at dusk with a glass of wine is unforgettable.",
+  },
+];
+
+// ── Events Data ───────────────────────────────────────────────────────────────
+const EVENTS = [
+  // ── This Week ──
+  {
+    id:"ev1", type:"weekly", badge:"This Week",
+    title:"Orfeas Open Air Cinema",
+    emoji:"🎬",
+    date:"Every night",
+    time:"8:00 PM – Midnight",
+    location:"Fenaretis 3, Kos Town",
+    color:"#A855F7",
+    desc:"One of the most magical experiences on Kos — watching films under the stars at this beloved open-air cinema that has been running since 1958. Films are shown in English with Greek subtitles. Comfy seating with tables, a great bar and snack kiosk.",
+    tip:"Entry is around €7 — incredible value. Grab a cold beer and a popcorn and settle in. Check their door for the current film schedule.",
+    featured:true,
+  },
+  {
+    id:"ev2", type:"weekly", badge:"This Week",
+    title:"Sunset at Zia Village",
+    emoji:"🌅",
+    date:"Every evening",
+    time:"From 7:00 PM",
+    location:"Zia Village, Mount Dikeos",
+    color:"#F97316",
+    desc:"Not an organised event as such — but every evening Zia village fills with visitors gathering at the hilltop tavernas to watch the sun set over the Aegean. A truly unmissable Kos experience with live Greek music drifting from the restaurants.",
+    tip:"Arrive at least 30 minutes before sunset. Take the bus (Line 4) or a taxi up. Book a taverna table in advance in peak season.",
+  },
+  {
+    id:"ev3", type:"weekly", badge:"This Week",
+    title:"Mylos Beach Club Night",
+    emoji:"🎧",
+    date:"Every Saturday",
+    time:"10:00 PM – Late",
+    location:"Mylos Beach Bar, Kos Town",
+    color:"#0EA5E9",
+    desc:"The biggest regular beach club night on the island. International DJs, a massive open-air dance floor and the converted windmill as a backdrop. Draws a large crowd of tourists and locals every weekend throughout the summer.",
+    tip:"Gets going properly after midnight. Check their social media for guest DJ announcements — some nights are truly special.",
+  },
+  {
+    id:"ev4", type:"weekly", badge:"This Week",
+    title:"Hippocrates Cultural Walk",
+    emoji:"🏛️",
+    date:"Every Tuesday & Thursday",
+    time:"9:00 AM",
+    location:"Tree of Hippocrates, Kos Town",
+    color:"#10B981",
+    desc:"Guided walking tour of Kos Town's ancient sites led by local archaeologists and historians. Covers the Ancient Agora, Casa Romana, Roman Odeon and the Plane Tree of Hippocrates. Maximum 15 people — intimate and informative.",
+    tip:"Book in advance as spaces fill quickly. Wear comfortable shoes and bring water — lasts about 2 hours.",
+  },
+  {
+    id:"ev5", type:"weekly", badge:"This Week",
+    title:"Sailing Sunset Cruise",
+    emoji:"⛵",
+    date:"Daily (weather permitting)",
+    time:"4:00 PM – 8:00 PM",
+    location:"Kos Harbour",
+    color:"#0EA5E9",
+    desc:"Four-hour sailing cruise around the coastline of Kos with swimming stops, snorkelling, food and an open bar. Watching the sun set from the water with a drink in hand is one of those Kos moments you'll never forget.",
+    tip:"Book through the harbour ticket booths or your hotel. Prices vary — shop around. A shared cruise is great value.",
+  },
+  // ── Seasonal & Annual ──
+  {
+    id:"ev6", type:"seasonal", badge:"Coming Soon — June",
+    title:"Hippocratia Festival",
+    emoji:"🎭",
+    date:"June – August",
+    time:"Various",
+    location:"Island-wide",
+    color:"#6366F1",
+    desc:"The island's most famous annual festival, celebrating the legacy of Hippocrates, father of medicine. Concerts, theatrical performances, art exhibitions and cultural events held across the island from June through August.",
+    tip:"The opening ceremony at the Asklepion is spectacular. Check the municipality website for the full programme each year.",
+  },
+  {
+    id:"ev7", type:"seasonal", badge:"Coming Soon — July",
+    title:"Ancient Odeon Performances",
+    emoji:"🎶",
+    date:"July & August",
+    time:"9:00 PM",
+    location:"Roman Odeon, Kos Town",
+    color:"#EAB308",
+    desc:"Live performances — theatre, dance and music — held in the ancient Roman Odeon under the stars. Part of the Hippocratia Festival programme. Watching a performance in a 2,000-year-old theatre is unforgettable.",
+    tip:"Bring a cushion — the ancient marble seats are hard! Also bring a light layer as it cools down after dark.",
+  },
+  {
+    id:"ev8", type:"seasonal", badge:"August",
+    title:"Mastichari Wine Festival",
+    emoji:"🍷",
+    date:"First week of August",
+    time:"From 7:00 PM",
+    location:"Mastichari Village",
+    color:"#A855F7",
+    desc:"A beloved local tradition — the village of Mastichari celebrates its wine production with a free festival open to all. Free wine flows all evening, accompanied by delicious food and live traditional Greek music and dancing.",
+    tip:"Completely free entry and free wine all night! Take the bus or share a taxi — you will not want to drive home.",
+  },
+  {
+    id:"ev9", type:"seasonal", badge:"August",
+    title:"Antimachia Honey Festival",
+    emoji:"🍯",
+    date:"Saturday after 15th August",
+    time:"From 6:00 PM",
+    location:"Antimachia Village",
+    color:"#F97316",
+    desc:"Antimachia celebrates its famous locally-produced honey with tastings, honey-based sweets, traditional music and folk dancing. A wonderfully authentic taste of real island life away from the tourist strip.",
+    tip:"Try the local thyme honey — it is extraordinary. You can buy jars directly from the producers. A perfect gift to take home.",
+  },
+  {
+    id:"ev10", type:"seasonal", badge:"August",
+    title:"Kefalos Fish Festival",
+    emoji:"🐟",
+    date:"First half of August",
+    time:"From 7:00 PM",
+    location:"Kefalos Village",
+    color:"#10B981",
+    desc:"The fishing village of Kefalos celebrates its maritime heritage with a fish festival featuring freshly grilled seafood, local wine, music and dancing. Part of the wider Hippocratia Festival programme.",
+    tip:"The grilled octopus and fresh sardines are the highlight. Arrive early for the best seats near the harbour.",
+  },
+  {
+    id:"ev11", type:"seasonal", badge:"May (Annual)",
+    title:"Medieval Festival — Antimachia Castle",
+    emoji:"⚔️",
+    date:"May",
+    time:"From 6:00 PM",
+    location:"Antimachia Castle",
+    color:"#ef4444",
+    desc:"A spectacular annual event that brings the medieval castle of Antimachia back to life with historical reenactments, knight tournaments, traditional crafts demonstrations and medieval music. Fascinating for all ages.",
+    tip:"One of the most unique events on the island. The castle at sunset with the knights is an incredible sight.",
+  },
+  {
+    id:"ev12", type:"seasonal", badge:"June",
+    title:"Feast of Agios Ioannis — Pyli",
+    emoji:"⛪",
+    date:"23rd June",
+    time:"From 8:00 PM",
+    location:"Pyli Village",
+    color:"#10B981",
+    desc:"Traditional Greek religious festival in honour of Saint John, held in the beautiful mountain village of Pyli. Bonfires, traditional music, dancing and food. A genuine local celebration that tourists are warmly welcomed to join.",
+    tip:"One of the most authentic local experiences you can have on Kos. The bonfires at midnight are magical.",
+  },
+];
+
+const EVENT_FILTERS = [
+  { key:"all",      label:"All",       icon:"🎉" },
+  { key:"weekly",   label:"This Week", icon:"📅" },
+  { key:"seasonal", label:"Seasonal",  icon:"🌞" },
+];
+
+function EventsTab() {
+  const [filter, setFilter] = useState("all");
+  const filtered = filter === "all" ? EVENTS : EVENTS.filter(e => e.type === filter);
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+      <div style={{ marginBottom:20 }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>What's On</div>
+        <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>Events on Kos</div>
+        <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>From nightly cinema under the stars to ancient festivals. Updated regularly.</p>
+      </div>
+
+      {/* Filter pills */}
+      <div style={{ display:"flex", gap:8, marginBottom:20 }}>
+        {EVENT_FILTERS.map(f => (
+          <button key={f.key} onClick={() => setFilter(f.key)} style={{ flex:1, padding:"10px 8px", borderRadius:12, border:filter===f.key?"1.5px solid #F97316":"1.5px solid rgba(240,230,211,0.15)", background:filter===f.key?"rgba(249,115,22,0.15)":"rgba(255,255,255,0.04)", color:filter===f.key?"#F97316":"#94a3b8", fontSize:12, cursor:"pointer", fontFamily:"sans-serif", display:"flex", flexDirection:"column", alignItems:"center", gap:3 }}>
+            <span style={{ fontSize:18 }}>{f.icon}</span>
+            <span>{f.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {filtered.map(ev => (
+        <div key={ev.id} style={{ background:"linear-gradient(135deg,"+ev.color+"12,rgba(255,255,255,0.03))", border:"1px solid "+ev.color+"35", borderRadius:18, marginBottom:14, overflow:"hidden" }}>
+          {/* Photo header */}
+          <div style={{ position:"relative", height:110 }}>
+            <img src={"https://source.unsplash.com/500x200/?"+encodeURIComponent(ev.title+" kos greece")} alt={ev.title} style={{ width:"100%", height:"100%", objectFit:"cover" }} onError={e=>{e.target.style.display="none";}}/>
+            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(6,24,40,0.92))" }}/>
+            {/* Badge */}
+            <div style={{ position:"absolute", top:10, left:10, background:ev.featured?"linear-gradient(135deg,#f59e0b,#d97706)":ev.color, color:"#fff", fontSize:10, fontFamily:"sans-serif", fontWeight:700, padding:"3px 10px", borderRadius:20, letterSpacing:1 }}>
+              {ev.featured ? "⭐ " : ""}{ev.badge}
+            </div>
+            {/* Title overlay */}
+            <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 14px", display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
+              <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", textShadow:"0 1px 4px rgba(0,0,0,0.8)" }}>{ev.title}</div>
+              <div style={{ fontSize:24 }}>{ev.emoji}</div>
+            </div>
+          </div>
+
+          {/* Details */}
+          <div style={{ padding:"14px 16px" }}>
+            {/* Meta row */}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:12 }}>
+              <div style={{ background:"rgba(255,255,255,0.05)", borderRadius:10, padding:"8px 10px" }}>
+                <div style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:3 }}>Date</div>
+                <div style={{ fontSize:12, color:"#f0e6d3", fontFamily:"sans-serif", fontWeight:600 }}>{ev.date}</div>
+              </div>
+              <div style={{ background:"rgba(255,255,255,0.05)", borderRadius:10, padding:"8px 10px" }}>
+                <div style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, marginBottom:3 }}>Time</div>
+                <div style={{ fontSize:12, color:"#f0e6d3", fontFamily:"sans-serif", fontWeight:600 }}>{ev.time}</div>
+              </div>
+            </div>
+            <div style={{ background:"rgba(255,255,255,0.05)", borderRadius:10, padding:"8px 10px", marginBottom:12, display:"flex", gap:6, alignItems:"center" }}>
+              <span style={{ fontSize:14 }}>📍</span>
+              <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>{ev.location}</div>
+            </div>
+            <p style={{ margin:"0 0 10px", fontSize:13, color:"#cbd5e1", lineHeight:1.6, fontFamily:"sans-serif" }}>{ev.desc}</p>
+            <div style={{ background:ev.color+"15", border:"1px solid "+ev.color+"30", borderRadius:10, padding:"10px 14px", display:"flex", gap:8 }}>
+              <span style={{ fontSize:14 }}>💡</span>
+              <p style={{ margin:0, fontSize:12, color:ev.color, fontFamily:"sans-serif", lineHeight:1.5 }}><strong>Tip:</strong> {ev.tip}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* Submit event CTA */}
+      <div style={{ marginTop:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:16, padding:"18px 16px", textAlign:"center" }}>
+        <div style={{ fontSize:22, marginBottom:8 }}>📣</div>
+        <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:6 }}>Got an event to add?</div>
+        <p style={{ margin:"0 0 14px", fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>Businesses and organisers can get their events listed here.</p>
+        <a href="https://wa.me/306912345678?text=Hi%2C%20I%20would%20like%20to%20list%20an%20event%20on%20Kos%20Unlocked" target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"inline-block" }}>
+          <div style={{ background:"#25D366", borderRadius:12, padding:"11px 24px", display:"inline-flex", alignItems:"center", gap:8 }}>
+            <span style={{ fontSize:18 }}>💬</span>
+            <span style={{ fontSize:14, fontWeight:700, color:"#fff", fontFamily:"sans-serif" }}>WhatsApp Us</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// Kos coordinates
+const KOS_LAT = 36.8940;
+const KOS_LNG = 27.2880;
+
+const WX_CODES = {
+  0:"Clear sky", 1:"Mainly clear", 2:"Partly cloudy", 3:"Overcast",
+  45:"Foggy", 48:"Icy fog", 51:"Light drizzle", 53:"Drizzle", 55:"Heavy drizzle",
+  61:"Light rain", 63:"Rain", 65:"Heavy rain", 71:"Light snow", 73:"Snow", 75:"Heavy snow",
+  80:"Light showers", 81:"Showers", 82:"Heavy showers", 95:"Thunderstorm", 99:"Thunderstorm with hail",
+};
+
+const WX_ICON = code => {
+  if (code === 0) return "☀️";
+  if (code <= 2)  return "🌤️";
+  if (code <= 3)  return "☁️";
+  if (code <= 48) return "🌫️";
+  if (code <= 55) return "🌦️";
+  if (code <= 65) return "🌧️";
+  if (code <= 75) return "❄️";
+  if (code <= 82) return "🌦️";
+  return "⛈️";
+};
+
+const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function WeatherTab() {
+  const { useEffect } = window.React || {};
+  const [wx, setWx] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [unit, setUnit] = useState("C");
+
+  function toF(c) { return Math.round(c * 9/5 + 32); }
+  function temp(c) { return unit === "C" ? Math.round(c) + "°C" : toF(c) + "°F"; }
+
+  const fetchWeather = () => {
+    setLoading(true);
+    setError(null);
+    fetch(
+      "https://api.open-meteo.com/v1/forecast?latitude="+KOS_LAT+"&longitude="+KOS_LNG+
+      "&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,uv_index"+
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,uv_index_max,sunrise,sunset"+
+      "&timezone=Europe%2FAthens&forecast_days=7"
+    )
+      .then(r => { if (!r.ok) throw new Error("Network error"); return r.json(); })
+      .then(data => { setWx(data); setLoading(false); })
+      .catch(() => { setError(true); setLoading(false); });
+  };
+
+  useState(() => { fetchWeather(); }, []);
+
+  if (loading) return (
+    <div style={{ padding:"24px 16px 120px" }}>
+      <div style={{ fontSize:11, letterSpacing:3, color:"#0EA5E9", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:20 }}>Live Weather</div>
+      {/* Animated placeholder skeleton */}
+      <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,0.1),rgba(6,24,40,0.4))", border:"1px solid rgba(14,165,233,0.2)", borderRadius:20, padding:"28px 20px", marginBottom:16, textAlign:"center" }}>
+        <div style={{ fontSize:72, marginBottom:8 }}>🌤️</div>
+        <div style={{ fontSize:15, color:"#94a3b8", fontFamily:"sans-serif", marginBottom:4 }}>Loading Kos weather...</div>
+        <div style={{ fontSize:13, color:"#475569", fontFamily:"sans-serif" }}>Fetching live conditions</div>
+        <div style={{ marginTop:20, display:"flex", justifyContent:"center", gap:6 }}>
+          {[0,1,2].map(i => (
+            <div key={i} style={{ width:8, height:8, borderRadius:"50%", background:"#0EA5E9", opacity:0.4, animation:"pulse 1.2s ease-in-out "+i*0.2+"s infinite" }}/>
+          ))}
+        </div>
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:10, marginBottom:12 }}>
+        {["💧","💨","🌊","☀️"].map(icon => (
+          <div key={icon} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14, padding:"14px 8px", textAlign:"center" }}>
+            <div style={{ fontSize:22, marginBottom:6 }}>{icon}</div>
+            <div style={{ height:10, background:"rgba(255,255,255,0.08)", borderRadius:6, marginBottom:4 }}/>
+            <div style={{ height:8, background:"rgba(255,255,255,0.05)", borderRadius:6, width:"60%", margin:"0 auto" }}/>
+          </div>
+        ))}
+      </div>
+      {[0,1,2,3,4,5,6].map(i => (
+        <div key={i} style={{ height:52, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.05)", borderRadius:14, marginBottom:8 }}/>
+      ))}
+      <style dangerouslySetInnerHTML={{__html:"@keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}"}}/>
+    </div>
+  );
+
+  if (error || !wx) return (
+    <div style={{ padding:"24px 16px 120px" }}>
+      <div style={{ fontSize:11, letterSpacing:3, color:"#0EA5E9", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:20 }}>Live Weather</div>
+      <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,0.1),rgba(6,24,40,0.4))", border:"1px solid rgba(14,165,233,0.2)", borderRadius:20, padding:"32px 20px", textAlign:"center", marginBottom:16 }}>
+        <div style={{ fontSize:64, marginBottom:12 }}>🌤️</div>
+        <div style={{ fontSize:20, color:"#f0e6d3", fontFamily:"Georgia,serif", marginBottom:6 }}>Kos Island, Greece</div>
+        <div style={{ fontSize:13, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.6, marginBottom:20 }}>
+          Live weather is on its way! We are connecting to our weather service — this will be available once the app is live online.
+        </div>
+        <button onClick={fetchWeather} style={{ padding:"12px 24px", background:"rgba(14,165,233,0.2)", border:"1px solid rgba(14,165,233,0.4)", borderRadius:12, color:"#0EA5E9", fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600 }}>
+          Try again
+        </button>
+      </div>
+      {/* Static Kos weather info as placeholder */}
+      <div style={{ fontSize:11, letterSpacing:3, color:"#94a3b8", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:12 }}>Typical Kos Climate</div>
+      {[
+        { month:"June – August",  desc:"Peak summer. Consistently 30–36°C, sunshine every day, very low chance of rain. Sea around 27°C.", icon:"☀️", color:"#F97316" },
+        { month:"May & September", desc:"Warm and sunny at 24–29°C. Fewer crowds, comfortable temperatures. Perfect for sightseeing.", icon:"🌤️", color:"#10B981" },
+        { month:"April & October", desc:"Mild at 18–23°C. Some cloud and occasional showers but still very pleasant. Great for exploring.", icon:"⛅", color:"#0EA5E9" },
+        { month:"November – March", desc:"Quieter season. 12–17°C, more rain. Many tourist businesses closed but the island is peaceful.", icon:"🌧️", color:"#6366F1" },
+      ].map(s => (
+        <div key={s.month} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", marginBottom:10, display:"flex", gap:12, alignItems:"flex-start" }}>
+          <div style={{ width:44, height:44, borderRadius:12, background:s.color+"18", border:"1px solid "+s.color+"30", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>
+            {s.icon}
+          </div>
+          <div>
+            <div style={{ fontSize:14, fontWeight:600, color:s.color, marginBottom:3, fontFamily:"sans-serif" }}>{s.month}</div>
+            <div style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.5 }}>{s.desc}</div>
+          </div>
+        </div>
+      ))}
+      <div style={{ marginTop:8, padding:"12px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+        <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>
+          ☀️ Kos enjoys over <strong style={{ color:"#64748b" }}>300 sunny days per year</strong> — one of the sunniest islands in the Aegean.
+        </p>
+      </div>
+    </div>
+  );
+
+  const cur = wx.current;
+  const daily = wx.daily;
+  const now = new Date();
+
+  // UV advice
+  const uvLevel = uv => uv <= 2 ? ["Low","#10B981"] : uv <= 5 ? ["Moderate","#EAB308"] : uv <= 7 ? ["High","#F97316"] : uv <= 10 ? ["Very High","#ef4444"] : ["Extreme","#A855F7"];
+  const [uvLabel, uvColor] = uvLevel(cur.uv_index);
+
+  // Sea temp (estimated from air — Aegean is typically air -4°C in summer)
+  const seaTemp = Math.round(cur.temperature_2m - 3);
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+
+      {/* Header */}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:20 }}>
+        <div>
+          <div style={{ fontSize:11, letterSpacing:3, color:"#0EA5E9", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Live Weather</div>
+          <div style={{ fontSize:20, fontWeight:400, color:"#f0e6d3" }}>Kos Island, Greece</div>
+          <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", marginTop:2 }}>
+            {DAYS[now.getDay()]} {now.getDate()} {MONTHS[now.getMonth()]}
+          </div>
+        </div>
+        {/* C/F toggle */}
+        <div style={{ display:"flex", background:"rgba(255,255,255,0.06)", borderRadius:10, padding:3, gap:2 }}>
+          {["C","F"].map(u => (
+            <button key={u} onClick={() => setUnit(u)} style={{ padding:"6px 12px", borderRadius:8, border:"none", cursor:"pointer", fontSize:13, fontFamily:"sans-serif", fontWeight:600, background:unit===u?"rgba(14,165,233,0.3)":"transparent", color:unit===u?"#0EA5E9":"#64748b" }}>
+              °{u}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Current conditions hero */}
+      <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,0.15),rgba(6,24,40,0.4))", border:"1px solid rgba(14,165,233,0.25)", borderRadius:20, padding:"24px 20px", marginBottom:16 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+          <div>
+            <div style={{ fontSize:64, fontWeight:200, color:"#f0e6d3", lineHeight:1, fontFamily:"sans-serif" }}>
+              {temp(cur.temperature_2m)}
+            </div>
+            <div style={{ fontSize:14, color:"#94a3b8", fontFamily:"sans-serif", marginTop:4 }}>
+              Feels like {temp(cur.apparent_temperature)}
+            </div>
+            <div style={{ fontSize:15, color:"#cbd5e1", fontFamily:"sans-serif", marginTop:4 }}>
+              {WX_CODES[cur.weather_code] || "Clear"}
+            </div>
+          </div>
+          <div style={{ fontSize:72, lineHeight:1 }}>{WX_ICON(cur.weather_code)}</div>
+        </div>
+
+        {/* Stats row */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:8 }}>
+          {[
+            ["💧", cur.relative_humidity_2m+"%", "Humidity"],
+            ["💨", Math.round(cur.wind_speed_10m)+" km/h", "Wind"],
+            ["🌊", temp(seaTemp), "Sea"],
+            ["☀️", "UV "+Math.round(cur.uv_index), uvLabel],
+          ].map(([icon,val,label]) => (
+            <div key={label} style={{ background:"rgba(255,255,255,0.05)", borderRadius:12, padding:"10px 8px", textAlign:"center" }}>
+              <div style={{ fontSize:18, marginBottom:4 }}>{icon}</div>
+              <div style={{ fontSize:13, fontWeight:600, color:label===uvLabel?uvColor:"#f0e6d3", fontFamily:"sans-serif" }}>{val}</div>
+              <div style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", marginTop:2 }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sunrise / Sunset */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:16 }}>
+        {[
+          ["🌅","Sunrise", daily.sunrise[0].slice(11)],
+          ["🌇","Sunset",  daily.sunset[0].slice(11)],
+        ].map(([icon,label,time]) => (
+          <div key={label} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ fontSize:24 }}>{icon}</span>
+            <div>
+              <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif" }}>{label}</div>
+              <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>{time}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 7-day forecast */}
+      <div style={{ marginBottom:4 }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:"#94a3b8", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:12 }}>7-Day Forecast</div>
+        {daily.time.map((date, i) => {
+          const d = new Date(date);
+          const isToday = i === 0;
+          const rainProb = daily.precipitation_probability_max[i];
+          return (
+            <div key={date} style={{ display:"flex", alignItems:"center", padding:"12px 14px", background:isToday?"rgba(14,165,233,0.08)":"rgba(255,255,255,0.03)", border:isToday?"1px solid rgba(14,165,233,0.2)":"1px solid rgba(240,230,211,0.06)", borderRadius:14, marginBottom:8 }}>
+              <div style={{ width:40, fontSize:13, color:isToday?"#0EA5E9":"#94a3b8", fontFamily:"sans-serif", fontWeight:isToday?700:400 }}>
+                {isToday ? "Today" : DAYS[d.getDay()]}
+              </div>
+              <div style={{ fontSize:26, marginRight:12 }}>{WX_ICON(daily.weather_code[i])}</div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif" }}>{WX_CODES[daily.weather_code[i]]}</div>
+                {rainProb > 20 && <div style={{ fontSize:11, color:"#38bdf8", fontFamily:"sans-serif" }}>💧 {rainProb}% rain</div>}
+              </div>
+              <div style={{ textAlign:"right", fontFamily:"sans-serif" }}>
+                <span style={{ fontSize:14, fontWeight:600, color:"#f0e6d3" }}>{temp(daily.temperature_2m_max[i])}</span>
+                <span style={{ fontSize:12, color:"#64748b", marginLeft:6 }}>{temp(daily.temperature_2m_min[i])}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Smart activity recommendations */}
+      {(() => {
+        const wind = cur.wind_speed_10m;
+        const code = cur.weather_code;
+        const windDir = cur.wind_direction_10m || 0;
+        const uv = cur.uv_index || 0;
+
+        // Wind direction helpers
+        // Kos: N/NW winds (300-360, 0-60) = Meltemi — choppy north coast, calm south
+        // S/SW winds (180-270) = calm north coast, good for north beach swimming
+        // E winds = generally light and calm
+        const isMeltemi = (windDir >= 300 || windDir <= 60) && wind > 20;
+        const isSouthWind = windDir > 160 && windDir < 280;
+        const isRaining = code >= 61;
+        const isStormy = code >= 80 || wind > 50;
+        const isCalmAndSunny = wind < 15 && code < 3;
+        const isLightBreeze = wind >= 15 && wind < 25 && code < 61;
+        const isWindy = wind >= 25 && wind < 45 && code < 61;
+        const isVeryWindy = wind >= 45 && code < 61;
+
+        // Build activity cards
+        let conditions = [];
+
+        if (isStormy) {
+          conditions = [
+            { icon:"🏛️", color:"#10B981", title:"Perfect for Sightseeing", desc:"Skip the beach today. Head to the Asklepion, Castle of the Knights or Casa Romana — all incredible and all indoors or sheltered.", beach:null },
+            { icon:"🎬", color:"#A855F7", title:"Orfeas Open Air Cinema", desc:"Check if Orfeas is showing tonight — a stormy evening under cover with a film is a great Plan B.", beach:null },
+            { icon:"🍽️", color:"#F97316", title:"Long Lunch Day", desc:"Take your time over a proper Greek lunch at a taverna. Today is made for slow eating and cold wine.", beach:null },
+          ];
+        } else if (isRaining) {
+          conditions = [
+            { icon:"🏺", color:"#10B981", title:"Archaeological Museum", desc:"One of the best in the Dodecanese. The mosaic of Hippocrates alone is worth the visit.", beach:null },
+            { icon:"🛒", color:"#EAB308", title:"Covered Market & Old Town", desc:"Explore the covered bazaar and the old town streets — great for local honey, ceramics and souvenirs.", beach:null },
+            { icon:"☕", color:"#0EA5E9", title:"Café Day in Eleftherias Square", desc:"Pull up a chair in the central square, order a Greek coffee and watch the rain. Bliss.", beach:null },
+          ];
+        } else if (isCalmAndSunny) {
+          conditions = [
+            { icon:"🏊", color:"#0EA5E9", title:"Ideal Swimming Conditions", desc:"Flat calm sea, clear skies, zero wind. All beaches are perfect today. Best day to visit the more exposed spots like Cavo Paradiso or Agios Theologos.", beach:"All beaches — especially Cavo Paradiso & Agios Theologos" },
+            { icon:"🤿", color:"#0EA5E9", title:"Excellent Snorkelling & Diving", desc:"Maximum underwater visibility today. Head to Agios Fokas or Psalidi for snorkelling, or book a dive at the Kefalos sites.", beach:"Agios Fokas, Psalidi, Kefalos" },
+            { icon:"🚴", color:"#10B981", title:"Perfect Cycling Day", desc:"No wind, dry roads, sunshine. Ideal for cycling the coastal path or heading up to Zia on two wheels.", beach:null },
+            { icon:"⛵", color:"#6366F1", title:"Sunset Cruise Tonight", desc:"Flat calm makes for perfect sailing. Book a sunset cruise from the harbour — conditions don't get better than this.", beach:null },
+          ];
+        } else if (isMeltemi) {
+          conditions = [
+            { icon:"🏄", color:"#0EA5E9", title:"Prime Windsurfing & Kitesurfing", desc:"The Meltemi is blowing! North coast conditions are world-class right now. Marmari and Mastichari are firing. Get on the water.", beach:"Marmari, Mastichari, Psalidi" },
+            { icon:"🏊", color:"#10B981", title:"Swim on the South Coast", desc:"North coast is choppy today — but the south coast is sheltered from the Meltemi. Head to Kefalos, Agios Theologos or Limnionas for calm clear water.", beach:"Kefalos, Agios Theologos, Limnionas, Camel Beach" },
+            { icon:"🧗", color:"#F97316", title:"Day Trip to Kalymnos", desc:"Meltemi means rock climbing conditions in Kalymnos are perfect. Take the morning ferry and spend the day on the cliffs.", beach:null },
+            { icon:"🚙", color:"#EAB308", title:"Jeep Safari Inland", desc:"Wind too strong for the beach? Head into the hills — Zia, Pyli and the mountain villages are sheltered and beautiful.", beach:null },
+          ];
+        } else if (isSouthWind && isWindy) {
+          conditions = [
+            { icon:"🏊", color:"#0EA5E9", title:"North Coast Calm Today", desc:"South winds mean the north coast beaches are sheltered and calm. Tigaki, Marmari and Mastichari will have flat water.", beach:"Tigaki, Marmari, Mastichari, Lambi" },
+            { icon:"🤿", color:"#10B981", title:"Good Snorkelling — North Beaches", desc:"Calm water on the north coast means excellent visibility for snorkelling today.", beach:"Tigaki, Psalidi, Lambi" },
+            { icon:"⛵", color:"#6366F1", title:"Sailing Conditions", desc:"A south breeze makes for pleasant sailing. Check with harbour operators for conditions before booking.", beach:null },
+          ];
+        } else if (isLightBreeze) {
+          conditions = [
+            { icon:"🏊", color:"#0EA5E9", title:"Great Swimming Everywhere", desc:"Light breeze keeps things comfortable without disturbing the sea. All beaches are in good condition today.", beach:"All beaches" },
+            { icon:"🚴", color:"#10B981", title:"Ideal for Cycling", desc:"A light breeze is perfect cycling weather. Head along the coastal path or up toward the villages.", beach:null },
+            { icon:"🎣", color:"#EC4899", title:"Good Fishing Conditions", desc:"Light winds are ideal for shore fishing. Contact Dream Catch Kos for a session at one of their secret spots.", beach:null },
+            { icon:"🏄", color:"#A855F7", title:"Beginner Windsurfing", desc:"Light and consistent breeze — perfect conditions for learning to windsurf. Schools at Marmari welcome all levels.", beach:"Marmari" },
+          ];
+        } else if (isWindy) {
+          conditions = [
+            { icon:"🏄", color:"#0EA5E9", title:"Windsurfing & Kitesurfing", desc:"Good wind today — north coast conditions are ideal for intermediate and advanced riders. Marmari schools are open.", beach:"Marmari, Mastichari" },
+            { icon:"🏊", color:"#10B981", title:"Seek Sheltered Beaches", desc:"Avoid exposed north-facing beaches today. The south and southwest coastline will be much calmer.", beach:"Kefalos, Agios Theologos, Camel Beach, Limnionas" },
+            { icon:"🚙", color:"#EAB308", title:"Explore the Villages", desc:"A breezy day is perfect for heading inland to Zia, Pyli or Antimachia — cooler, sheltered and beautiful.", beach:null },
+          ];
+        } else if (isVeryWindy) {
+          conditions = [
+            { icon:"🏄", color:"#0EA5E9", title:"Expert Kite & Windsurf Conditions", desc:"Strong winds — advanced riders only. Check with schools at Marmari before heading out. Not recommended for beginners.", beach:"Marmari (advanced only)" },
+            { icon:"🏛️", color:"#10B981", title:"Sightseeing Day", desc:"Too windy for the beach. A great day for the Asklepion, archaeological sites or a drive around the island.", beach:null },
+            { icon:"🍽️", color:"#F97316", title:"Taverna Lunch in a Village", desc:"Head to Zia or Pyli for lunch — sheltered, beautiful and the food is outstanding.", beach:null },
+          ];
+        }
+
+        // UV warning if needed
+        if (uv >= 8 && !isRaining) {
+          conditions.push({ icon:"🧴", color:"#ef4444", title:"Very High UV — Protect Yourself", desc:"UV index is "+Math.round(uv)+" today — very high. High-factor sunscreen essential, reapply every 2 hours. Seek shade between 12pm and 4pm.", beach:null });
+        }
+
+        return (
+          <div style={{ marginTop:16 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#94a3b8", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:12 }}>Today's Activity Guide</div>
+            {conditions.map((c, i) => (
+              <div key={i} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid "+c.color+"30", borderRadius:14, padding:"14px 16px", marginBottom:10 }}>
+                <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
+                  <div style={{ width:40, height:40, borderRadius:12, background:c.color+"18", border:"1px solid "+c.color+"30", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>
+                    {c.icon}
+                  </div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:4, fontFamily:"sans-serif" }}>{c.title}</div>
+                    <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.5 }}>{c.desc}</div>
+                    {c.beach && (
+                      <div style={{ marginTop:6, display:"flex", alignItems:"center", gap:5 }}>
+                        <span style={{ fontSize:11 }}>📍</span>
+                        <span style={{ fontSize:11, color:c.color, fontFamily:"sans-serif" }}>{c.beach}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+
+      <div style={{ marginTop:10, textAlign:"center", fontSize:11, color:"#334155", fontFamily:"sans-serif" }}>
+        Powered by Open-Meteo · Updates hourly
+      </div>
+    </div>
+  );
+}
+
+const NEARBY_CATS = [
+  { key:"supermarket", label:"Markets",   icon:"🛒", color:"#10B981", query:"supermarket|mini market" },
+  { key:"pharmacy",    label:"Pharmacy",  icon:"💊", color:"#ef4444", query:"pharmacy|apothecary" },
+  { key:"bicycle",     label:"Bike Hire", icon:"🛵", color:"#F97316", query:"bike rental|scooter rental|bicycle hire" },
+];
+
+function NearbyTab() {
+  const [activeCat, setActiveCat] = useState("supermarket");
+  const [location, setLocation] = useState(null);
+  const [locError, setLocError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState([]);
+  const [searched, setSearched] = useState(false);
+
+  const cat = NEARBY_CATS.find(c => c.key === activeCat);
+
+  function getLocation() {
+    setLoading(true);
+    setLocError(null);
+    setResults([]);
+    setSearched(false);
+    if (!navigator.geolocation) {
+      setLocError("Geolocation is not supported by your browser.");
+      setLoading(false);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setLoading(false);
+        setSearched(true);
+      },
+      err => {
+        setLocError("Could not get your location. Please make sure location access is enabled for this site.");
+        setLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  // Open Google Maps search near the user
+  function openMapsSearch() {
+    if (!location) return;
+    const query = encodeURIComponent(cat.query + " near me");
+    const url = "https://www.google.com/maps/search/" + query + "/@" + location.lat + "," + location.lng + ",15z";
+    window.open(url, "_blank");
+  }
+
+  // Build direct Google Maps links for common spots
+  function buildPlaceLink(lat, lng, name) {
+    return "https://www.google.com/maps/search/" + encodeURIComponent(name) + "/@" + lat + "," + lng + ",17z";
+  }
+
+  // Haversine distance in km
+  function dist(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2-lat1) * Math.PI/180;
+    const dLng = (lng2-lng1) * Math.PI/180;
+    const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  // Static known locations for common places on Kos (fallback when Maps API not available)
+  const KNOWN_PLACES = {
+    supermarket: [
+      { name:"AB Vassilopoulos Kos Town",    lat:36.8938, lng:27.2882, note:"Large supermarket, full range" },
+      { name:"Lidl Kos",                     lat:36.8870, lng:27.2710, note:"Budget supermarket, great for basics" },
+      { name:"Sklavenitis Kos",              lat:36.8855, lng:27.2695, note:"Large Greek supermarket chain" },
+      { name:"Super Market Tigaki",          lat:36.8660, lng:27.0690, note:"Convenient for Tigaki area" },
+      { name:"Mini Market Kardamena",        lat:36.7842, lng:27.1338, note:"Local mini market in Kardamena" },
+      { name:"Mini Market Mastichari",       lat:36.8465, lng:27.0068, note:"Handy for Mastichari visitors" },
+      { name:"Bazaar Supermarket Kos Town",  lat:36.8930, lng:27.2860, note:"Central location, long opening hours" },
+      { name:"Mini Market Kefalos",          lat:36.7380, lng:26.9980, note:"Serves the Kefalos peninsula area" },
+    ],
+    pharmacy: [
+      { name:"Pharmacy Kos Town Centre",     lat:36.8940, lng:27.2875, note:"Central pharmacy, English spoken" },
+      { name:"Farmakeio Nafklirou",          lat:36.8912, lng:27.2868, note:"Near Bar Street, handy for tourists" },
+      { name:"Pharmacy Tigaki",              lat:36.8655, lng:27.0685, note:"Serves the Tigaki beach area" },
+      { name:"Pharmacy Kardamena",           lat:36.7845, lng:27.1342, note:"Main pharmacy in Kardamena resort" },
+      { name:"Farmakeio Mastichari",         lat:36.8460, lng:27.0062, note:"Local pharmacy near the port" },
+      { name:"Pharmacy Kefalos",             lat:36.7375, lng:26.9975, note:"Serves the southwest of the island" },
+      { name:"24hr Pharmacy Kos (rota)",     lat:36.8935, lng:27.2878, note:"Dial 1434 to find current 24hr pharmacy" },
+    ],
+    bicycle: [
+      { name:"George's Bike Rental Kos",     lat:36.8935, lng:27.2872, note:"Scooters, bikes & quads. Very popular." },
+      { name:"Moto Fun Kos Town",            lat:36.8928, lng:27.2865, note:"Wide range of bikes and scooters" },
+      { name:"Kos Rentals Harbour",          lat:36.8958, lng:27.2932, note:"Bikes and scooters near the port" },
+      { name:"Auto Moto Tigaki",             lat:36.8658, lng:27.0688, note:"Rentals in the Tigaki area" },
+      { name:"Speed Rentals Kardamena",      lat:36.7840, lng:27.1336, note:"Bikes, scooters and quads" },
+      { name:"Mastichari Bike Hire",         lat:36.8462, lng:27.0065, note:"Convenient for exploring the north" },
+      { name:"Kefalos Moto Rentals",         lat:36.7378, lng:26.9978, note:"Base yourself in the south and explore" },
+      { name:"Paradise Rentals",             lat:36.7838, lng:27.1170, note:"Near Paradise Beach — scooters only" },
+    ],
+  };
+
+  const sortedPlaces = location
+    ? [...(KNOWN_PLACES[activeCat]||[])].sort((a,b) => dist(location.lat,location.lng,a.lat,a.lng) - dist(location.lat,location.lng,b.lat,b.lng))
+    : KNOWN_PLACES[activeCat]||[];
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+      <div style={{ marginBottom:20 }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:"#10B981", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Find Nearby</div>
+        <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>What do you need?</div>
+        <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>Share your location to see the closest places first.</p>
+      </div>
+
+      {/* Category pills */}
+      <div style={{ display:"flex", gap:8, marginBottom:20 }}>
+        {NEARBY_CATS.map(c => (
+          <button key={c.key} onClick={() => { setActiveCat(c.key); setSearched(false); setResults([]); }} style={{ flex:1, padding:"12px 8px", borderRadius:14, border:activeCat===c.key?"1.5px solid "+c.color:"1.5px solid rgba(240,230,211,0.15)", background:activeCat===c.key?c.color+"22":"rgba(255,255,255,0.04)", color:activeCat===c.key?c.color:"#94a3b8", fontSize:12, cursor:"pointer", fontFamily:"sans-serif", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
+            <span style={{ fontSize:24 }}>{c.icon}</span>
+            <span>{c.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Location button */}
+      {!searched && (
+        <button onClick={getLocation} disabled={loading} style={{ width:"100%", padding:"14px", background:loading?"rgba(255,255,255,0.04)":"linear-gradient(135deg,"+cat.color+","+cat.color+"cc)", border:"none", borderRadius:14, color:"#fff", fontSize:15, cursor:loading?"not-allowed":"pointer", fontFamily:"sans-serif", fontWeight:600, marginBottom:16, display:"flex", alignItems:"center", justifyContent:"center", gap:8, opacity:loading?0.7:1 }}>
+          {loading ? (
+            <><span style={{ display:"inline-block", width:16, height:16, border:"2px solid rgba(255,255,255,0.3)", borderTopColor:"#fff", borderRadius:"50%", animation:"spin 0.8s linear infinite" }}/> Getting your location...</>
+          ) : (
+            <><span>📍</span> Find Nearest {cat.label}</>
+          )}
+        </button>
+      )}
+
+      {locError && (
+        <div style={{ background:"#ef444418", border:"1px solid #ef444440", borderRadius:12, padding:"12px 16px", marginBottom:16, fontSize:13, color:"#ef4444", fontFamily:"sans-serif", lineHeight:1.5 }}>
+          ⚠️ {locError}
+        </div>
+      )}
+
+      {/* Results */}
+      {(searched || true) && sortedPlaces.map((place, i) => {
+        const d = location ? dist(location.lat, location.lng, place.lat, place.lng) : null;
+        return (
+          <a key={i} href={buildPlaceLink(place.lat, place.lng, place.name)} target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginBottom:10 }}>
+            <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12, transition:"all 0.2s" }}>
+              <div style={{ width:44, height:44, borderRadius:12, background:cat.color+"20", border:"1px solid "+cat.color+"40", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>
+                {cat.icon}
+              </div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:2 }}>{place.name}</div>
+                <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif" }}>{place.note}</div>
+              </div>
+              <div style={{ textAlign:"right", flexShrink:0 }}>
+                {d !== null && (
+                  <div style={{ fontSize:13, fontWeight:600, color:cat.color, fontFamily:"sans-serif" }}>
+                    {d < 1 ? Math.round(d*1000)+"m" : d.toFixed(1)+"km"}
+                  </div>
+                )}
+                <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", marginTop:2 }}>Open Maps ↗</div>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+
+      {searched && (
+        <button onClick={openMapsSearch} style={{ width:"100%", marginTop:8, padding:"13px", background:"rgba(255,255,255,0.04)", border:"1px solid "+cat.color+"40", borderRadius:14, color:cat.color, fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600 }}>
+          🗺️ Search More on Google Maps
+        </button>
+      )}
+
+      {searched && (
+        <button onClick={() => { setSearched(false); setLocation(null); }} style={{ width:"100%", marginTop:8, padding:"11px", background:"none", border:"none", color:"#475569", fontSize:13, cursor:"pointer", fontFamily:"sans-serif" }}>
+          Reset location
+        </button>
+      )}
+
+      <style dangerouslySetInnerHTML={{__html:"@keyframes spin { to { transform: rotate(360deg); } }"}}/>
+    </div>
+  );
+}
+
+function App() {
+  const [places, setPlaces] = useState(loadPlaces);
+  const [nav, setNav] = useState("explore");
+  const [mapMode, setMapMode] = useState(false);
+  const [activeCat, setActiveCat] = useState("beaches");
+  const [selected, setSelected] = useState(null);
+  const [search, setSearch] = useState("");
+  const [openTT, setOpenTT] = useState(null);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [adminPrompt, setAdminPrompt] = useState(false);
+  const [adminPw, setAdminPw] = useState("");
+  const [adminError, setAdminError] = useState(false);
+  const [tapCount, setTapCount] = useState(0);
+
+  const ALL_PLACES = useMemo(() => Object.values(places).flat(), [places]);
+
+  const searchResults = useMemo(() => {
+    if (!search.trim()) return null;
+    const q = search.toLowerCase();
+    return ALL_PLACES.filter(i => i.name.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q) || i.cat.includes(q));
+  }, [search, ALL_PLACES]);
+
+  const listItems = useMemo(() => {
+    const base = searchResults || places[activeCat] || [];
+    return [...base].sort((a, b) => {
+      // Featured/paying businesses first
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      // Then by rating descending
+      return parseFloat(b.rating) - parseFloat(a.rating);
+    });
+  }, [searchResults, places, activeCat]);
+  const mapItems = searchResults || ALL_PLACES;
+
+  function handleSelect(item) {
+    setSelected(selected && selected.id === item.id ? null : item);
+    if (!mapMode && item.cat !== activeCat) setActiveCat(item.cat);
+  }
+
+  function handleLogoTap() {
+    const next = tapCount + 1;
+    setTapCount(next);
+    if (next >= 5) { setAdminPrompt(true); setTapCount(0); }
+  }
+
+  function handleAdminLogin() {
+    if (adminPw === ADMIN_PASSWORD) {
+      setAdminPrompt(false); setAdminPw(""); setAdminError(false); setShowAdmin(true);
+    } else {
+      setAdminError(true);
+    }
+  }
+
+  function handleSavePlaces(updated) {
+    setPlaces(updated);
+    savePlaces(updated);
+  }
+
+  return (
+    <div style={{ fontFamily:"Georgia, serif", background:"linear-gradient(160deg,#0a1628 0%,#0d2040 50%,#0a1a35 100%)", minHeight:"100vh", color:"#f0e6d3", maxWidth:430, margin:"0 auto", position:"relative" }}>
+      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, background:"radial-gradient(ellipse at 20% 20%,rgba(14,165,233,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(168,85,247,0.06) 0%,transparent 60%)", pointerEvents:"none", zIndex:0 }}/>
+
+      {showAdmin && <AdminPanel places={places} onSave={handleSavePlaces} onClose={() => setShowAdmin(false)}/>}
+
+      {adminPrompt && (
+        <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, background:"rgba(0,0,0,0.7)", zIndex:200, display:"flex", alignItems:"center", justifyContent:"center", padding:24 }}>
+          <div style={{ background:"#0d2040", border:"1px solid rgba(240,230,211,0.15)", borderRadius:20, padding:28, width:"100%", maxWidth:340 }}>
+            <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", marginBottom:6 }}>Admin Access</div>
+            <div style={{ fontSize:13, color:"#64748b", fontFamily:"sans-serif", marginBottom:18 }}>Enter your password to manage places.</div>
+            <input type="password" value={adminPw} onChange={e => { setAdminPw(e.target.value); setAdminError(false); }} onKeyDown={e => e.key==="Enter" && handleAdminLogin()} placeholder="Password" style={{ width:"100%", boxSizing:"border-box", padding:"12px 14px", background:"rgba(255,255,255,0.06)", border:adminError?"1px solid #ef4444":"1px solid rgba(240,230,211,0.15)", borderRadius:12, color:"#f0e6d3", fontSize:14, fontFamily:"sans-serif", outline:"none", marginBottom:8 }}/>
+            {adminError && <div style={{ fontSize:12, color:"#ef4444", fontFamily:"sans-serif", marginBottom:8 }}>Incorrect password</div>}
+            <div style={{ display:"flex", gap:10, marginTop:4 }}>
+              <button onClick={handleAdminLogin} style={{ flex:1, padding:"12px", background:"#0EA5E9", border:"none", borderRadius:12, color:"#fff", fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600 }}>Enter</button>
+              <button onClick={() => { setAdminPrompt(false); setAdminPw(""); setAdminError(false); }} style={{ padding:"12px 16px", background:"rgba(255,255,255,0.06)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:12, color:"#94a3b8", fontSize:14, cursor:"pointer", fontFamily:"sans-serif" }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div style={{ position:"relative", zIndex:1, padding:"48px 24px 16px", borderBottom:"1px solid rgba(240,230,211,0.08)" }}>
+        <div style={{ fontSize:11, letterSpacing:4, color:"#94a3b8", textTransform:"uppercase", marginBottom:6, fontFamily:"sans-serif" }}>Your Local Island Guide</div>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
+          <div onClick={handleLogoTap} style={{ cursor:"default", userSelect:"none", display:"flex", alignItems:"center", gap:12 }}>
+            <div style={{ width:48, height:48, borderRadius:12, background:"linear-gradient(135deg,#0d3a5c,#061828)", border:"1px solid rgba(14,165,233,0.3)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+              <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+                <circle cx="38" cy="36" r="18" stroke="#f59e0b" strokeWidth="10"/>
+                <circle cx="38" cy="36" r="7" stroke="#f59e0b" strokeWidth="5"/>
+                <line x1="50" y1="48" x2="76" y2="74" stroke="#f59e0b" strokeWidth="10" strokeLinecap="round"/>
+                <line x1="67" y1="63" x2="76" y2="72" stroke="#f59e0b" strokeWidth="8" strokeLinecap="round"/>
+                <line x1="67" y1="63" x2="76" y2="55" stroke="#f59e0b" strokeWidth="7" strokeLinecap="round"/>
+                <line x1="57" y1="73" x2="66" y2="65" stroke="#f59e0b" strokeWidth="7" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontSize:26, fontWeight:700, fontFamily:"Georgia, serif", letterSpacing:3, background:"linear-gradient(135deg,#f0e6d3 40%,#38bdf8 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", lineHeight:1.1 }}>KOS</div>
+              <div style={{ fontSize:11, fontWeight:400, color:"#e8a020", letterSpacing:5, fontFamily:"Georgia, serif" }}>UNLOCKED</div>
+            </div>
+          </div>
+          {nav==="explore" && (
+            <div style={{ display:"flex", background:"rgba(255,255,255,0.06)", borderRadius:12, padding:4, gap:2 }}>
+              {[["list","&#9776; List"],["map","&#128506; Map"]].map(([v,label]) => (
+                <button key={v} onClick={() => setMapMode(v==="map")} style={{ padding:"8px 12px", borderRadius:9, border:"none", cursor:"pointer", fontSize:12, fontFamily:"sans-serif", background:(mapMode?(v==="map"):(v==="list"))?"rgba(14,165,233,0.25)":"transparent", color:(mapMode?(v==="map"):(v==="list"))?"#0EA5E9":"#64748b" }} dangerouslySetInnerHTML={{ __html:label }}/>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Explore */}
+      {nav==="explore" && (
+        <div style={{ position:"relative", zIndex:1 }}>
+          <div style={{ padding:"14px 16px 0" }}>
+            <div style={{ position:"relative" }}>
+              <span style={{ position:"absolute", left:14, top:"50%", transform:"translateY(-50%)", fontSize:16 }}>&#128269;</span>
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search beaches, bars, sights..." style={{ width:"100%", boxSizing:"border-box", padding:"12px 16px 12px 40px", background:"rgba(255,255,255,0.06)", border:search?"1px solid rgba(14,165,233,0.4)":"1px solid rgba(240,230,211,0.1)", borderRadius:14, color:"#f0e6d3", fontSize:14, fontFamily:"sans-serif", outline:"none" }}/>
+              {search && <button onClick={() => setSearch("")} style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"#64748b", cursor:"pointer", fontSize:16 }}>&#10005;</button>}
+            </div>
+            {searchResults && <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", marginTop:6, paddingLeft:4 }}>{searchResults.length} result{searchResults.length!==1?"s":""} for "{search}"</div>}
+          </div>
+
+          {mapMode ? (
+            <div style={{ paddingTop:16 }}>
+              <MapView items={mapItems} onSelect={handleSelect} selected={selected}/>
+              {selected ? (
+                <div style={{ margin:"12px 16px 0", border:"1px solid "+CAT_COLOR[selected.cat]+"44", borderRadius:16, overflow:"hidden" }}>
+                  <div style={{ position:"relative", height:120 }}>
+                    <img src={getPhotoUrl(selected.id, 500)} alt={selected.name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} onError={e=>{e.target.style.display="none";}}/>
+                    <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(6,24,40,0.9))" }}/>
+                    <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 16px", display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
+                      <div>
+                        <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", textShadow:"0 1px 4px rgba(0,0,0,0.8)" }}>{selected.name}</div>
+                        <div style={{ fontSize:12, color:"#fcd34d", fontFamily:"sans-serif" }}>&#11088; {selected.rating}</div>
+                      </div>
+                      <span style={{ fontSize:22 }}>{selected.emoji}</span>
+                    </div>
+                  </div>
+                  <div style={{ padding:16, background:"linear-gradient(135deg,"+CAT_COLOR[selected.cat]+"12,rgba(255,255,255,0.03))" }}>
+                    <p style={{ margin:"0 0 10px", fontSize:13, color:"#cbd5e1", lineHeight:1.6, fontFamily:"sans-serif" }}>{selected.desc}</p>
+                    <div style={{ background:CAT_COLOR[selected.cat]+"18", border:"1px solid "+CAT_COLOR[selected.cat]+"33", borderRadius:10, padding:"10px 14px", display:"flex", gap:8 }}>
+                      <span>&#128161;</span>
+                      <p style={{ margin:0, fontSize:12, color:CAT_COLOR[selected.cat], fontFamily:"sans-serif", lineHeight:1.5 }}><strong>Local tip:</strong> {selected.tip}</p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p style={{ textAlign:"center", color:"#475569", fontSize:13, fontFamily:"sans-serif", marginTop:16, fontStyle:"italic" }}>Tap a dot on the map to see details</p>
+              )}
+              <div style={{ height:100 }}/>
+            </div>
+          ) : (
+            <div>
+              {!searchResults && (
+                <div style={{ display:"flex", gap:8, padding:"14px 16px 0", overflowX:"auto" }}>
+                  {CATS.map(cat => (
+                    <button key={cat.key} onClick={() => { setActiveCat(cat.key); setSelected(null); }} style={{ flexShrink:0, padding:"9px 16px", borderRadius:50, border:activeCat===cat.key?"1.5px solid "+cat.color:"1.5px solid rgba(240,230,211,0.15)", background:activeCat===cat.key?cat.color+"22":"rgba(255,255,255,0.04)", color:activeCat===cat.key?cat.color:"#94a3b8", fontSize:13, cursor:"pointer", display:"flex", alignItems:"center", gap:6, fontFamily:"sans-serif" }}>
+                      <span>{cat.icon}</span><span>{cat.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {/* Disclaimer */}
+              <div style={{ margin:"12px 16px 0", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.07)", borderRadius:12, padding:"10px 14px", display:"flex", gap:8, alignItems:"flex-start" }}>
+                <span style={{ fontSize:13, flexShrink:0, opacity:0.6 }}>ℹ️</span>
+                <p style={{ margin:0, fontSize:11, color:"#475569", fontFamily:"sans-serif", lineHeight:1.5 }}>
+                  This guide is based on <strong style={{ color:"#64748b" }}>personal local experience</strong>. Businesses marked ⭐ are featured partners. All listings are independently selected and reflect genuine recommendations.
+                </p>
+              </div>
+              <div style={{ padding:"14px 16px 120px" }}>
+                {listItems.length===0 && <div style={{ textAlign:"center", padding:"40px 0", color:"#475569", fontFamily:"sans-serif" }}>No results found</div>}
+                {listItems.map((item) => {
+                  const col = CAT_COLOR[item.cat];
+                  const isOpen = selected && selected.id === item.id;
+                  return (
+                    <div key={item.id} onClick={() => handleSelect(item)} style={{ background:isOpen?"linear-gradient(135deg,"+col+"18,rgba(255,255,255,0.04))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+col+"55":"1px solid rgba(240,230,211,0.08)", borderRadius:16, marginBottom:12, cursor:"pointer", transition:"all 0.25s", overflow:"hidden" }}>
+                      {/* Photo header */}
+                      <div style={{ position:"relative", height:isOpen?140:80, overflow:"hidden", transition:"height 0.3s ease" }}>
+                        <img
+                          src={getPhotoUrl(item.id)}
+                          alt={item.name}
+                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }}
+                          onError={e => { e.target.style.display="none"; }}
+                        />
+                        <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(6,24,40,0.85) 100%)" }}/>
+                        {/* Name overlay */}
+                        {item.featured && (
+                          <div style={{ position:"absolute", top:10, left:10, background:"linear-gradient(135deg,#f59e0b,#d97706)", color:"#fff", fontSize:10, fontFamily:"sans-serif", fontWeight:700, padding:"3px 10px", borderRadius:20, letterSpacing:1, textTransform:"uppercase", boxShadow:"0 2px 8px rgba(0,0,0,0.4)" }}>
+                            ⭐ Local Favourite
+                          </div>
+                        )}
+                        <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 14px", display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
+                          <div>
+                            <div style={{ fontSize:15, fontWeight:600, color:"#f0e6d3", marginBottom:2, textShadow:"0 1px 4px rgba(0,0,0,0.8)" }}>{item.name}</div>
+                            <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap" }}>
+                              <span style={{ fontSize:11, color:"#fcd34d", fontFamily:"sans-serif" }}>&#11088; {item.rating}</span>
+                              {item.hours && (() => {
+                                const open = isOpenNow(item.hours);
+                                if (open === null) return null;
+                                return <span style={{ fontSize:10, background:open?"rgba(16,185,129,0.8)":"rgba(239,68,68,0.7)", color:"#fff", padding:"2px 8px", borderRadius:20, fontFamily:"sans-serif", fontWeight:600 }}>{open ? "Open now" : "Closed"}</span>;
+                              })()}
+                              {searchResults && <span style={{ fontSize:10, background:col+"55", color:"#fff", padding:"2px 8px", borderRadius:20, fontFamily:"sans-serif" }}>{CATS.find(c=>c.key===item.cat)&&CATS.find(c=>c.key===item.cat).label}</span>}
+                            </div>
+                          </div>
+                          <div style={{ fontSize:20 }}>{item.emoji}</div>
+                        </div>
+                      </div>
+                      {/* Expand arrow */}
+                      <div style={{ padding:"8px 14px", display:"flex", justifyContent:"flex-end" }}>
+                        <div style={{ fontSize:16, color:"#64748b", transform:isOpen?"rotate(180deg)":"none", transition:"transform 0.2s" }}>&#8964;</div>
+                      </div>
+                      {isOpen && (
+                        <div style={{ padding:"0 16px 16px" }}>
+                          {item.hours && (
+                            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
+                              <span style={{ fontSize:14 }}>🕐</span>
+                              <span style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>{item.hours}</span>
+                              {(() => {
+                                const open = isOpenNow(item.hours);
+                                if (open === null) return null;
+                                return <span style={{ fontSize:11, background:open?"rgba(16,185,129,0.15)":"rgba(239,68,68,0.12)", border:"1px solid "+(open?"rgba(16,185,129,0.4)":"rgba(239,68,68,0.3)"), color:open?"#10B981":"#ef4444", padding:"2px 10px", borderRadius:20, fontFamily:"sans-serif", fontWeight:600 }}>{open ? "Open now" : "Closed"}</span>;
+                              })()}
+                            </div>
+                          )}
+                          <p style={{ margin:"0 0 12px", fontSize:13, color:"#cbd5e1", lineHeight:1.6, fontFamily:"sans-serif" }}>{item.desc}</p>
+                          <div style={{ background:col+"18", border:"1px solid "+col+"33", borderRadius:10, padding:"10px 14px", display:"flex", gap:8, marginBottom:12 }}>
+                            <span>&#128161;</span>
+                            <p style={{ margin:0, fontSize:12, color:col, fontFamily:"sans-serif", lineHeight:1.5 }}><strong>Local tip:</strong> {item.tip}</p>
+                          </div>
+                          {/* Contact buttons */}
+                          {(item.phone || item.website || item.social) && (
+                            <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                              {item.phone && (
+                                <a href={"tel:"+item.phone.replace(/\s/g,"")} style={{ textDecoration:"none", flex:1 }}>
+                                  <div style={{ background:"rgba(16,185,129,0.12)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:10, padding:"9px 12px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                                    <span style={{ fontSize:14 }}>📞</span>
+                                    <span style={{ fontSize:12, color:"#10B981", fontFamily:"sans-serif", fontWeight:600 }}>Call</span>
+                                  </div>
+                                </a>
+                              )}
+                              {item.website && (
+                                <a href={item.website} target="_blank" rel="noreferrer" style={{ textDecoration:"none", flex:1 }}>
+                                  <div style={{ background:"rgba(14,165,233,0.12)", border:"1px solid rgba(14,165,233,0.3)", borderRadius:10, padding:"9px 12px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                                    <span style={{ fontSize:14 }}>🌐</span>
+                                    <span style={{ fontSize:12, color:"#0EA5E9", fontFamily:"sans-serif", fontWeight:600 }}>Website</span>
+                                  </div>
+                                </a>
+                              )}
+                              {item.social && (
+                                <a href={item.social} target="_blank" rel="noreferrer" style={{ textDecoration:"none", flex:1 }}>
+                                  <div style={{ background:"rgba(168,85,247,0.12)", border:"1px solid rgba(168,85,247,0.3)", borderRadius:10, padding:"9px 12px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                                    <span style={{ fontSize:14 }}>📸</span>
+                                    <span style={{ fontSize:12, color:"#A855F7", fontFamily:"sans-serif", fontWeight:600 }}>Instagram</span>
+                                  </div>
+                                </a>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Nearby */}
+      {nav==="events" && <EventsTab/>}
+      {nav==="islands" && <IslandsTab/>}
+      {nav==="trip" && <TripPlannerTab places={places}/>}
+      {nav==="nearby" && <NearbyTab/>}
+      {nav==="weather" && <WeatherTab/>}
+
+      {/* Ferry */}
+      {nav==="ferry" && (
+        <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+          <div style={{ marginBottom:20 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#0EA5E9", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Departing from Kos Port</div>
+            <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>Tap a route to see times. Always confirm with the operator.</p>
+          </div>
+          {FERRIES.map(f => <TTCard key={f.id} item={f} icon="&#9972;" isOpen={openTT===f.id} onToggle={() => setOpenTT(openTT===f.id?null:f.id)}/>)}
+          <div style={{ marginTop:8, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>&#127963; <strong style={{ color:"#64748b" }}>Kos Port (Limani)</strong> is in the centre of Kos Town, a short walk from the Castle of the Knights.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Bus */}
+      {nav==="bus" && (
+        <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+          <div style={{ marginBottom:20 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>KTEL Kos Island Bus Network</div>
+            <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>All buses depart from the main bus station in Kos Town.</p>
+          </div>
+          {BUSES.map(b => <TTCard key={b.id} item={b} icon="&#128652;" isOpen={openTT===b.id} onToggle={() => setOpenTT(openTT===b.id?null:b.id)}/>)}
+          <div style={{ marginTop:8, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>&#128652; <strong style={{ color:"#64748b" }}>Bus Station</strong> on Kleopatras Street, Kos Town. Tickets bought on board.</p>
+          </div>
+        </div>
+      )}
+
+      {/* SOS / Emergency */}
+      {nav==="sos" && (
+        <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+          <div style={{ marginBottom:20 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#ef4444", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Emergency and Useful Numbers</div>
+            <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>Tap any number to call directly. Save these before you need them.</p>
+          </div>
+          <div style={{ background:"#ef444418", border:"1px solid #ef444440", borderRadius:14, padding:"14px 16px", marginBottom:20, display:"flex", gap:12, alignItems:"center" }}>
+            <span style={{ fontSize:28 }}>🚨</span>
+            <div>
+              <div style={{ fontSize:15, fontWeight:600, color:"#ef4444", marginBottom:2 }}>Pan-European Emergency</div>
+              <div style={{ fontSize:22, fontWeight:700, color:"#f0e6d3", fontFamily:"sans-serif", letterSpacing:2 }}>112</div>
+              <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>Works from any phone, any network, even no SIM</div>
+            </div>
+          </div>
+          {EMERGENCY.map(section => (
+            <div key={section.id} style={{ marginBottom:24 }}>
+              <div style={{ fontSize:11, color:section.color, textTransform:"uppercase", letterSpacing:2, fontFamily:"sans-serif", marginBottom:10 }}>{section.category}</div>
+              {section.items.map((item,i) => (
+                <a key={i} href={"tel:"+item.number.replace(/\s/g,"")} style={{ textDecoration:"none", display:"block" }}>
+                  <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", marginBottom:8, display:"flex", gap:12, alignItems:"center", transition:"all 0.2s" }}>
+                    <div style={{ width:42, height:42, borderRadius:12, background:section.color+"18", border:"1px solid "+section.color+"30", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{item.icon}</div>
+                    <div style={{ flex:1 }}>
+                      <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:2 }}>{item.name}</div>
+                      <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", marginBottom:3 }}>{item.desc}</div>
+                    </div>
+                    <div style={{ textAlign:"right", flexShrink:0 }}>
+                      <div style={{ fontSize:15, fontWeight:700, color:section.color, fontFamily:"sans-serif", letterSpacing:1 }}>{item.number}</div>
+                      <div style={{ fontSize:10, color:"#475569", fontFamily:"sans-serif", marginTop:2 }}>tap to call</div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Get Listed */}
+      {nav==="listed" && (
+        <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+          <div style={{ marginBottom:24 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:6 }}>For Business Owners</div>
+            <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:8 }}>Get Listed on Kos Unlocked</div>
+            <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Reach thousands of tourists visiting Kos every season. Choose the package that works for you.</p>
+          </div>
+
+          {LISTING_PACKAGES.map(pkg => (
+            <div key={pkg.id} style={{ position:"relative", background:pkg.popular?"linear-gradient(135deg,"+pkg.color+"18,rgba(255,255,255,0.05))":"rgba(255,255,255,0.04)", border:pkg.popular?"1.5px solid "+pkg.color+"60":"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"20px", marginBottom:14 }}>
+              {pkg.popular && <div style={{ position:"absolute", top:-10, left:20, background:pkg.color, color:"#fff", fontSize:11, fontFamily:"sans-serif", fontWeight:700, padding:"3px 12px", borderRadius:20, letterSpacing:1 }}>MOST POPULAR</div>}
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:14 }}>
+                <div style={{ fontSize:17, fontWeight:600, color:"#f0e6d3" }}>{pkg.name}</div>
+                <div style={{ fontSize:20, fontWeight:700, color:pkg.color, fontFamily:"sans-serif" }}>{pkg.price}</div>
+              </div>
+              {pkg.features.map((f,i) => (
+                <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
+                  <div style={{ width:16, height:16, borderRadius:"50%", background:pkg.color+"30", border:"1px solid "+pkg.color+"50", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, marginTop:1 }}>
+                    <div style={{ width:6, height:6, borderRadius:"50%", background:pkg.color }}/>
+                  </div>
+                  <div style={{ fontSize:13, color:"#cbd5e1", fontFamily:"sans-serif", lineHeight:1.4 }}>{f}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+
+          <div style={{ marginTop:8, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:20 }}>
+            <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", marginBottom:6 }}>Interested? Get in touch</div>
+            <p style={{ margin:"0 0 16px", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Send us a WhatsApp and we will get you set up within 24 hours.</p>
+            <a href="https://wa.me/306912345678?text=Hi%2C%20I%20would%20like%20to%20list%20my%20business%20on%20Kos%20Unlocked" target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block" }}>
+              <div style={{ background:"#25D366", border:"none", borderRadius:14, padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:10, cursor:"pointer" }}>
+                <span style={{ fontSize:22 }}>&#128172;</span>
+                <span style={{ fontSize:15, fontWeight:700, color:"#fff", fontFamily:"sans-serif" }}>WhatsApp Us Now</span>
+              </div>
+            </a>
+            <div style={{ marginTop:10, textAlign:"center", fontSize:12, color:"#475569", fontFamily:"sans-serif" }}>
+              Or email: hello@kosunlocked.com
+            </div>
+          </div>
+
+          <div style={{ marginTop:16, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.7 }}>
+              &#128269; <strong style={{ color:"#64748b" }}>How it works:</strong> We add your business to the app with photos, description and your booking link. Tourists discover you directly. No commission on bookings — just a flat monthly fee. Cancel anytime.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Bottom Nav */}
+      <div style={{ position:"fixed", bottom:0, left:"50%", transform:"translateX(-50%)", width:"100%", maxWidth:430, background:"rgba(8,18,32,0.98)", backdropFilter:"blur(24px)", borderTop:"1px solid rgba(255,255,255,0.06)", paddingBottom:24, zIndex:10 }}>
+        <div style={{ position:"relative" }}>
+          <div style={{ position:"absolute", left:0, top:0, bottom:0, width:24, background:"linear-gradient(to right, rgba(8,18,32,0.98), transparent)", zIndex:2, pointerEvents:"none" }}/>
+          <div style={{ position:"absolute", right:0, top:0, bottom:0, width:24, background:"linear-gradient(to left, rgba(8,18,32,0.98), transparent)", zIndex:2, pointerEvents:"none" }}/>
+          <div style={{ display:"flex", gap:8, overflowX:"auto", padding:"12px 16px 0", scrollbarWidth:"none", WebkitOverflowScrolling:"touch" }}>
+            {NAV.map(n => {
+              const isActive = nav === n.key;
+              return (
+                <button key={n.key} onClick={() => { setNav(n.key); setOpenTT(null); }} style={{
+                  flexShrink:0,
+                  padding:"9px 18px",
+                  borderRadius:50,
+                  border:"none",
+                  cursor:"pointer",
+                  fontFamily:"Georgia, serif",
+                  fontSize:13,
+                  fontWeight: isActive ? 600 : 400,
+                  letterSpacing: isActive ? 0.5 : 0,
+                  background: isActive ? "linear-gradient(135deg, rgba(14,165,233,0.3), rgba(14,165,233,0.15))" : "rgba(255,255,255,0.05)",
+                  color: isActive ? "#7dd3fc" : "#475569",
+                  boxShadow: isActive ? "inset 0 0 0 1px rgba(14,165,233,0.5)" : "inset 0 0 0 1px rgba(255,255,255,0.06)",
+                  transition:"all 0.2s ease",
+                  whiteSpace:"nowrap",
+                }}>
+                  {n.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+ReactDOM.render(React.createElement(App), document.getElementById("root"));
+</script>
+</body>
+</html>
