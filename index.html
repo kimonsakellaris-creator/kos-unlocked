@@ -4,8 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kos Unlocked">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a1628">
+<meta name="description" content="Your local guide to Kos island, Greece. Beaches, restaurants, bars, activities, ferry timetables and more.">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="data:application/json,{
+  &quot;name&quot;:&quot;Kos Unlocked&quot;,
+  &quot;short_name&quot;:&quot;Kos Unlocked&quot;,
+  &quot;description&quot;:&quot;Your local guide to Kos island, Greece&quot;,
+  &quot;start_url&quot;:&quot;/&quot;,
+  &quot;display&quot;:&quot;standalone&quot;,
+  &quot;background_color&quot;:&quot;#0a1628&quot;,
+  &quot;theme_color&quot;:&quot;#0a1628&quot;,
+  &quot;orientation&quot;:&quot;portrait&quot;,
+  &quot;icons&quot;:[{&quot;src&quot;:&quot;https://fav.farm/🔑&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/png&quot;},{&quot;src&quot;:&quot;https://fav.farm/🔑&quot;,&quot;sizes&quot;:&quot;512x512&quot;,&quot;type&quot;:&quot;image/png&quot;}]
+}">
+
+<!-- Apple touch icon -->
+<link rel="apple-touch-icon" href="https://fav.farm/🔑">
+<link rel="icon" href="https://fav.farm/🔑">
+
 <title>Kos Unlocked</title>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-V091JV6D2Q"></script>
 <script>
@@ -14,9 +37,11 @@
   gtag('js', new Date());
   gtag('config', 'G-V091JV6D2Q');
 </script>
+
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html, body { height:100%; background:#0a1628; }
@@ -29,6 +54,89 @@
 </head>
 <body>
 <div id="root"></div>
+
+<!-- PWA Install prompt -->
+<script>
+  // Register service worker for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const sw = `
+        self.addEventListener('install', e => self.skipWaiting());
+        self.addEventListener('activate', e => clients.claim());
+        self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+      `;
+      const blob = new Blob([sw], {type:'application/javascript'});
+      const url = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(url).catch(() => {});
+    });
+  }
+
+  // Store install prompt for later
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // Show our custom install banner after 30 seconds
+    setTimeout(() => {
+      const banner = document.getElementById('install-banner');
+      if (banner && !localStorage.getItem('pwa-dismissed')) {
+        banner.style.display = 'flex';
+      }
+    }, 30000);
+  });
+
+  function installPWA() {
+    const banner = document.getElementById('install-banner');
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    }
+    if (banner) banner.style.display = 'none';
+    localStorage.setItem('pwa-dismissed', '1');
+  }
+
+  function dismissPWA() {
+    const banner = document.getElementById('install-banner');
+    if (banner) banner.style.display = 'none';
+    localStorage.setItem('pwa-dismissed', '1');
+  }
+</script>
+
+<!-- PWA Install Banner -->
+<div id="install-banner" style="display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;background:linear-gradient(135deg,#0d2040,#0a1628);border:1px solid rgba(14,165,233,0.4);border-radius:16px;padding:14px 16px;z-index:999;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+  <div style="font-size:28px;flex-shrink:0;">🔑</div>
+  <div style="flex:1;">
+    <div style="font-size:13px;font-weight:600;color:#f0e6d3;font-family:Georgia,serif;margin-bottom:2px;">Add to your home screen</div>
+    <div style="font-size:11px;color:#64748b;font-family:sans-serif;">Install Kos Unlocked for quick access during your holiday</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+    <button onclick="installPWA()" style="background:#0EA5E9;border:none;border-radius:8px;padding:7px 14px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:sans-serif;white-space:nowrap;">Add App</button>
+    <button onclick="dismissPWA()" style="background:none;border:none;color:#475569;font-size:11px;cursor:pointer;font-family:sans-serif;">Not now</button>
+  </div>
+</div>
+
+<!-- iOS install hint (shown once on iOS Safari) -->
+<script>
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone;
+  const iosDismissed = localStorage.getItem('ios-hint-dismissed');
+  if (isIOS && !isStandalone && !iosDismissed) {
+    setTimeout(() => {
+      const hint = document.getElementById('ios-hint');
+      if (hint) hint.style.display = 'flex';
+    }, 30000);
+  }
+</script>
+
+<div id="ios-hint" style="display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;background:linear-gradient(135deg,#0d2040,#0a1628);border:1px solid rgba(14,165,233,0.4);border-radius:16px;padding:14px 16px;z-index:999;align-items:flex-start;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+  <div style="font-size:24px;flex-shrink:0;">🔑</div>
+  <div style="flex:1;">
+    <div style="font-size:13px;font-weight:600;color:#f0e6d3;font-family:Georgia,serif;margin-bottom:4px;">Add Kos Unlocked to your home screen</div>
+    <div style="font-size:12px;color:#94a3b8;font-family:sans-serif;line-height:1.5;">Tap the <strong style="color:#0EA5E9;">Share button</strong> &#x2BA1; at the bottom of Safari, then tap <strong style="color:#0EA5E9;">"Add to Home Screen"</strong></div>
+  </div>
+  <button onclick="document.getElementById('ios-hint').style.display='none';localStorage.setItem('ios-hint-dismissed','1')" style="background:none;border:none;color:#475569;font-size:18px;cursor:pointer;flex-shrink:0;padding:0;">&#10005;</button>
+</div>
+
 <script type="text/babel">
 const { useState, useMemo } = React;
 const DEFAULT_PLACES = {
@@ -2300,6 +2408,18 @@ function App() {
                               )}
                             </div>
                           )}
+                          {/* Share button */}
+                          <div onClick={() => {
+                            const text = item.name + " on Kos, Greece. " + item.tip + " Find it on Kos Unlocked: https://kos-unlocked.vercel.app";
+                            if (navigator.share) {
+                              navigator.share({ title:"Kos Unlocked, " + item.name, text:text, url:"https://kos-unlocked.vercel.app" });
+                            } else {
+                              navigator.clipboard && navigator.clipboard.writeText(text).then(() => alert("Copied to clipboard! Paste it anywhere to share."));
+                            }
+                          }} style={{ marginTop:8, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:10, padding:"9px 12px", display:"flex", alignItems:"center", justifyContent:"center", gap:6, cursor:"pointer" }}>
+                            <span style={{ fontSize:14 }}>🔗</span>
+                            <span style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", fontWeight:600 }}>Share this place</span>
+                          </div>
                         </div>
                       )}
                     </div>
