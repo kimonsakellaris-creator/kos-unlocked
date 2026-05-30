@@ -1105,6 +1105,49 @@ function HomePage({ onExplore }) {
   );
 }
 
+// ── Mini Weather Widget ──────────────────────────────────────────────────────
+function MiniWeatherWidget({ onTap }) {
+  const [wx, setWx] = useState(null);
+
+  useState(() => {
+    fetch(
+      "https://api.open-meteo.com/v1/forecast?latitude=36.894&longitude=27.288" +
+      "&current=temperature_2m,weather_code,wind_speed_10m" +
+      "&timezone=Europe%2FAthens"
+    )
+      .then(r => r.json())
+      .then(data => setWx(data.current))
+      .catch(() => {});
+  }, []);
+
+  const wxIcon = code => {
+    if (!code && code !== 0) return "🌤️";
+    if (code === 0) return "☀️";
+    if (code <= 2)  return "🌤️";
+    if (code <= 3)  return "☁️";
+    if (code <= 48) return "🌫️";
+    if (code <= 65) return "🌧️";
+    if (code <= 75) return "❄️";
+    if (code <= 82) return "🌦️";
+    return "⛈️";
+  };
+
+  return (
+    <div onClick={onTap} style={{ cursor:"pointer", background:"rgba(14,165,233,0.1)", border:"1px solid rgba(14,165,233,0.25)", borderRadius:14, padding:"8px 14px", display:"flex", alignItems:"center", gap:8, transition:"all 0.2s" }}>
+      <span style={{ fontSize:22 }}>{wxIcon(wx?.weather_code)}</span>
+      <div>
+        <div style={{ fontSize:16, fontWeight:700, color:"#f0e6d3", fontFamily:"sans-serif", lineHeight:1 }}>
+          {wx ? Math.round(wx.temperature_2m)+"°" : "--°"}
+        </div>
+        <div style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", marginTop:1 }}>
+          {wx ? Math.round(wx.wind_speed_10m)+" km/h" : "Kos"}
+        </div>
+      </div>
+      <div style={{ fontSize:10, color:"#0EA5E9", fontFamily:"sans-serif", marginLeft:2 }}>›</div>
+    </div>
+  );
+}
+
 // ── Main App ──────────────────────────────────────────────────────────────────
 const NAV = [
   { key:"home",    label:"Home",    icon:"🏠" },
@@ -2015,7 +2058,10 @@ function App() {
   function handleLogoTap() {
     const next = tapCount + 1;
     setTapCount(next);
-    if (next >= 5) { setAdminPrompt(true); setTapCount(0); }
+    if (next >= 5) { setAdminPrompt(true); setTapCount(0); return; }
+    // Single tap goes home
+    setNav("home");
+    setOpenTT(null);
   }
 
   function handleAdminLogin() {
@@ -2056,8 +2102,9 @@ function App() {
       <div style={{ position:"relative", zIndex:1, padding:"48px 24px 16px", borderBottom:"1px solid rgba(240,230,211,0.08)" }}>
         <div style={{ fontSize:11, letterSpacing:4, color:"#94a3b8", textTransform:"uppercase", marginBottom:6, fontFamily:"sans-serif" }}>Your Local Island Guide</div>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
-          <div onClick={handleLogoTap} style={{ cursor:"default", userSelect:"none", display:"flex", alignItems:"center", gap:12 }}>
-            <div style={{ width:48, height:48, borderRadius:12, background:"linear-gradient(135deg,#0d3a5c,#061828)", border:"1px solid rgba(14,165,233,0.3)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+          {/* Logo — taps go home, 5 taps = admin */}
+          <div onClick={handleLogoTap} style={{ cursor:"pointer", userSelect:"none", display:"flex", alignItems:"center", gap:12 }}>
+            <div style={{ width:48, height:48, borderRadius:12, background:"linear-gradient(135deg,#0d3a5c,#061828)", border:"1px solid rgba(14,165,233,0.3)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"transform 0.15s ease", boxShadow: nav==="home"?"0 0 0 2px rgba(14,165,233,0.4)":"none" }}>
               <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
                 <circle cx="38" cy="36" r="18" stroke="#f59e0b" strokeWidth="10"/>
                 <circle cx="38" cy="36" r="7" stroke="#f59e0b" strokeWidth="5"/>
@@ -2072,6 +2119,9 @@ function App() {
               <div style={{ fontSize:11, fontWeight:400, color:"#e8a020", letterSpacing:5, fontFamily:"Georgia, serif" }}>UNLOCKED</div>
             </div>
           </div>
+
+          {/* Right side — weather widget on home, list/map toggle on explore */}
+          {nav==="home" && <MiniWeatherWidget onTap={() => setNav("weather")}/>}
           {nav==="explore" && (
             <div style={{ display:"flex", background:"rgba(255,255,255,0.06)", borderRadius:12, padding:4, gap:2 }}>
               {[["list","&#9776; List"],["map","&#128506; Map"]].map(([v,label]) => (
