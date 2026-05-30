@@ -33,122 +33,122 @@
 const { useState, useMemo } = React;
 const DEFAULT_PLACES = {
   beaches: [
-    { id:"b1",  name:"Paradise Beach",   emoji:"🏖️", cat:"beaches", desc:"The most famous beach on Kos — long golden sand, turquoise water, beach bars and water sports. Lively and popular with all ages.", tip:"Go before 10am in peak summer to get a sunbed. Gets very busy by noon!", rating:"4.8", lat:36.7833, lng:27.1167 },
+    { id:"b1",  name:"Paradise Beach",   emoji:"🏖️", cat:"beaches", desc:"The most famous beach on Kos, long golden sand, turquoise water, beach bars and water sports. Lively and popular with all ages.", tip:"Go before 10am in peak summer to get a sunbed. Gets very busy by noon!", rating:"4.8", lat:36.7833, lng:27.1167 },
     { id:"b2",  name:"Tigaki Beach",     emoji:"🌊", cat:"beaches", desc:"A favourite with locals for decades. Wide sandy beach with warm shallow water, perfect for families. Frequently awarded Blue Flag status.", tip:"The shallow water makes it ideal for kids. Head to the eastern end for fewer crowds.", rating:"4.7", lat:36.8667, lng:27.0667 },
-    { id:"b3",  name:"Agios Stefanos",   emoji:"⛵", cat:"beaches", desc:"Breathtaking beach facing the tiny islet of Kastri, topped with a ruined basilica. One of the most photogenic spots on the island.", tip:"Swim across to Kastri — it's only about 200m! Watch for boat traffic.", rating:"4.9", lat:36.7500, lng:27.2833 },
+    { id:"b3",  name:"Agios Stefanos",   emoji:"⛵", cat:"beaches", desc:"Breathtaking beach facing the tiny islet of Kastri, topped with a ruined basilica. One of the most photogenic spots on the island.", tip:"Swim across to Kastri, it's only about 200m! Watch for boat traffic.", rating:"4.9", lat:36.7500, lng:27.2833 },
     { id:"b4",  name:"Camel Beach",      emoji:"🐪", cat:"beaches", desc:"Secluded pebble and pink-sand cove with some of the clearest water on the island. Peaceful and relatively unknown.", tip:"Bring water shoes for the pebbles. Access by a short dirt track or boat from Paradise Beach.", rating:"4.7", lat:36.7667, lng:27.1500 },
-    { id:"b5",  name:"Cavo Paradiso",    emoji:"🌿", cat:"beaches", desc:"Widely regarded as the most beautiful beach on Kos. A pristine bay flanked by cliffs and dunes with a small cedar forest. Barely touched by tourism.", tip:"Bring everything you need — no facilities here. Worth every effort to reach.", rating:"4.9", lat:36.7400, lng:27.0900 },
+    { id:"b5",  name:"Cavo Paradiso",    emoji:"🌿", cat:"beaches", desc:"Widely regarded as the most beautiful beach on Kos. A pristine bay flanked by cliffs and dunes with a small cedar forest. Barely touched by tourism.", tip:"Bring everything you need as there are no facilities here. Worth every effort to reach.", rating:"4.9", lat:36.7400, lng:27.0900 },
     { id:"b6",  name:"Marmari Beach",    emoji:"🏄", cat:"beaches", desc:"Long north-coast sandy beach lined with restaurants and accommodation. Great for windsurfing thanks to reliable Aegean breezes.", tip:"The western section is quieter. Several windsurfing schools operate here.", rating:"4.5", lat:36.8600, lng:27.0300 },
     { id:"b7",  name:"Mastichari Beach", emoji:"🐚", cat:"beaches", desc:"Exotic setting with soft white sand and emerald water. One of the busiest beaches on the island with many watersports centres and a nearby ferry port.", tip:"Take the ferry from here to Kalymnos for a perfect day trip.", rating:"4.6", lat:36.8450, lng:27.0050 },
     { id:"b8",  name:"Kardamena Beach",  emoji:"🎉", cat:"beaches", desc:"Sparkling white sand with both organised and unorganised sections. A buzzing resort beach with bars, restaurants and all amenities close by.", tip:"The eastern end is quieter if you want to escape the music.", rating:"4.4", lat:36.7833, lng:27.1333 },
-    { id:"b9",  name:"Kefalos Beach",    emoji:"🌅", cat:"beaches", desc:"Also known as Kamari Beach — a long, flawlessly organised sandy beach near Kefalos village with crystal-clear water. A magnet for visitors in the south.", tip:"The sunset from here is spectacular. Stay for the evening and watch it from a taverna.", rating:"4.8", lat:36.7333, lng:27.0500 },
+    { id:"b9",  name:"Kefalos Beach",    emoji:"🌅", cat:"beaches", desc:"Also known as Kamari Beach, a long, flawlessly organised sandy beach near Kefalos village with crystal-clear water. A magnet for visitors in the south.", tip:"The sunset from here is spectacular. Stay for the evening and watch it from a taverna.", rating:"4.8", lat:36.7333, lng:27.0500 },
     { id:"b10", name:"Thermes Beach",    emoji:"♨️", cat:"beaches", desc:"Unique beach with natural hot thermal springs flowing directly into the sea, creating warm pools at the water's edge. A truly one-of-a-kind experience.", tip:"Come at sunrise for the best atmosphere. Water temperature is around 42°C near the rocks.", rating:"4.7", lat:36.8333, lng:27.3500 },
-    { id:"b11", name:"Psalidi Beach",    emoji:"🤿", cat:"beaches", desc:"Pebble and sand beach close to Kos Town, known for excellent clarity and snorkelling. Windsurfers and kitesurfers flock here for the reliable winds.", tip:"A great snorkelling spot — the pebbles keep the water crystal clear. Bring your mask!", rating:"4.5", lat:36.8600, lng:27.3200 },
-    { id:"b12", name:"Agios Fokas",      emoji:"🪨", cat:"beaches", desc:"Dramatic pebble beach 8km from Kos Town, popular with divers for its super-clear water and shale shore. Quieter and more rugged than the sandy beaches.", tip:"Book a dive course here — visibility is exceptional. Bring proper footwear for the stones.", rating:"4.6", lat:36.8200, lng:27.3600 },
-    { id:"b13", name:"Lambi Beach",      emoji:"🌈", cat:"beaches", desc:"Famous for its rainbow-coloured pebbles as much as its sea. Close to Kos Town, with great tavernas and bars right on the waterfront.", tip:"Collect a few of the colourful pebbles as a unique souvenir — but leave most behind!", rating:"4.5", lat:36.9050, lng:27.2650 },
+    { id:"b11", name:"Psalidi Beach",    emoji:"🤿", cat:"beaches", desc:"Pebble and sand beach close to Kos Town, known for excellent clarity and snorkelling. Windsurfers and kitesurfers flock here for the reliable winds.", tip:"A great snorkelling spot and the pebbles keep the water crystal clear. Bring your mask!", rating:"4.5", lat:36.8600, lng:27.3200 },
+    { id:"b12", name:"Agios Fokas",      emoji:"🪨", cat:"beaches", desc:"Dramatic pebble beach 8km from Kos Town, popular with divers for its super-clear water and shale shore. Quieter and more rugged than the sandy beaches.", tip:"Book a dive course here, visibility is exceptional. Bring proper footwear for the stones.", rating:"4.6", lat:36.8200, lng:27.3600 },
+    { id:"b13", name:"Lambi Beach",      emoji:"🌈", cat:"beaches", desc:"Famous for its rainbow-coloured pebbles as much as its sea. Close to Kos Town, with great tavernas and bars right on the waterfront.", tip:"Collect a few of the colourful pebbles as a unique souvenir, but leave most behind!", rating:"4.5", lat:36.9050, lng:27.2650 },
     { id:"b14", name:"Limnionas Beach",  emoji:"🏝️", cat:"beaches", desc:"Secluded rocky cove on the Kefalos peninsula, surrounded by rugged scenery. Small, intimate and far from the tourist crowds.", tip:"There is a lovely little taverna right on the rocks. Try the fresh grilled fish.", rating:"4.8", lat:36.7250, lng:26.9900 },
     { id:"b15", name:"Zouroudi Beach",   emoji:"🎵", cat:"beaches", desc:"Lively and popular beach close to Kos Town with beach bars, loud music, restaurants and cafes. A fun party atmosphere from morning to night.", tip:"This is the place if you want music and energy. Head elsewhere if you want peace and quiet!", rating:"4.3", lat:36.8950, lng:27.2800 },
-    { id:"b16", name:"Agios Theologos", emoji:"✝️", cat:"beaches", desc:"Remote, wild beach on the southwestern tip of Kos near Kefalos. Crystal clear water, gentle slope into the sea, and barely any crowds even in summer.", tip:"A hidden gem. There is a wonderful traditional taverna at the end of the road — do not miss it.", rating:"4.9", lat:36.7150, lng:26.9600 },
+    { id:"b16", name:"Agios Theologos", emoji:"✝️", cat:"beaches", desc:"Remote, wild beach on the southwestern tip of Kos near Kefalos. Crystal clear water, gentle slope into the sea, and barely any crowds even in summer.", tip:"A hidden gem. There is a wonderful traditional taverna at the end of the road, do not miss it.", rating:"4.9", lat:36.7150, lng:26.9600 },
   ],
   restaurants: [
-    { id:"r1", hours:"12:00–23:00",  name:"Platanos", emoji:"🍽️", cat:"restaurants", phone:"+30 22420 28991", website:"", social:"",  desc:"Iconic taverna sitting under ancient plane trees beside the Castle of the Knights. Classic Greek menu — the most atmospheric dining spot in Kos Town.", tip:"Book ahead in summer, it fills up fast. Ask for a table outside under the trees.", rating:"4.7", lat:36.8940, lng:27.2880 },
-    { id:"r2", hours:"19:00–00:00",  name:"To Petrino", emoji:"🪨", cat:"restaurants", phone:"+30 22420 27251", website:"", social:"https://www.instagram.com/petrino_kos",  desc:"Elegant stone-walled restaurant in a garden courtyard in Kos Town. Upscale and romantic — pork loin, sea bass, local cheeses and a 120-label wine list.", tip:"Perfect for a special evening. The krasotiri cheese aged in red wine is a must-try.", rating:"4.9", lat:36.8920, lng:27.2855 },
-    { id:"r3", hours:"19:00–00:00",  name:"Lambros Taverna", emoji:"🥩", cat:"restaurants", phone:"+30 22420 26555", website:"", social:"",  desc:"Legendary Kos institution on Psaron Street. Serves only Greek grilled meat — pork ribs, souvlaki and chicken, all cooked on a wood-fired grill. Locals-only feel.", tip:"Open for dinner only. The pork ribs are outstanding. Cash preferred.", rating:"4.9", lat:36.8935, lng:27.2870 },
-    { id:"r4", hours:"18:00–00:00",  name:"Noah's Ark", emoji:"🇦🇲", cat:"restaurants", phone:"+30 22420 23856", website:"", social:"",  desc:"The best restaurant in Kos according to many visitors. Armenian and Greek cuisine at the highest level. Unique, creative menu that stands out from every other spot on the island.", tip:"Try the Armenian specialities — you won't find them anywhere else on the island.", rating:"4.9", lat:36.8930, lng:27.2860 },
-    { id:"r5", hours:"12:00–00:00",  name:"Barbouni", emoji:"🐟", cat:"restaurants", phone:"+30 22420 20170", website:"", social:"https://www.instagram.com/barbouni_kos",  desc:"Fresh seafood right on the Lambi waterfront. Known for perfectly grilled fish and octopus in a romantic evening setting with views across the harbour.", tip:"Try the grilled sea bream — caught daily. Arrive at sunset for the best atmosphere.", rating:"4.8", lat:36.9010, lng:27.2660 },
-    { id:"r6", hours:"12:00–00:00",  name:"Astakos Seafood & Grill", emoji:"🦞", cat:"restaurants", phone:"+30 22420 28525", website:"", social:"",  desc:"One of the top-rated seafood restaurants on the island. Lobster, fresh fish and grilled meats in a convivial setting. A step above the average waterfront taverna.", tip:"The lobster spaghetti is legendary. Book ahead — it gets very busy.", rating:"4.8", lat:36.8925, lng:27.2875 },
-    { id:"r7", hours:"18:00–23:30",  name:"Meze & Wine Kyriakos", emoji:"🫒", cat:"restaurants", phone:"+30 22420 47013", website:"", social:"",  desc:"Specialises in traditional Greek meze dishes paired with a carefully chosen Greek wine list. Intimate, relaxed and genuinely delicious.", tip:"Order the full meze spread to share — it's the best way to experience the menu.", rating:"4.8", lat:36.8932, lng:27.2868 },
+    { id:"r1", hours:"12:00–23:00",  name:"Platanos", emoji:"🍽️", cat:"restaurants", phone:"+30 22420 28991", website:"", social:"",  desc:"Iconic taverna sitting under ancient plane trees beside the Castle of the Knights. Classic Greek menu and the most atmospheric dining spot in Kos Town.", tip:"Book ahead in summer, it fills up fast. Ask for a table outside under the trees.", rating:"4.7", lat:36.8940, lng:27.2880 },
+    { id:"r2", hours:"19:00–00:00",  name:"To Petrino", emoji:"🪨", cat:"restaurants", phone:"+30 22420 27251", website:"", social:"https://www.instagram.com/petrino_kos",  desc:"Elegant stone-walled restaurant in a garden courtyard in Kos Town. Upscale and romantic, with pork loin, sea bass, local cheeses and a 120-label wine list.", tip:"Perfect for a special evening. The krasotiri cheese aged in red wine is a must-try.", rating:"4.9", lat:36.8920, lng:27.2855 },
+    { id:"r3", hours:"19:00–00:00",  name:"Lambros Taverna", emoji:"🥩", cat:"restaurants", phone:"+30 22420 26555", website:"", social:"",  desc:"Legendary Kos institution on Psaron Street. Serves only Greek grilled meat, pork ribs, souvlaki and chicken, all cooked on a wood-fired grill. Locals-only feel.", tip:"Open for dinner only. The pork ribs are outstanding. Cash preferred.", rating:"4.9", lat:36.8935, lng:27.2870 },
+    { id:"r4", hours:"18:00–00:00",  name:"Noah's Ark", emoji:"🇦🇲", cat:"restaurants", phone:"+30 22420 23856", website:"", social:"",  desc:"The best restaurant in Kos according to many visitors. Armenian and Greek cuisine at the highest level. Unique, creative menu that stands out from every other spot on the island.", tip:"Try the Armenian specialities, you won't find them anywhere else on the island.", rating:"4.9", lat:36.8930, lng:27.2860 },
+    { id:"r5", hours:"12:00–00:00",  name:"Barbouni", emoji:"🐟", cat:"restaurants", phone:"+30 22420 20170", website:"", social:"https://www.instagram.com/barbouni_kos",  desc:"Fresh seafood right on the Lambi waterfront. Known for perfectly grilled fish and octopus in a romantic evening setting with views across the harbour.", tip:"Try the grilled sea bream, caught daily. Arrive at sunset for the best atmosphere.", rating:"4.8", lat:36.9010, lng:27.2660 },
+    { id:"r6", hours:"12:00–00:00",  name:"Astakos Seafood & Grill", emoji:"🦞", cat:"restaurants", phone:"+30 22420 28525", website:"", social:"",  desc:"One of the top-rated seafood restaurants on the island. Lobster, fresh fish and grilled meats in a convivial setting. A step above the average waterfront taverna.", tip:"The lobster spaghetti is legendary. Book ahead as it gets very busy.", rating:"4.8", lat:36.8925, lng:27.2875 },
+    { id:"r7", hours:"18:00–23:30",  name:"Meze & Wine Kyriakos", emoji:"🫒", cat:"restaurants", phone:"+30 22420 47013", website:"", social:"",  desc:"Specialises in traditional Greek meze dishes paired with a carefully chosen Greek wine list. Intimate, relaxed and genuinely delicious.", tip:"Order the full meze spread to share, it's the best way to experience the menu.", rating:"4.8", lat:36.8932, lng:27.2868 },
     { id:"r8", hours:"18:00–23:30",  name:"Kapari Meze Restaurant", emoji:"🌿", cat:"restaurants", phone:"+30 22420 35900", website:"", social:"",  desc:"Charming meze restaurant in Kos Town with a strong reputation for fresh, authentic Greek food. Great selection of small plates and local wines.", tip:"The grilled halloumi and the tzatziki here are the best on the island.", rating:"4.7", lat:36.8928, lng:27.2872 },
     { id:"r9", hours:"18:00–00:00",  name:"Elia Restaurant", emoji:"🫙", cat:"restaurants", phone:"+30 22420 21431", website:"", social:"",  desc:"Set in a beautifully restored 1890 building in the Old Town. Serves traditional recipes from across Greece alongside ouzo and tsipouro.", tip:"A hidden gem on Apellou Street. The atmosphere inside is wonderful in the evening.", rating:"4.8", lat:36.8938, lng:27.2882 },
-    { id:"r10", hours:"12:00–23:00", name:"To Petrino Zia", phone:"+30 22420 69682", website:"", social:"",  emoji:"⛰️", cat:"restaurants", desc:"Cosy stone-walled restaurant in Zia mountain village. Authentic Greek food with the most spectacular panoramic view over the island and across to Turkey.", tip:"Time your visit for sunset — the view from the terrace is one of the best on the island.", rating:"4.9", lat:36.8333, lng:27.1833 },
+    { id:"r10", hours:"12:00–23:00", name:"To Petrino Zia", phone:"+30 22420 69682", website:"", social:"",  emoji:"⛰️", cat:"restaurants", desc:"Cosy stone-walled restaurant in Zia mountain village. Authentic Greek food with the most spectacular panoramic view over the island and across to Turkey.", tip:"Time your visit for sunset, the view from the terrace is one of the best on the island.", rating:"4.9", lat:36.8333, lng:27.1833 },
     { id:"r11", hours:"12:00–23:00", name:"Ampavri Taverna", emoji:"🏡", cat:"restaurants", desc:"A typical, cosy Greek taverna just outside Kos Town in the Ampavris area. Excellent food at low prices and famously warm hospitality from owner Yorgos.", tip:"A true locals' favourite. Very affordable and completely unpretentious.", rating:"4.7", lat:36.8850, lng:27.2750 },
     { id:"r12", hours:"09:00–00:00", name:"Nick's Beach Bar & Restaurant", emoji:"🌊", cat:"restaurants", desc:"Popular beachfront restaurant with a laid-back vibe and great food. Works as a beach bar by day, full restaurant by night. One of the most consistent on the island.", tip:"Order food and drinks and the sunbeds are free!", rating:"4.7", lat:36.8960, lng:27.2720 },
     { id:"r13", hours:"11:00–00:00", name:"H2O Restaurant", emoji:"🍷", cat:"restaurants", desc:"Stylish beachside dining in Lambi with fresh mezes, grilled fish and creative cocktails. Great for a long relaxed lunch or romantic dinner by the sea.", tip:"The mezze platter for two is ideal for sharing. The octopus carpaccio is a highlight.", rating:"4.6", lat:36.9000, lng:27.2700 },
-    { id:"r14", hours:"19:00–00:00", name:"Stavlisio Steak House", emoji:"🔥", cat:"restaurants", desc:"The top steakhouse on Kos — premium cuts, perfectly cooked. A carnivore's paradise with an impressive wine cellar to match.", tip:"Go for the ribeye. Bookings essential in summer.", rating:"4.8", lat:36.8922, lng:27.2858 },
-    { id:"r15", hours:"18:00–00:00", name:"Blue Note Restaurant", emoji:"🎵", cat:"restaurants", desc:"Combines traditional Greek recipes with an innovative modern touch. Live music on some evenings adds a wonderful atmosphere to an already great dining experience.", tip:"Ask about live music nights when booking — well worth timing your visit around.", rating:"4.7", lat:36.8915, lng:27.2845 },
-    { id:"r16", hours:"10:00–22:00", name:"Agios Theologos Taverna", emoji:"⛪", cat:"restaurants", desc:"Remote traditional taverna at the far southwest tip of the island, right on the rocks above the sea. One of the most characterful spots on Kos — completely authentic.", tip:"The fish is caught the same morning. The drive out is half the adventure.", rating:"4.9", lat:36.7150, lng:26.9620 },
+    { id:"r14", hours:"19:00–00:00", name:"Stavlisio Steak House", emoji:"🔥", cat:"restaurants", desc:"The top steakhouse on Kos, premium cuts, perfectly cooked. A carnivore's paradise with an impressive wine cellar to match.", tip:"Go for the ribeye. Bookings essential in summer.", rating:"4.8", lat:36.8922, lng:27.2858 },
+    { id:"r15", hours:"18:00–00:00", name:"Blue Note Restaurant", emoji:"🎵", cat:"restaurants", desc:"Combines traditional Greek recipes with an innovative modern touch. Live music on some evenings adds a wonderful atmosphere to an already great dining experience.", tip:"Ask about live music nights when booking, well worth timing your visit around.", rating:"4.7", lat:36.8915, lng:27.2845 },
+    { id:"r16", hours:"10:00–22:00", name:"Agios Theologos Taverna", emoji:"⛪", cat:"restaurants", desc:"Remote traditional taverna at the far southwest tip of the island, right on the rocks above the sea. One of the most characterful spots on Kos and completely authentic.", tip:"The fish is caught the same morning. The drive out is half the adventure.", rating:"4.9", lat:36.7150, lng:26.9620 },
     { id:"r17", hours:"11:00–23:00", name:"Palia Pyli Taverna", emoji:"🏰", cat:"restaurants", desc:"Rustic taverna near the ruins of the Byzantine ghost village of Pyli. Traditional Greek food in a wonderfully atmospheric setting amid medieval ruins.", tip:"Combine with a visit to the ghost village of Old Pyli directly above the restaurant.", rating:"4.8", lat:36.8400, lng:27.1600 },
-    { id:"r18", hours:"11:00–23:00", name:"Asomatos Village Taverna", emoji:"🌄", cat:"restaurants", desc:"Simple, genuine village taverna in Asomatos serving home-cooked Greek food at rock-bottom prices. Exactly what a Greek island taverna should be.", tip:"Order whatever the daily special is — it's always freshly made.", rating:"4.7", lat:36.8200, lng:27.1200 },
-    { id:"r19", hours:"11:00–23:00", name:"Kardamena Harbour Tavernas", emoji:"⚓", cat:"restaurants", desc:"A cluster of traditional fish tavernas around Kardamena harbour. Catch of the day grilled simply with lemon and olive oil — the quintessential Greek island meal.", tip:"Walk the harbour and look at the fresh fish on display before choosing which taverna.", rating:"4.5", lat:36.7850, lng:27.1350 },
+    { id:"r18", hours:"11:00–23:00", name:"Asomatos Village Taverna", emoji:"🌄", cat:"restaurants", desc:"Simple, genuine village taverna in Asomatos serving home-cooked Greek food at rock-bottom prices. Exactly what a Greek island taverna should be.", tip:"Order whatever the daily special is, it's always freshly made.", rating:"4.7", lat:36.8200, lng:27.1200 },
+    { id:"r19", hours:"11:00–23:00", name:"Kardamena Harbour Tavernas", emoji:"⚓", cat:"restaurants", desc:"A cluster of traditional fish tavernas around Kardamena harbour. Catch of the day grilled simply with lemon and olive oil, the quintessential Greek island meal.", tip:"Walk the harbour and look at the fresh fish on display before choosing which taverna.", rating:"4.5", lat:36.7850, lng:27.1350 },
     { id:"r20", hours:"11:00–23:00", name:"Mastichari Fish Taverna", emoji:"🎣", cat:"restaurants", desc:"Waterfront fish taverna in the charming port of Mastichari. Simple, honest cooking using whatever came off the boats that morning.", tip:"Sit outside and watch the Kalymnos ferry come and go while you eat.", rating:"4.6", lat:36.8480, lng:27.0080 },
-    { id:"r21", hours:"", name:"Fish House", phone:"", website:"", social:"",  emoji:"🐠", cat:"restaurants", featured:true, desc:"One of the finest seafood restaurants on Kos — fresh catch of the day, expertly prepared with a beautiful setting. A true local gem.", tip:"Ask for the daily catch — it came off the boat this morning. You will not eat fresher fish anywhere on the island.", rating:"5.0", lat:36.8930, lng:27.2870 },
+    { id:"r21", hours:"", name:"Fish House", phone:"", website:"", social:"",  emoji:"🐠", cat:"restaurants", featured:true, desc:"One of the finest seafood restaurants on Kos, fresh catch of the day, expertly prepared with a beautiful setting. A true local gem.", tip:"Ask for the daily catch, it came off the boat this morning. You will not eat fresher fish anywhere on the island.", rating:"5.0", lat:36.8930, lng:27.2870 },
   ],
   bars: [
     { id:"v1", hours:"21:00–05:00",  name:"Bar Street (Nafklirou)", phone:"", website:"", social:"",  emoji:"🍹", cat:"bars", desc:"The legendary epicentre of Kos nightlife, stretching from Plane Tree Square to Liberty Square. Transforms after midnight into a vibrant party zone with thousands of young Europeans.", tip:"Start at the quieter end near the square around 10pm, then follow the energy toward the harbour.", rating:"4.5", lat:36.8910, lng:27.2870 },
-    { id:"v3", hours:"23:00–06:00",  name:"Camelot Club", emoji:"🏰", cat:"bars", desc:"Open-air mega club with a massive dance floor and VIP areas. Famous for foam parties on Wednesdays and UV nights on Fridays.", tip:"Foam party Wednesday is an institution on the island — join in!", rating:"4.3", lat:36.8928, lng:27.2885 },
+    { id:"v3", hours:"23:00–06:00",  name:"Camelot Club", emoji:"🏰", cat:"bars", desc:"Open-air mega club with a massive dance floor and VIP areas. Famous for foam parties on Wednesdays and UV nights on Fridays.", tip:"Foam party Wednesday is an institution on the island, join in!", rating:"4.3", lat:36.8928, lng:27.2885 },
     { id:"v4", hours:"20:00–04:00",  name:"Mylos Beach Bar", phone:"+30 22420 24048", website:"https://mylos-kos.gr", social:"https://www.instagram.com/mylos_kos",  emoji:"⚙️", cat:"bars", desc:"Upscale club set in a converted windmill right on the beach. More sophisticated vibe than Bar Street, with quality cocktails and resident DJs.", tip:"Hosts the biggest monthly beach party on the island with famous DJs. Check their schedule.", rating:"4.7", lat:36.8800, lng:27.2600 },
     { id:"v5", hours:"18:00–02:00",  name:"Elia Rooftop Bar", phone:"+30 22420 21431", website:"", social:"https://www.instagram.com/elia_kos",  emoji:"🌅", cat:"bars", desc:"Sophisticated rooftop bar in Kos Town with panoramic views across the harbour and castle. Expert mixologists, creative cocktails and a refined atmosphere.", tip:"The best spot on the island to watch the sunset with a drink in hand. Arrive early.", rating:"4.8", lat:36.8950, lng:27.2910 },
     { id:"v6", hours:"21:00–04:00",  name:"Hammam Bar", phone:"+30 22420 26364", website:"", social:"",  emoji:"🕌", cat:"bars", desc:"Unique bar set inside a beautifully restored Ottoman bathhouse. Live DJ sets and Arabian-inspired decor create an exotic and memorable atmosphere unlike anywhere else on Kos.", tip:"One of the most atmospheric bars in Greece. Even if you just pop in for one drink, it's worth it.", rating:"4.8", lat:36.8940, lng:27.2900 },
-    { id:"v7", hours:"10:00–02:00",  name:"Kalua Beach Bar", phone:"+30 22420 28989", website:"", social:"https://www.instagram.com/kaluabeachbar_kos",  emoji:"🌴", cat:"bars", desc:"The best-known beach bar on Kos — sunbeds, cocktails, DJ music and a day-to-night party atmosphere right on the sand.", tip:"Happy hour runs 5-7pm. Great for watching the sunset over a cocktail.", rating:"4.7", lat:36.8790, lng:27.2580 },
-    { id:"v8", hours:"21:00–04:00",  name:"Charisma Bar", emoji:"✨", cat:"bars", desc:"Popular Bar Street favourite known for themed nights, DJ sets and a reliably fun party atmosphere. Friendly staff and great drinks specials.", tip:"Check their Instagram for themed night schedules — some nights are legendary.", rating:"4.5", lat:36.8912, lng:27.2873 },
+    { id:"v7", hours:"10:00–02:00",  name:"Kalua Beach Bar", phone:"+30 22420 28989", website:"", social:"https://www.instagram.com/kaluabeachbar_kos",  emoji:"🌴", cat:"bars", desc:"The best-known beach bar on Kos, with sunbeds, cocktails, DJ music and a day-to-night party atmosphere right on the sand.", tip:"Happy hour runs 5-7pm. Great for watching the sunset over a cocktail.", rating:"4.7", lat:36.8790, lng:27.2580 },
+    { id:"v8", hours:"21:00–04:00",  name:"Charisma Bar", emoji:"✨", cat:"bars", desc:"Popular Bar Street favourite known for themed nights, DJ sets and a reliably fun party atmosphere. Friendly staff and great drinks specials.", tip:"Check their Instagram for themed night schedules as some nights are legendary.", rating:"4.5", lat:36.8912, lng:27.2873 },
     { id:"v9", hours:"21:00–04:00",  name:"F Bar", emoji:"🎤", cat:"bars", desc:"Well-established Bar Street bar known for its friendly staff and consistent party vibe. One of the most popular pre-club spots in Kos Town.", tip:"Great for starting the night before moving on to the clubs after midnight.", rating:"4.4", lat:36.8908, lng:27.2868 },
     { id:"v10", hours:"18:00–02:00", name:"Harbour Cocktail Bars", emoji:"⛵", cat:"bars", desc:"A stretch of elegant harbour-side bars along the Kos Town waterfront. Relaxed, sophisticated and perfect for those who want ambience over party chaos.", tip:"Great alternative to Bar Street if you want a quieter drink with a beautiful setting.", rating:"4.6", lat:36.8955, lng:27.2935 },
     { id:"v11", hours:"09:00–02:00", name:"Alibaba Beach Bar", emoji:"🏖️", cat:"bars", desc:"Hugely popular beach bar beloved by locals and tourists alike. Genuine hospitality, great music and a proper beach party atmosphere.", tip:"If you use the food and drinks from the bar you can use the sunbeds for free!", rating:"4.7", lat:36.8820, lng:27.2620 },
     { id:"v12", hours:"18:00–02:00", name:"Socrates Garden Bar", emoji:"🌺", cat:"bars", desc:"Chilled garden bar tucked into the Old Town of Kos. A beautiful setting for an evening drink away from the noise of Bar Street.", tip:"Perfect for couples or anyone wanting a peaceful start or end to the evening.", rating:"4.6", lat:36.8935, lng:27.2860 },
-    { id:"v13", hours:"10:00–02:00", name:"Ammos Beach Cocktail Bar", phone:"+30 22420 25066", website:"", social:"https://www.instagram.com/ammos_kos",  emoji:"🍸", cat:"bars", desc:"Award-winning beach cocktail bar with an impressive menu of creative drinks. Beautiful sea views and a stylish relaxed atmosphere.", tip:"Their signature cocktail list is outstanding — ask the bartender for their recommendation.", rating:"4.8", lat:36.8770, lng:27.2550 },
+    { id:"v13", hours:"10:00–02:00", name:"Ammos Beach Cocktail Bar", phone:"+30 22420 25066", website:"", social:"https://www.instagram.com/ammos_kos",  emoji:"🍸", cat:"bars", desc:"Award-winning beach cocktail bar with an impressive menu of creative drinks. Beautiful sea views and a stylish relaxed atmosphere.", tip:"Their signature cocktail list is outstanding, ask the bartender for their recommendation.", rating:"4.8", lat:36.8770, lng:27.2550 },
     { id:"v14", hours:"21:00–04:00", name:"Kardamena Bar Strip", emoji:"🎉", cat:"bars", desc:"Kardamena is the second major nightlife destination on the island. A concentrated strip of bars and clubs with an energetic, international crowd.", tip:"Kardamena nightlife is more relaxed than Kos Town but still very lively. Great for groups.", rating:"4.3", lat:36.7840, lng:27.1340 },
-    { id:"v15", hours:"10:00–19:00", name:"Lido Waterpark Bar", emoji:"💦", cat:"bars", desc:"Not just a waterpark — the bar here serves drinks all day in a fun, relaxed setting. Great for a daytime drink with a completely different vibe to the beach bars.", tip:"Combine with a day at the waterpark for a fun family or group day out.", rating:"4.4", lat:36.8650, lng:27.1800 },
+    { id:"v15", hours:"10:00–19:00", name:"Lido Waterpark Bar", emoji:"💦", cat:"bars", desc:"Not just a waterpark, the bar here serves drinks all day in a fun, relaxed setting. Great for a daytime drink with a completely different vibe to the beach bars.", tip:"Combine with a day at the waterpark for a fun family or group day out.", rating:"4.4", lat:36.8650, lng:27.1800 },
     { id:"v16", hours:"10:00–02:00", name:"Mastichari Beach Bars", emoji:"🐚", cat:"bars", desc:"Cluster of relaxed beach bars in Mastichari with a more local, laid-back feel than the party bars of Kos Town. Great sunset drinks.", tip:"Less touristy than the main resort bars. Great for an authentic local evening out.", rating:"4.5", lat:36.8460, lng:27.0060 },
-    { id:"v17", hours:"09:00–02:00", name:"Sunrise Bar Tigaki", emoji:"🌄", cat:"bars", desc:"Popular bar in Tigaki serving cold drinks and cocktails throughout the day. A local favourite for lazy afternoon drinks after the beach.", tip:"Try the local Mythos beer on draft — cheaper and fresher than anywhere in Kos Town.", rating:"4.4", lat:36.8650, lng:27.0680 },
-    { id:"v18", hours:"17:00–02:00", name:"360 Bar Kefalos", emoji:"🔭", cat:"bars", desc:"Stunning hilltop bar above Kefalos village with 360-degree views over the Aegean. Cocktails and sundowners with arguably the best view on the island.", tip:"The sunset from here rivals Zia — and far fewer tourists know about it.", rating:"4.8", lat:36.7400, lng:26.9950 },
+    { id:"v17", hours:"09:00–02:00", name:"Sunrise Bar Tigaki", emoji:"🌄", cat:"bars", desc:"Popular bar in Tigaki serving cold drinks and cocktails throughout the day. A local favourite for lazy afternoon drinks after the beach.", tip:"Try the local Mythos beer on draft, cheaper and fresher than anywhere in Kos Town.", rating:"4.4", lat:36.8650, lng:27.0680 },
+    { id:"v18", hours:"17:00–02:00", name:"360 Bar Kefalos", emoji:"🔭", cat:"bars", desc:"Stunning hilltop bar above Kefalos village with 360-degree views over the Aegean. Cocktails and sundowners with arguably the best view on the island.", tip:"The sunset from here rivals Zia and far fewer tourists know about it.", rating:"4.8", lat:36.7400, lng:26.9950 },
     { id:"v19", hours:"18:00–03:00", name:"The Dubliner", emoji:"🍺", cat:"bars", desc:"Popular sports bar with massive screens, cold beers and a friendly international crowd. Perfect for watching live sports or a relaxed pre-night drink.", tip:"Happy hour specials include EUR 2 shots and EUR 3 beers. Great value.", rating:"4.3", lat:36.8905, lng:27.2865 },
     { id:"v20", hours:"20:00–04:00", name:"Pirate Bar Harbour", emoji:"☠️", cat:"bars", desc:"Fun themed pirate bar right on the harbour with a lively crowd, themed cocktails and a great location for people-watching.", tip:"The rum cocktails are the obvious choice here. Lively from 9pm onwards.", rating:"4.2", lat:36.8960, lng:27.2940 },
-    { id:"v21", hours:"22:00–05:00", name:"Zero", phone:"", website:"", social:"",  emoji:"🎧", cat:"bars", desc:"Kos Town's coolest underground bar — intimate, stylish and with a seriously good sound system. A favourite with those in the know for craft cocktails and late-night vibes.", tip:"Gets going late — the real crowd arrives after midnight. One of the best kept secrets in Kos nightlife.", rating:"4.8", lat:36.8918, lng:27.2872 },
-    { id:"v22", hours:"18:00–02:00", name:"Omega Sky Bar", phone:"", website:"", social:"",  emoji:"🌌", cat:"bars", desc:"Spectacular rooftop bar with sweeping 360-degree views over Kos Town, the harbour and the Aegean. Premium cocktails served with one of the most dramatic backdrops on the island.", tip:"Book a table for sunset — the view as the sun drops behind the Turkish mountains is absolutely stunning.", rating:"4.9", lat:36.8945, lng:27.2888 },
+    { id:"v21", hours:"22:00–05:00", name:"Zero", phone:"", website:"", social:"",  emoji:"🎧", cat:"bars", desc:"Kos Town's coolest underground bar, intimate, stylish and with a seriously good sound system. A favourite with those in the know for craft cocktails and late-night vibes.", tip:"Gets going late and the real crowd arrives after midnight. One of the best kept secrets in Kos nightlife.", rating:"4.8", lat:36.8918, lng:27.2872 },
+    { id:"v22", hours:"18:00–02:00", name:"Omega Sky Bar", phone:"", website:"", social:"",  emoji:"🌌", cat:"bars", desc:"Spectacular rooftop bar with sweeping 360-degree views over Kos Town, the harbour and the Aegean. Premium cocktails served with one of the most dramatic backdrops on the island.", tip:"Book a table for sunset as the view when the sun drops behind the Turkish mountains is absolutely stunning.", rating:"4.9", lat:36.8945, lng:27.2888 },
     { id:"v23", hours:"18:00–02:00", name:"Thea Rooftop Bar", phone:"", website:"", social:"",  emoji:"🌹", cat:"bars", desc:"Sophisticated and elegant rooftop bar with a romantic atmosphere, beautiful lighting and expertly crafted cocktails. One of the most refined bars on the island.", tip:"Perfect for a special evening or date night. The cocktail menu is creative and the views are gorgeous.", rating:"4.9", lat:36.8942, lng:27.2882 },
-    { id:"v24", hours:"18:00–03:00", name:"Kaseta", phone:"", website:"", social:"", emoji:"⚓", cat:"bars", desc:"A beloved bar right on the harbour of Kos Town — one of the most characterful spots on the waterfront. Great atmosphere, cold drinks and one of the best spots on the island to watch the boats come and go as the evening unfolds.", tip:"Grab a seat facing the harbour as the sun goes down. The harbour lighting at night makes this one of the most atmospheric bars in Kos Town.", rating:"4.7", lat:36.8962, lng:27.2938 },
-    { id:"v25", hours:"20:00–03:00", name:"Scholargio", phone:"", website:"", social:"", emoji:"🎓", cat:"bars", desc:"A well-loved Kos Town bar with a loyal following among both locals and tourists. Great drinks, a relaxed vibe and the kind of place you end up staying far longer than you planned.", tip:"A great spot to start the evening — friendly crowd and good music without the intensity of Bar Street.", rating:"4.6", lat:36.8918, lng:27.2875 },
-    { id:"v26", hours:"19:00–03:00", name:"Kentriko", phone:"", website:"", social:"", emoji:"🏛️", cat:"bars", desc:"A classic Kos Town bar right in the heart of the action — Kentriko (meaning Central) lives up to its name as a central meeting point for locals and tourists alike. Great atmosphere, good drinks and that unmistakable buzz of a bar that has been a firm favourite for years.", tip:"One of the most central bars in Kos Town — perfect for people watching and starting the evening. Always a friendly crowd.", rating:"4.6", lat:36.8932, lng:27.2878 },
+    { id:"v24", hours:"18:00–03:00", name:"Kaseta", phone:"", website:"", social:"", emoji:"⚓", cat:"bars", desc:"A beloved bar right on the harbour of Kos Town and one of the most characterful spots on the waterfront. Great atmosphere, cold drinks and one of the best spots on the island to watch the boats come and go as the evening unfolds.", tip:"Grab a seat facing the harbour as the sun goes down. The harbour lighting at night makes this one of the most atmospheric bars in Kos Town.", rating:"4.7", lat:36.8962, lng:27.2938 },
+    { id:"v25", hours:"20:00–03:00", name:"Scholargio", phone:"", website:"", social:"", emoji:"🎓", cat:"bars", desc:"A well-loved Kos Town bar with a loyal following among both locals and tourists. Great drinks, a relaxed vibe and the kind of place you end up staying far longer than you planned.", tip:"A great spot to start the evening, friendly crowd and good music without the intensity of Bar Street.", rating:"4.6", lat:36.8918, lng:27.2875 },
+    { id:"v26", hours:"19:00–03:00", name:"Kentriko", phone:"", website:"", social:"", emoji:"🏛️", cat:"bars", desc:"A classic Kos Town bar right in the heart of the action. Kentriko (meaning Central) lives up to its name as a central meeting point for locals and tourists alike. Great atmosphere, good drinks and that unmistakable buzz of a bar that has been a firm favourite for years.", tip:"One of the most central bars in Kos Town, perfect for people watching and starting the evening. Always a friendly crowd.", rating:"4.6", lat:36.8932, lng:27.2878 },
   ],
   sights: [
     { id:"s1",  name:"Asklepion", emoji:"🏛️", cat:"sights", desc:"The most significant archaeological site on Kos. Ancient healing sanctuary and medical school of Hippocrates, one of the most renowned in the ancient world. Three terraced levels with stunning sea views.", tip:"Hire a local guide to bring the history to life. Take bus Line 5 from Kos Town.", rating:"4.9", lat:36.8700, lng:27.2500 },
     { id:"s2",  name:"Castle of the Knights", emoji:"🏰", cat:"sights", desc:"Imposing 15th-century fortress built by the Knights of St John, dominating the harbour entrance. One of the best-preserved medieval castles in the Aegean.", tip:"Visit late afternoon when the golden light hits the stone walls beautifully. Entry fee is small.", rating:"4.8", lat:36.8960, lng:27.2930 },
     { id:"s3",  name:"Plane Tree of Hippocrates", emoji:"🌳", cat:"sights", desc:"One of the oldest and largest plane trees in Europe, said to be where Hippocrates himself taught medicine 2,400 years ago. Sits in the central square of Kos Town.", tip:"Free to visit. Great for photos. Combine with a coffee at one of the surrounding cafes.", rating:"4.6", lat:36.8945, lng:27.2875 },
-    { id:"s4",  name:"Zia Village", emoji:"⛪", cat:"sights", desc:"The most charming mountain village on Kos, perched on the slopes of Mount Dikeos. Traditional craft shops, tavernas and the island's most spectacular sunset panorama.", tip:"Arrive 30 minutes before sunset — the view over the island and to Turkey is unforgettable.", rating:"4.9", lat:36.8300, lng:27.1800 },
-    { id:"s5",  name:"Ancient Agora", emoji:"🏺", cat:"sights", desc:"Sprawling ancient marketplace in the heart of Kos Town — the former civic and commercial hub of ancient Kos. Wander among temples, stoas and market hall remnants.", tip:"Free and always open. Combine with a walk through the Old Town immediately adjacent.", rating:"4.7", lat:36.8942, lng:27.2888 },
-    { id:"s6",  name:"Antimachia Castle", emoji:"🗼", cat:"sights", desc:"Dramatic medieval castle near Antimachia village, built by the Knights of St John. Less visited than the harbour castle but arguably more atmospheric — perched on a windswept hill.", tip:"Largely unrestored and rarely crowded. A rewarding detour if you have a car.", rating:"4.7", lat:36.8050, lng:27.0750 },
+    { id:"s4",  name:"Zia Village", emoji:"⛪", cat:"sights", desc:"The most charming mountain village on Kos, perched on the slopes of Mount Dikeos. Traditional craft shops, tavernas and the island's most spectacular sunset panorama.", tip:"Arrive 30 minutes before sunset, the view over the island and to Turkey is unforgettable.", rating:"4.9", lat:36.8300, lng:27.1800 },
+    { id:"s5",  name:"Ancient Agora", emoji:"🏺", cat:"sights", desc:"Sprawling ancient marketplace in the heart of Kos Town, the former civic and commercial hub of ancient Kos. Wander among temples, stoas and market hall remnants.", tip:"Free and always open. Combine with a walk through the Old Town immediately adjacent.", rating:"4.7", lat:36.8942, lng:27.2888 },
+    { id:"s6",  name:"Antimachia Castle", emoji:"🗼", cat:"sights", desc:"Dramatic medieval castle near Antimachia village, built by the Knights of St John. Less visited than the harbour castle but arguably more atmospheric, perched on a windswept hill.", tip:"Largely unrestored and rarely crowded. A rewarding detour if you have a car.", rating:"4.7", lat:36.8050, lng:27.0750 },
     { id:"s7",  name:"Old Pyli (Ghost Village)", emoji:"👻", cat:"sights", desc:"Haunting abandoned Byzantine village clinging to the hillside above modern Pyli. Deserted in the 1800s, it retains churches, houses and castle ruins reclaimed by nature.", tip:"Combine with lunch at the Palia Pyli Taverna below. A genuinely eerie and beautiful place.", rating:"4.8", lat:36.8380, lng:27.1580 },
     { id:"s8",  name:"Roman Odeon", emoji:"🎭", cat:"sights", desc:"Remarkably well-preserved ancient theatre near the Agora that once hosted performances and public gatherings. The marble seating and stage give a vivid sense of Roman daily life.", tip:"Performances are still occasionally held here in summer. Check local listings.", rating:"4.6", lat:36.8938, lng:27.2885 },
     { id:"s9",  name:"Archaeological Museum", emoji:"🏺", cat:"sights", desc:"Housed in a handsome Italian-era building in Eleftherias Square. Superb collection of statues, mosaics and artefacts from the island's ancient sites.", tip:"Don't miss the famous mosaic of Hippocrates welcoming Asclepius to Kos. Excellent value.", rating:"4.7", lat:36.8948, lng:27.2878 },
-    { id:"s10", name:"Eleftherias Square", emoji:"☕", cat:"sights", desc:"The lively central square of Kos Town — ringed by cafes, the Archaeological Museum, the Defterdar Mosque and the covered market. The beating heart of daily life in Kos.", tip:"Grab a Greek coffee here and watch island life go by. The best people-watching spot in Kos.", rating:"4.5", lat:36.8948, lng:27.2878 },
+    { id:"s10", name:"Eleftherias Square", emoji:"☕", cat:"sights", desc:"The lively central square of Kos Town, ringed by cafes, the Archaeological Museum, the Defterdar Mosque and the covered market. The beating heart of daily life in Kos.", tip:"Grab a Greek coffee here and watch island life go by. The best people-watching spot in Kos.", rating:"4.5", lat:36.8948, lng:27.2878 },
     { id:"s11", name:"Defterdar Mosque", emoji:"🕌", cat:"sights", desc:"Ottoman-era mosque in the central square, a reminder of the island's Turkish period. One of the most intact Ottoman buildings in the Dodecanese.", tip:"Reflects the fascinating multi-cultural history of Kos. Photograph from the square.", rating:"4.5", lat:36.8950, lng:27.2880 },
-    { id:"s12", name:"Casa Romana", emoji:"🏛️", cat:"sights", desc:"Beautifully restored Roman villa with stunning floor mosaics, frescoed walls and a central atrium. One of the finest Roman domestic interiors in Greece.", tip:"Often overlooked by tourists — rarely crowded. The mosaics are extraordinary.", rating:"4.8", lat:36.8930, lng:27.2870 },
-    { id:"s13", name:"Plaka Forest & Peacocks", emoji:"🦚", cat:"sights", desc:"A magical pine forest near Plaka village that is home to a wild population of peacocks roaming completely freely. Surreal and wonderful — unique in all of Greece.", tip:"Go in the morning when the peacocks are most active. Completely free and unlike anywhere else.", rating:"4.8", lat:36.8150, lng:27.0350 },
+    { id:"s12", name:"Casa Romana", emoji:"🏛️", cat:"sights", desc:"Beautifully restored Roman villa with stunning floor mosaics, frescoed walls and a central atrium. One of the finest Roman domestic interiors in Greece.", tip:"Often overlooked by tourists and rarely crowded. The mosaics are extraordinary.", rating:"4.8", lat:36.8930, lng:27.2870 },
+    { id:"s13", name:"Plaka Forest & Peacocks", emoji:"🦚", cat:"sights", desc:"A magical pine forest near Plaka village that is home to a wild population of peacocks roaming completely freely. Surreal and wonderful and unique in all of Greece.", tip:"Go in the morning when the peacocks are most active. Completely free and unlike anywhere else.", rating:"4.8", lat:36.8150, lng:27.0350 },
     { id:"s14", name:"Lido Waterpark", emoji:"💦", cat:"sights", desc:"One of the largest waterparks in Greece with slides, wave pools and lazy rivers. A fantastic day out for families and groups.", tip:"Buy tickets online for a discount. Go on a weekday to avoid peak weekend crowds.", rating:"4.5", lat:36.8650, lng:27.1800 },
     { id:"s15", name:"Mount Dikeos", emoji:"⛰️", cat:"sights", desc:"The highest peak on Kos at 846 metres, rising dramatically above the island. The views from the summit take in the whole of the Dodecanese and the coast of Turkey.", tip:"Best hiked early morning. Bring plenty of water and sturdy footwear.", rating:"4.7", lat:36.8200, lng:27.1650 },
     { id:"s16", name:"Hippocrates Garden", emoji:"🌺", cat:"sights", desc:"Cultural centre and botanical garden dedicated to Hippocrates and the history of medicine. Beautiful green space with medicinal herb gardens and exhibitions.", tip:"A peaceful escape from the tourist bustle. Great for kids interested in science and history.", rating:"4.5", lat:36.8920, lng:27.2840 },
-    { id:"s17", name:"Therma Hot Springs", emoji:"♨️", cat:"sights", desc:"Natural thermal springs where hot volcanic water flows directly into the sea, creating warm bathing pools on the rocky shore. A unique geological wonder.", tip:"Most atmospheric at sunrise. Wear old swimwear — the minerals can stain.", rating:"4.7", lat:36.8333, lng:27.3500 },
+    { id:"s17", name:"Therma Hot Springs", emoji:"♨️", cat:"sights", desc:"Natural thermal springs where hot volcanic water flows directly into the sea, creating warm bathing pools on the rocky shore. A unique geological wonder.", tip:"Most atmospheric at sunrise. Wear old swimwear, the minerals can stain.", rating:"4.7", lat:36.8333, lng:27.3500 },
     { id:"s18", name:"Antimachia Traditional House", emoji:"🏠", cat:"sights", desc:"Preserved traditional Dodecanese house in Antimachia village, maintained as a living museum showing domestic life as it was a century ago.", tip:"A fascinating glimpse into authentic island life. The volunteer guides are passionate and knowledgeable.", rating:"4.6", lat:36.8100, lng:27.0800 },
     { id:"s19", name:"Kardamena Old Village", emoji:"🎨", cat:"sights", desc:"Behind the modern tourist resort lies the original fishing village of Kardamena with whitewashed streets, a Byzantine church and a genuinely local atmosphere.", tip:"Walk 10 minutes from the main strip to find the real village. A world away from the beach bars.", rating:"4.4", lat:36.7850, lng:27.1280 },
     { id:"s20", name:"Kefalos Windmills", emoji:"🌬️", cat:"sights", desc:"A row of traditional stone windmills on the Kefalos headland, silhouetted dramatically against the Aegean sky. One of the most iconic images of Kos.", tip:"Best photographed at golden hour. Combine with a swim at Agios Stefanos beach directly below.", rating:"4.7", lat:36.7450, lng:27.2750 },
   ],
   villages: [
-    { id:"vil1", name:"Kos Town", emoji:"🏙️", cat:"villages", desc:"The vibrant capital and main port of the island — a fascinating blend of ancient Greek ruins, Ottoman mosques, Venetian architecture and modern Greek life. Home to the Castle of the Knights, the Ancient Agora, the Plane Tree of Hippocrates and the island's best restaurants and nightlife. Lively, cosmopolitan and endlessly interesting to explore on foot.", tip:"Get up early and explore the archaeological sites before the heat and crowds arrive. The old town streets around Apellou are magical in the morning.", rating:"4.8", lat:36.8940, lng:27.2880 },
-    { id:"vil2", name:"Zia", emoji:"⛰️", cat:"villages", desc:"The most famous and most visited village on Kos — a picturesque mountain settlement on the slopes of Mount Dikeos surrounded by pines and olive trees. Famous above all for its extraordinary panoramic sunsets, craft shops selling local honey and ceramics, and traditional tavernas. The view from Zia over the whole island and across to Turkey is one of the great sights of the Dodecanese.", tip:"Arrive 30 minutes before sunset and book a taverna table facing west. Visit in the morning to explore quietly before the tour buses arrive.", rating:"4.9", lat:36.8300, lng:27.1800 },
-    { id:"vil3", name:"Kardamena", emoji:"🎉", cat:"villages", desc:"Once a small fishing village, Kardamena has grown into the island's second-biggest resort and its unofficial nightlife capital. The beach is long and sandy, the bar strip is lively, and the harbour is charming. Beneath the tourism, Kardamena has ancient roots — numerous temples and early Christian churches have been unearthed here. Daily boats depart from the port to Nisyros island.", tip:"The old part of the village behind the main strip is worth exploring — whitewashed streets, a Byzantine church and a genuinely local atmosphere away from the bars.", rating:"4.3", lat:36.7833, lng:27.1333 },
-    { id:"vil4", name:"Kefalos", emoji:"🌅", cat:"villages", desc:"The ancient capital of Kos — known in antiquity as Astypalaia — Kefalos sits on a dramatic headland at the far southwest of the island with sweeping views over the Aegean. A quiet, traditional village of whitewashed houses, narrow cobblestone alleys, old windmills and a ruined hilltop castle. The surrounding area has some of the island's most beautiful and least crowded beaches.", tip:"Kefalos is the place to escape the summer crowds. Hire a scooter and explore the beaches and coves on the peninsula below — most tourists never make it this far.", rating:"4.8", lat:36.7380, lng:26.9980 },
-    { id:"vil5", name:"Antimachia", emoji:"🏰", cat:"villages", desc:"A large, dignified village at the crossroads of the island, close to the airport and the island's most impressive Venetian castle. Antimachia is authentically Greek and largely untouched by tourism. The castle of the Knights of St John looms over the village, and the traditional Antimachia House museum offers a beautifully preserved glimpse into island life of the past.", tip:"Visit in May for the spectacular Medieval Festival at the castle — one of the best events on the island. The traditional house museum is free and genuinely fascinating.", rating:"4.6", lat:36.8100, lng:27.0800 },
-    { id:"vil6", name:"Mastichari", emoji:"⚓", cat:"villages", desc:"A charming coastal village and fishing port on the north coast with a beautiful white-sand beach that genuinely resembles the Caribbean. Mastichari is the departure point for ferries to Kalymnos and Pserimos, and its waterfront is lined with excellent fish tavernas serving the daily catch. Less developed than Tigaki or Kardamena, it retains a genuinely local feel.", tip:"The fish tavernas along the harbour are among the best value on the island. Try the grilled octopus hanging in the sun outside — that is a good sign of freshness.", rating:"4.6", lat:36.8465, lng:27.0068 },
-    { id:"vil7", name:"Pyli", emoji:"💧", cat:"villages", desc:"A picturesque inland village in the heart of the island, surrounded by lush olive groves and famous for its fresh water springs. The cobbled village square, colourful traditional houses and stone-built tavernas make it one of the most charming authentic spots on Kos. Just outside is Old Pyli — the haunting abandoned Byzantine ghost village and castle, known as the Dodecanese Mystras.", tip:"Combine a visit to the village with a walk up to Old Pyli above it. The abandoned castle with its 14th century frescoes is extraordinary — very few tourists find it.", rating:"4.7", lat:36.8380, lng:27.1580 },
-    { id:"vil8", name:"Platani", emoji:"🕌", cat:"villages", desc:"A unique and fascinating village just 3km from Kos Town on the road to the Asklepion — home to the island's Muslim community, the descendants of Ottoman settlers who remained after the end of Turkish rule. Platani is entirely different in character from any other Kos village, with mosques, Turkish coffee houses and tavernas serving outstanding kebabs, mezes and Oriental dishes.", tip:"Stop here for lunch on the way to or from the Asklepion. The Turkish-style mezedes and kebabs are extraordinary and completely unlike anything else on the island.", rating:"4.7", lat:36.8770, lng:27.2550 },
-    { id:"vil9", name:"Asfendiou", emoji:"🌿", cat:"villages", desc:"One of the most beautiful traditional villages on Kos, tucked into the wooded northern slopes of Mount Dikeos. Asfendiou is actually a cluster of small hamlets — Zia, Asomatos, Evangelistra and Lagoudi — each with its own character. The two-storey stone mansions known as pirgi give the village a fortress-like grandeur, and the 11th century church of Asomaton Taxiarchon is a remarkable sight.", tip:"A wonderful area for walking and trekking in the hills. Much cooler than the coast in summer. The village is best visited in the morning before the Zia crowds arrive.", rating:"4.7", lat:36.8200, lng:27.1650 },
-    { id:"vil10", name:"Tigaki", emoji:"🦩", cat:"villages", desc:"A popular beach resort village on the north coast with one of the best sandy beaches on the island — 10km of fine sand and shallow water ideal for families. Beyond the beach, Tigaki has a local character that many resorts lack, and the nearby Alikes wetland is a protected nature reserve and a haven for flamingos, herons and other wading birds.", tip:"Walk east from the beach to the Alikes salt lake at dusk — flamingos feed here regularly and it is one of the most unexpected wildlife experiences on the island.", rating:"4.5", lat:36.8655, lng:27.0685 },
-    { id:"vil11", name:"Marmari", emoji:"🏄", cat:"villages", desc:"A relaxed beach resort village on the north coast known for its wide sandy beach and its near-constant winds — making it one of the best windsurfing and kitesurfing spots in the Dodecanese. Marmari has a low-key, unpretentious character with good tavernas, accommodation and a pleasant local atmosphere.", tip:"If you windsurf or kitesurf, Marmari should be your base on Kos. Several professional schools and rental centres operate here throughout the summer.", rating:"4.4", lat:36.8600, lng:27.0300 },
-    { id:"vil12", name:"Zipari", emoji:"🌾", cat:"villages", desc:"A quiet, traditional inland village a few kilometres from Kos Town, largely untouched by tourism. Zipari sits amid fertile farmland and olive groves and gives an authentic glimpse of rural Kos life. It's a useful base for exploring the interior of the island and is close to several walking routes up into the Dikeos mountains.", tip:"Drive or cycle through Zipari on the way to the mountain villages — it is a good place to stop for a genuine local coffee and watch daily island life.", rating:"4.3", lat:36.8600, lng:27.2200 },
+    { id:"vil1", name:"Kos Town", emoji:"🏙️", cat:"villages", desc:"The vibrant capital and main port of the island, a fascinating blend of ancient Greek ruins, Ottoman mosques, Venetian architecture and modern Greek life. Home to the Castle of the Knights, the Ancient Agora, the Plane Tree of Hippocrates and the island's best restaurants and nightlife. Lively, cosmopolitan and endlessly interesting to explore on foot.", tip:"Get up early and explore the archaeological sites before the heat and crowds arrive. The old town streets around Apellou are magical in the morning.", rating:"4.8", lat:36.8940, lng:27.2880 },
+    { id:"vil2", name:"Zia", emoji:"⛰️", cat:"villages", desc:"The most famous and most visited village on Kos, a picturesque mountain settlement on the slopes of Mount Dikeos surrounded by pines and olive trees. Famous above all for its extraordinary panoramic sunsets, craft shops selling local honey and ceramics, and traditional tavernas. The view from Zia over the whole island and across to Turkey is one of the great sights of the Dodecanese.", tip:"Arrive 30 minutes before sunset and book a taverna table facing west. Visit in the morning to explore quietly before the tour buses arrive.", rating:"4.9", lat:36.8300, lng:27.1800 },
+    { id:"vil3", name:"Kardamena", emoji:"🎉", cat:"villages", desc:"Once a small fishing village, Kardamena has grown into the island's second-biggest resort and its unofficial nightlife capital. The beach is long and sandy, the bar strip is lively, and the harbour is charming. Beneath the tourism, Kardamena has ancient roots, numerous temples and early Christian churches have been unearthed here. Daily boats depart from the port to Nisyros island.", tip:"The old part of the village behind the main strip is worth exploring, whitewashed streets, a Byzantine church and a genuinely local atmosphere away from the bars.", rating:"4.3", lat:36.7833, lng:27.1333 },
+    { id:"vil4", name:"Kefalos", emoji:"🌅", cat:"villages", desc:"The ancient capital of Kos, known in antiquity as Astypalaia, Kefalos sits on a dramatic headland at the far southwest of the island with sweeping views over the Aegean. A quiet, traditional village of whitewashed houses, narrow cobblestone alleys, old windmills and a ruined hilltop castle. The surrounding area has some of the island's most beautiful and least crowded beaches.", tip:"Kefalos is the place to escape the summer crowds. Hire a scooter and explore the beaches and coves on the peninsula below, most tourists never make it this far.", rating:"4.8", lat:36.7380, lng:26.9980 },
+    { id:"vil5", name:"Antimachia", emoji:"🏰", cat:"villages", desc:"A large, dignified village at the crossroads of the island, close to the airport and the island's most impressive Venetian castle. Antimachia is authentically Greek and largely untouched by tourism. The castle of the Knights of St John looms over the village, and the traditional Antimachia House museum offers a beautifully preserved glimpse into island life of the past.", tip:"Visit in May for the spectacular Medieval Festival at the castle, one of the best events on the island. The traditional house museum is free and genuinely fascinating.", rating:"4.6", lat:36.8100, lng:27.0800 },
+    { id:"vil6", name:"Mastichari", emoji:"⚓", cat:"villages", desc:"A charming coastal village and fishing port on the north coast with a beautiful white-sand beach that genuinely resembles the Caribbean. Mastichari is the departure point for ferries to Kalymnos and Pserimos, and its waterfront is lined with excellent fish tavernas serving the daily catch. Less developed than Tigaki or Kardamena, it retains a genuinely local feel.", tip:"The fish tavernas along the harbour are among the best value on the island. Try the grilled octopus hanging in the sun outside, that is a good sign of freshness.", rating:"4.6", lat:36.8465, lng:27.0068 },
+    { id:"vil7", name:"Pyli", emoji:"💧", cat:"villages", desc:"A picturesque inland village in the heart of the island, surrounded by lush olive groves and famous for its fresh water springs. The cobbled village square, colourful traditional houses and stone-built tavernas make it one of the most charming authentic spots on Kos. Just outside is Old Pyli, the haunting abandoned Byzantine ghost village and castle, known as the Dodecanese Mystras.", tip:"Combine a visit to the village with a walk up to Old Pyli above it. The abandoned castle with its 14th century frescoes is extraordinary, very few tourists find it.", rating:"4.7", lat:36.8380, lng:27.1580 },
+    { id:"vil8", name:"Platani", emoji:"🕌", cat:"villages", desc:"A unique and fascinating village just 3km from Kos Town on the road to the Asklepion, home to the island's Muslim community, the descendants of Ottoman settlers who remained after the end of Turkish rule. Platani is entirely different in character from any other Kos village, with mosques, Turkish coffee houses and tavernas serving outstanding kebabs, mezes and Oriental dishes.", tip:"Stop here for lunch on the way to or from the Asklepion. The Turkish-style mezedes and kebabs are extraordinary and completely unlike anything else on the island.", rating:"4.7", lat:36.8770, lng:27.2550 },
+    { id:"vil9", name:"Asfendiou", emoji:"🌿", cat:"villages", desc:"One of the most beautiful traditional villages on Kos, tucked into the wooded northern slopes of Mount Dikeos. Asfendiou is actually a cluster of small hamlets, Zia, Asomatos, Evangelistra and Lagoudi, each with its own character. The two-storey stone mansions known as pirgi give the village a fortress-like grandeur, and the 11th century church of Asomaton Taxiarchon is a remarkable sight.", tip:"A wonderful area for walking and trekking in the hills. Much cooler than the coast in summer. The village is best visited in the morning before the Zia crowds arrive.", rating:"4.7", lat:36.8200, lng:27.1650 },
+    { id:"vil10", name:"Tigaki", emoji:"🦩", cat:"villages", desc:"A popular beach resort village on the north coast with one of the best sandy beaches on the island, 10km of fine sand and shallow water ideal for families. Beyond the beach, Tigaki has a local character that many resorts lack, and the nearby Alikes wetland is a protected nature reserve and a haven for flamingos, herons and other wading birds.", tip:"Walk east from the beach to the Alikes salt lake at dusk, flamingos feed here regularly and it is one of the most unexpected wildlife experiences on the island.", rating:"4.5", lat:36.8655, lng:27.0685 },
+    { id:"vil11", name:"Marmari", emoji:"🏄", cat:"villages", desc:"A relaxed beach resort village on the north coast known for its wide sandy beach and its near-constant winds, making it one of the best windsurfing and kitesurfing spots in the Dodecanese. Marmari has a low-key, unpretentious character with good tavernas, accommodation and a pleasant local atmosphere.", tip:"If you windsurf or kitesurf, Marmari should be your base on Kos. Several professional schools and rental centres operate here throughout the summer.", rating:"4.4", lat:36.8600, lng:27.0300 },
+    { id:"vil12", name:"Zipari", emoji:"🌾", cat:"villages", desc:"A quiet, traditional inland village a few kilometres from Kos Town, largely untouched by tourism. Zipari sits amid fertile farmland and olive groves and gives an authentic glimpse of rural Kos life. It's a useful base for exploring the interior of the island and is close to several walking routes up into the Dikeos mountains.", tip:"Drive or cycle through Zipari on the way to the mountain villages, it is a good place to stop for a genuine local coffee and watch daily island life.", rating:"4.3", lat:36.8600, lng:27.2200 },
   ],
   activities: [
-    { id:"ac1",  name:"Dream Catch Kos", emoji:"🎣", cat:"activities", featured:true, phone:"", website:"", social:"", desc:"A unique land-based fishing safari run by a true local with a lifetime of knowledge of the island's secret spots. Jump in the car and head off-road to secluded beaches and hidden coves that most tourists never find — rod in hand, feet in the sand, fishing the Aegean the old-fashioned way. Small groups of one or two cars keep it personal and authentic. Suitable for complete beginners and experienced anglers alike.", tip:"This is not a boat tour — it's something far more personal and adventurous. You get driven to spots the guidebooks don't know about. Book ahead as spaces are very limited.", rating:"5.0", lat:36.8958, lng:27.2932 },
+    { id:"ac1",  name:"Dream Catch Kos", emoji:"🎣", cat:"activities", featured:true, phone:"", website:"", social:"", desc:"A unique land-based fishing safari run by a true local with a lifetime of knowledge of the island's secret spots. Jump in the car and head off-road to secluded beaches and hidden coves that most tourists never find, rod in hand, feet in the sand, fishing the Aegean the old-fashioned way. Small groups of one or two cars keep it personal and authentic. Suitable for complete beginners and experienced anglers alike.", tip:"This is not a boat tour, it's something far more personal and adventurous. You get driven to spots the guidebooks don't know about. Book ahead as spaces are very limited.", rating:"5.0", lat:36.8958, lng:27.2932 },
     { id:"ac2",  name:"Sailing Sunset Cruise", emoji:"⛵", cat:"activities", phone:"", website:"", social:"", desc:"Four-hour sailing cruise around the Kos coastline with swimming stops, snorkelling in crystal clear bays, fresh food and an open bar. Watching the sun set from the deck of a sailing boat with a cold drink in hand is one of those Kos moments you will never forget.", tip:"Book at the harbour ticket booths or through your hotel. A shared cruise is great value. Departs daily from Kos Town harbour, weather permitting.", rating:"4.8", lat:36.8960, lng:27.2940 },
-    { id:"ac3",  name:"Scuba Diving — Kos", emoji:"🤿", cat:"activities", phone:"", website:"", social:"", desc:"Kos has some of the clearest and most varied diving waters in the Aegean. Several PADI-certified dive centres operate on the island, offering courses from beginner to advanced. The reefs around Agios Fokas and Psalidi are particularly spectacular, with excellent visibility and rich marine life.", tip:"First-time diver? The beginner discovery dives are excellent. Experienced divers should ask about the deeper sites near Kefalos — outstanding visibility.", rating:"4.8", lat:36.8200, lng:27.3600 },
-    { id:"ac4",  name:"Jeep Safari — Island Tour", emoji:"🚙", cat:"activities", phone:"", website:"", social:"", desc:"A full-day guided jeep safari taking you to the hidden corners of Kos that most tourists never reach — mountain villages, secret viewpoints, ancient ruins and remote beaches. The convoy format is social and fun, and the local guides know every track on the island.", tip:"One of the best ways to see the whole island in a single day. Bring sunscreen and a camera — the views from the mountain tracks are extraordinary.", rating:"4.7", lat:36.8940, lng:27.2880 },
-    { id:"ac5",  name:"Cycling Tours of Kos", emoji:"🚴", cat:"activities", phone:"", website:"", social:"", desc:"Kos is famous across Greece for its cycling culture — the flat terrain and well-maintained cycle paths make it one of the best cycling islands in the country. Guided cycling tours run daily, covering the ancient sites, coastal paths and village routes. Bike rentals are widely available in Kos Town.", tip:"The cycle path from Kos Town to the Asklepion is beautiful and completely flat. Hire a bike for the day and explore at your own pace — it is the most Kos way to travel.", rating:"4.7", lat:36.8938, lng:27.2872 },
+    { id:"ac3",  name:"Scuba Diving, Kos", emoji:"🤿", cat:"activities", phone:"", website:"", social:"", desc:"Kos has some of the clearest and most varied diving waters in the Aegean. Several PADI-certified dive centres operate on the island, offering courses from beginner to advanced. The reefs around Agios Fokas and Psalidi are particularly spectacular, with excellent visibility and rich marine life.", tip:"First-time diver? The beginner discovery dives are excellent. Experienced divers should ask about the deeper sites near Kefalos, outstanding visibility.", rating:"4.8", lat:36.8200, lng:27.3600 },
+    { id:"ac4",  name:"Jeep Safari, Island Tour", emoji:"🚙", cat:"activities", phone:"", website:"", social:"", desc:"A full-day guided jeep safari taking you to the hidden corners of Kos that most tourists never reach, mountain villages, secret viewpoints, ancient ruins and remote beaches. The convoy format is social and fun, and the local guides know every track on the island.", tip:"One of the best ways to see the whole island in a single day. Bring sunscreen and a camera, the views from the mountain tracks are extraordinary.", rating:"4.7", lat:36.8940, lng:27.2880 },
+    { id:"ac5",  name:"Cycling Tours of Kos", emoji:"🚴", cat:"activities", phone:"", website:"", social:"", desc:"Kos is famous across Greece for its cycling culture, the flat terrain and well-maintained cycle paths make it one of the best cycling islands in the country. Guided cycling tours run daily, covering the ancient sites, coastal paths and village routes. Bike rentals are widely available in Kos Town.", tip:"The cycle path from Kos Town to the Asklepion is beautiful and completely flat. Hire a bike for the day and explore at your own pace, it is the most Kos way to travel.", rating:"4.7", lat:36.8938, lng:27.2872 },
     { id:"ac6",  name:"Hippocrates Walking Tour", emoji:"🏛️", cat:"activities", phone:"", website:"", social:"", desc:"A guided walking tour of Kos Town's remarkable ancient sites led by local historians and archaeologists. Covers the Ancient Agora, Casa Romana, Roman Odeon and the Plane Tree of Hippocrates in a fascinating two-hour walk through 2,500 years of history.", tip:"Runs Tuesday and Thursday mornings from the Plane Tree of Hippocrates. Book ahead as group sizes are small. Wear comfortable shoes and bring water.", rating:"4.9", lat:36.8945, lng:27.2875 },
-    { id:"ac7",  name:"Windsurfing & Kitesurfing", emoji:"🏄", cat:"activities", phone:"", website:"", social:"", desc:"Kos is one of the premier windsurfing and kitesurfing destinations in the Mediterranean, with reliable Meltemi winds on the north coast making conditions perfect throughout the summer. Several professional schools in Marmari and Mastichari offer lessons and equipment hire for all levels.", tip:"Marmari is the best spot for consistent wind. The IKO and PWA-certified schools here are world class — even complete beginners are up and riding within a day.", rating:"4.8", lat:36.8600, lng:27.0300 },
-    { id:"ac8",  name:"Pirate Boat Trip", emoji:"☠️", cat:"activities", phone:"", website:"", social:"", desc:"A hugely popular full-day boat excursion for families and groups. Sail the coastline on a pirate-themed galleon, stopping at hidden bays for swimming and snorkelling. Pirate games, music, a Greek lunch and an open bar are all included. Fantastic fun and genuinely memorable.", tip:"Book a day ahead — these fill up fast in peak season. The swimming stops at the hidden bays are the highlight. Great for kids of all ages.", rating:"4.6", lat:36.8962, lng:27.2935 },
+    { id:"ac7",  name:"Windsurfing & Kitesurfing", emoji:"🏄", cat:"activities", phone:"", website:"", social:"", desc:"Kos is one of the premier windsurfing and kitesurfing destinations in the Mediterranean, with reliable Meltemi winds on the north coast making conditions perfect throughout the summer. Several professional schools in Marmari and Mastichari offer lessons and equipment hire for all levels.", tip:"Marmari is the best spot for consistent wind. The IKO and PWA-certified schools here are world class, even complete beginners are up and riding within a day.", rating:"4.8", lat:36.8600, lng:27.0300 },
+    { id:"ac8",  name:"Pirate Boat Trip", emoji:"☠️", cat:"activities", phone:"", website:"", social:"", desc:"A hugely popular full-day boat excursion for families and groups. Sail the coastline on a pirate-themed galleon, stopping at hidden bays for swimming and snorkelling. Pirate games, music, a Greek lunch and an open bar are all included. Fantastic fun and genuinely memorable.", tip:"Book a day ahead, these fill up fast in peak season. The swimming stops at the hidden bays are the highlight. Great for kids of all ages.", rating:"4.6", lat:36.8962, lng:27.2935 },
     { id:"ac9",  name:"Kayaking & Snorkelling", emoji:"🚣", cat:"activities", phone:"", website:"", social:"", desc:"Guided sea kayaking tours exploring the hidden coves and sea caves along the Kos coastline. Snorkelling equipment is included and guides point out the best spots for marine life. A peaceful, active way to explore parts of the island that are unreachable by road.", tip:"The early morning tours have calmer water and better snorkelling visibility. The sea caves near Kefalos are a particular highlight.", rating:"4.7", lat:36.8940, lng:27.2880 },
-    { id:"ac10", name:"Horseback Riding", emoji:"🐴", cat:"activities", phone:"", website:"", social:"", desc:"Guided horseback riding tours through the Kos countryside — olive groves, farmland and mountain trails with views across the island. Suitable for all levels from complete beginners to experienced riders. A wonderfully different way to see the real interior of the island.", tip:"Evening rides at golden hour through the countryside are particularly beautiful. Book in advance as this is one of the more niche activities on the island.", rating:"4.6", lat:36.8600, lng:27.1800 },
-    { id:"ac11", name:"Go-Karting Kos", emoji:"🏎️", cat:"activities", phone:"", website:"", social:"", desc:"One of the island's most popular adrenaline activities — a well-maintained go-kart track near Antimachia with karts for adults and children. A great option for a fun afternoon away from the beach, especially popular with families and groups.", tip:"Go in the evening when it is cooler and less busy. Arrive 30 minutes before closing for the best chance of an empty track.", rating:"4.4", lat:36.8100, lng:27.0850 },
-    { id:"ac12", name:"Watersports — Paradise Beach", emoji:"💦", cat:"activities", phone:"", website:"", social:"", desc:"Paradise Beach is the undisputed watersports hub of Kos — jet skis, banana boats, parasailing, ring rides and flyboarding all operate here throughout the day. The beach operators are professional and the equipment is well-maintained. Perfect for a full adrenaline day on the water.", tip:"Prices are negotiable if you book multiple activities together. Go early morning for jet skiing — calmer water and shorter queues.", rating:"4.5", lat:36.7833, lng:27.1167 },
+    { id:"ac10", name:"Horseback Riding", emoji:"🐴", cat:"activities", phone:"", website:"", social:"", desc:"Guided horseback riding tours through the Kos countryside, olive groves, farmland and mountain trails with views across the island. Suitable for all levels from complete beginners to experienced riders. A wonderfully different way to see the real interior of the island.", tip:"Evening rides at golden hour through the countryside are particularly beautiful. Book in advance as this is one of the more niche activities on the island.", rating:"4.6", lat:36.8600, lng:27.1800 },
+    { id:"ac11", name:"Go-Karting Kos", emoji:"🏎️", cat:"activities", phone:"", website:"", social:"", desc:"One of the island's most popular adrenaline activities, a well-maintained go-kart track near Antimachia with karts for adults and children. A great option for a fun afternoon away from the beach, especially popular with families and groups.", tip:"Go in the evening when it is cooler and less busy. Arrive 30 minutes before closing for the best chance of an empty track.", rating:"4.4", lat:36.8100, lng:27.0850 },
+    { id:"ac12", name:"Watersports, Paradise Beach", emoji:"💦", cat:"activities", phone:"", website:"", social:"", desc:"Paradise Beach is the undisputed watersports hub of Kos, jet skis, banana boats, parasailing, ring rides and flyboarding all operate here throughout the day. The beach operators are professional and the equipment is well-maintained. Perfect for a full adrenaline day on the water.", tip:"Prices are negotiable if you book multiple activities together. Go early morning for jet skiing, calmer water and shorter queues.", rating:"4.5", lat:36.7833, lng:27.1167 },
   ],
 };
 
@@ -627,7 +627,7 @@ function AdminPanel({ places, onSave, onClose }) {
 // ── Emergency Numbers Data ────────────────────────────────────────────────────
 const EMERGENCY = [
   { id:"e1", category:"Emergency Services", color:"#ef4444", items:[
-    { name:"European Emergency", number:"112", desc:"Police, fire, ambulance — works from any phone including no SIM", icon:"🚨" },
+    { name:"European Emergency", number:"112", desc:"Police, fire, ambulance, works from any phone including no SIM", icon:"🚨" },
     { name:"Greek Police (Astynomia)", number:"100", desc:"Local police emergency line", icon:"👮" },
     { name:"Ambulance (EKAB)", number:"166", desc:"Medical emergency and ambulance service", icon:"🚑" },
     { name:"Fire Brigade", number:"199", desc:"Fire emergency service", icon:"🚒" },
@@ -1051,17 +1051,17 @@ function HomePage({ onExplore }) {
           <p style={{ margin:0, fontSize:15, color:"#cbd5e1", lineHeight:1.8, fontFamily:"Georgia, serif", fontStyle:"italic" }}>
             "Everything you'll find in this guide is based on my own personal experience of living on this island. These are the places I love, the beaches I go to and the spots I take my friends when they visit."
           </p>
-          <div style={{ marginTop:14, fontSize:12, color:"#e8a020", fontFamily:"sans-serif", letterSpacing:1 }}>— Your local guide, Kos</div>
+          <div style={{ marginTop:14, fontSize:12, color:"#e8a020", fontFamily:"sans-serif", letterSpacing:1 }}>— Your local guide, Kimon</div>
         </div>
 
         {/* Disclaimer card */}
         <div style={{ background:"rgba(232,160,32,0.08)", border:"1px solid rgba(232,160,32,0.2)", borderRadius:16, padding:"16px 18px", marginBottom:24 }}>
           <div style={{ fontSize:13, fontWeight:600, color:"#e8a020", fontFamily:"sans-serif", marginBottom:8 }}>A word before you explore</div>
           <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.7 }}>
-            Kos is a living, breathing island full of hidden gems, family-run tavernas down side streets and secret beaches only locals know about. This guide is a starting point — not the whole picture.
+            Kos is a living, breathing island full of hidden gems, family-run tavernas down side streets and secret beaches only locals know about. This guide is a starting point, not the whole picture.
           </p>
           <p style={{ margin:"10px 0 0", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.7 }}>
-            The real magic of Kos is getting off the main road, wandering into a bar that catches your eye, sitting down at a taverna because it smells good and stumbling across a cove that isn't on any map. Use this guide to get oriented — then go explore for yourself. 🗺️
+            The real magic of Kos is getting off the main road, wandering into a bar that catches your eye, sitting down at a taverna because it smells good and stumbling across a cove that isn't on any map. Use this guide to get oriented, then go explore for yourself. 🗺️
           </p>
         </div>
 
@@ -1069,7 +1069,7 @@ function HomePage({ onExplore }) {
         <div style={{ background:"rgba(234,179,8,0.08)", border:"1px solid rgba(234,179,8,0.25)", borderRadius:14, padding:"12px 16px", marginBottom:24, display:"flex", gap:10, alignItems:"center" }}>
           <span style={{ fontSize:20, flexShrink:0 }}>🚧</span>
           <p style={{ margin:0, fontSize:12, color:"#ca8a04", fontFamily:"sans-serif", lineHeight:1.6 }}>
-            <strong>Work in progress</strong> — This app is still being built and improved. Some information may be incomplete. We're adding more local gems every day!
+            <strong>Work in progress</strong>, This app is still being built and improved. Some information may be incomplete. We're adding more local gems every day!
           </p>
         </div>
 
@@ -1172,11 +1172,11 @@ const ISLANDS = [
     distance:"45 min by ferry",
     color:"#0EA5E9",
     tagline:"The Sponge Diving & Rock Climbing Island",
-    desc:"Kalymnos is one of the most distinctive islands in the Dodecanese — a rugged, mountainous island with a proud seafaring soul. For centuries it was the sponge diving capital of the world, and the tradition is still alive today. More recently it has become one of Europe's premier rock climbing destinations, with hundreds of routes carved into its dramatic limestone cliffs. The harbour town of Pothia is colourful and lively, the beaches are uncrowded, and the food is outstanding.",
+    desc:"Kalymnos is one of the most distinctive islands in the Dodecanese, a rugged, mountainous island with a proud seafaring soul. For centuries it was the sponge diving capital of the world, and the tradition is still alive today. More recently it has become one of Europe's premier rock climbing destinations, with hundreds of routes carved into its dramatic limestone cliffs. The harbour town of Pothia is colourful and lively, the beaches are uncrowded, and the food is outstanding.",
     highlights:[
       "World-class rock climbing on limestone cliffs",
       "Historic sponge diving heritage and sponge factories",
-      "Pothia harbour — colourful and authentically Greek",
+      "Pothia harbour, colourful and authentically Greek",
       "Chrysocheria Castle with panoramic views",
       "Outstanding fresh seafood tavernas",
     ],
@@ -1189,7 +1189,7 @@ const ISLANDS = [
     distance:"30 min by boat",
     color:"#10B981",
     tagline:"The Tiny Unspoilt Day Trip Island",
-    desc:"Pserimos is one of the smallest and most peaceful islands in the Aegean — barely more than a speck in the sea between Kos and Kalymnos, with fewer than 100 permanent residents. What it lacks in size it makes up for in charm. A single sandy beach, a handful of tavernas, a small whitewashed village and the gentlest pace of life imaginable. Day trippers arrive from Kos and Kalymnos in the morning and by late afternoon the island returns to silence. There are no cars, no nightlife — just the sea, the sun and a cold beer.",
+    desc:"Pserimos is one of the smallest and most peaceful islands in the Aegean, barely more than a speck in the sea between Kos and Kalymnos, with fewer than 100 permanent residents. What it lacks in size it makes up for in charm. A single sandy beach, a handful of tavernas, a small whitewashed village and the gentlest pace of life imaginable. Day trippers arrive from Kos and Kalymnos in the morning and by late afternoon the island returns to silence. There are no cars, no nightlife, just the sea, the sun and a cold beer.",
     highlights:[
       "One beautiful sandy beach right in the village",
       "Completely car-free and wonderfully peaceful",
@@ -1197,7 +1197,7 @@ const ISLANDS = [
       "Easy day trip from Kos Town or Mastichari",
       "Ancient capers growing wild across the hills",
     ],
-    tip:"Go on a weekday in early summer — in August it gets surprisingly crowded for such a small island. Arrive early and leave late for the best experience.",
+    tip:"Go on a weekday in early summer, in August it gets surprisingly crowded for such a small island. Arrive early and leave late for the best experience.",
   },
   {
     id:"i3",
@@ -1206,13 +1206,13 @@ const ISLANDS = [
     distance:"1h 30min by ferry",
     color:"#F97316",
     tagline:"The Volcanic Island with an Active Crater",
-    desc:"Nisyros is unlike anywhere else in Greece — a living, breathing volcanic island with an active caldera you can actually walk down into. The lunar landscape of the crater, with its bubbling sulphurous vents and alien terrain, is one of the most extraordinary sights in the Aegean. Above ground, the island is lush and beautiful, with a charming whitewashed capital Mandraki, traditional mountain villages perched on the crater rim, and some of the most authentic local food in the Dodecanese. It is also the source of natural hot springs.",
+    desc:"Nisyros is unlike anywhere else in Greece, a living, breathing volcanic island with an active caldera you can actually walk down into. The lunar landscape of the crater, with its bubbling sulphurous vents and alien terrain, is one of the most extraordinary sights in the Aegean. Above ground, the island is lush and beautiful, with a charming whitewashed capital Mandraki, traditional mountain villages perched on the crater rim, and some of the most authentic local food in the Dodecanese. It is also the source of natural hot springs.",
     highlights:[
-      "Walk into an active volcanic caldera — unique in Greece",
-      "Mandraki — one of the prettiest capitals in the Dodecanese",
+      "Walk into an active volcanic caldera, unique in Greece",
+      "Mandraki, one of the prettiest capitals in the Dodecanese",
       "Emborio and Nikia villages perched on the crater rim",
       "Natural hot springs and volcanic thermal pools",
-      "Superb local cuisine — fresh fish and traditional mezedes",
+      "Superb local cuisine, fresh fish and traditional mezedes",
     ],
     tip:"Nisyros is easily done as a day trip from Kos. Take the first boat, walk the crater in the cool of the morning and explore the villages before heading back. Unmissable.",
   },
@@ -1223,7 +1223,7 @@ const ISLANDS = [
     distance:"2h by ferry",
     color:"#A855F7",
     tagline:"The Eco Island of Rare Wildlife and Silence",
-    desc:"Tilos is one of the last truly unspoiled islands in the Aegean — a quiet, rugged gem between Nisyros and Symi that has resisted mass tourism completely. A pioneering hunting ban has made it a haven for rare birds and wildlife, and it was one of the first Greek islands to run entirely on renewable energy. The island has a turbulent history — Knights Hospitaller castles dot the hills, and there is a fascinating Paleontological Museum displaying the fossilised bones of dwarf elephants that once roamed here. The beaches are remote, the tavernas are honest and the pace of life is beautifully slow.",
+    desc:"Tilos is one of the last truly unspoiled islands in the Aegean, a quiet, rugged gem between Nisyros and Symi that has resisted mass tourism completely. A pioneering hunting ban has made it a haven for rare birds and wildlife, and it was one of the first Greek islands to run entirely on renewable energy. The island has a turbulent history, Knights Hospitaller castles dot the hills, and there is a fascinating Paleontological Museum displaying the fossilised bones of dwarf elephants that once roamed here. The beaches are remote, the tavernas are honest and the pace of life is beautifully slow.",
     highlights:[
       "Rare bird sanctuary with exceptional wildlife",
       "Fossilised dwarf elephant bones at the museum",
@@ -1240,7 +1240,7 @@ const ISLANDS = [
     distance:"1h 30min by ferry",
     color:"#6366F1",
     tagline:"The Hidden Gem of History, Bays and Lush Green Hills",
-    desc:"Leros is one of the best kept secrets in the Dodecanese — a lush, green island of sheltered bays, neoclassical villages and fascinating layered history. Its natural harbour made it strategically vital throughout history, and the island played a pivotal role in World War II. The War Museum and the Battle of Leros sites are genuinely moving. The capital Platanos is charming — narrow streets of neoclassical houses beneath a Byzantine castle and a line of old windmills. The bays are calm and clear, the atmosphere unhurried, and Leros sees very little mass tourism.",
+    desc:"Leros is one of the best kept secrets in the Dodecanese, a lush, green island of sheltered bays, neoclassical villages and fascinating layered history. Its natural harbour made it strategically vital throughout history, and the island played a pivotal role in World War II. The War Museum and the Battle of Leros sites are genuinely moving. The capital Platanos is charming, narrow streets of neoclassical houses beneath a Byzantine castle and a line of old windmills. The bays are calm and clear, the atmosphere unhurried, and Leros sees very little mass tourism.",
     highlights:[
       "WWII War Museum and Battle of Leros history",
       "Byzantine Castle above Platanos village",
@@ -1248,7 +1248,7 @@ const ISLANDS = [
       "Calm, sheltered bays perfect for swimming",
       "Authentic local tavernas with very few tourists",
     ],
-    tip:"Leros has a wonderful art deco Italian-era architecture from the 1930s occupation — look for it in Lakki harbour. Unlike anywhere else in Greece.",
+    tip:"Leros has a wonderful art deco Italian-era architecture from the 1930s occupation, look for it in Lakki harbour. Unlike anywhere else in Greece.",
   },
   {
     id:"i6",
@@ -1257,15 +1257,15 @@ const ISLANDS = [
     distance:"2h 30min by ferry",
     color:"#EC4899",
     tagline:"The Island of Colourful Mansions and Old World Glamour",
-    desc:"Symi is simply one of the most beautiful islands in all of Greece. As your ferry enters the harbour of Yialos, you are confronted with an extraordinary amphitheatre of pastel-coloured neoclassical mansions climbing the hillside — a sight that genuinely takes your breath away. Despite being a popular day trip destination from Rhodes, Symi retains an extraordinary elegance and charm. The island was historically wealthy from shipbuilding and sponge fishing, and the grand captains' mansions reflect that golden age. The Monastery of Panormitis is one of the great pilgrimage sites of the Aegean.",
+    desc:"Symi is simply one of the most beautiful islands in all of Greece. As your ferry enters the harbour of Yialos, you are confronted with an extraordinary amphitheatre of pastel-coloured neoclassical mansions climbing the hillside, a sight that genuinely takes your breath away. Despite being a popular day trip destination from Rhodes, Symi retains an extraordinary elegance and charm. The island was historically wealthy from shipbuilding and sponge fishing, and the grand captains' mansions reflect that golden age. The Monastery of Panormitis is one of the great pilgrimage sites of the Aegean.",
     highlights:[
-      "Yialos harbour — one of the most beautiful in Greece",
+      "Yialos harbour, one of the most beautiful in Greece",
       "Pastel neoclassical mansions climbing the hillside",
-      "Kali Strata — 500 steps lined with grand old mansions",
-      "Monastery of Panormitis — important pilgrimage site",
+      "Kali Strata, 500 steps lined with grand old mansions",
+      "Monastery of Panormitis, important pilgrimage site",
       "Secluded pebble beaches accessible by boat",
     ],
-    tip:"Stay overnight if you can — the day trippers leave by 4pm and Symi transforms into something magical. The harbour at dusk with a glass of wine is unforgettable.",
+    tip:"Stay overnight if you can, the day trippers leave by 4pm and Symi transforms into something magical. The harbour at dusk with a glass of wine is unforgettable.",
   },
 ];
 
@@ -1280,8 +1280,8 @@ const EVENTS = [
     time:"8:00 PM – Midnight",
     location:"Fenaretis 3, Kos Town",
     color:"#A855F7",
-    desc:"One of the most magical experiences on Kos — watching films under the stars at this beloved open-air cinema that has been running since 1958. Films are shown in English with Greek subtitles. Comfy seating with tables, a great bar and snack kiosk.",
-    tip:"Entry is around €7 — incredible value. Grab a cold beer and a popcorn and settle in. Check their door for the current film schedule.",
+    desc:"One of the most magical experiences on Kos, watching films under the stars at this beloved open-air cinema that has been running since 1958. Films are shown in English with Greek subtitles. Comfy seating with tables, a great bar and snack kiosk.",
+    tip:"Entry is around €7, incredible value. Grab a cold beer and a popcorn and settle in. Check their door for the current film schedule.",
     featured:true,
   },
   {
@@ -1292,7 +1292,7 @@ const EVENTS = [
     time:"From 7:00 PM",
     location:"Zia Village, Mount Dikeos",
     color:"#F97316",
-    desc:"Not an organised event as such — but every evening Zia village fills with visitors gathering at the hilltop tavernas to watch the sun set over the Aegean. A truly unmissable Kos experience with live Greek music drifting from the restaurants.",
+    desc:"Not an organised event as such, but every evening Zia village fills with visitors gathering at the hilltop tavernas to watch the sun set over the Aegean. A truly unmissable Kos experience with live Greek music drifting from the restaurants.",
     tip:"Arrive at least 30 minutes before sunset. Take the bus (Line 4) or a taxi up. Book a taverna table in advance in peak season.",
   },
   {
@@ -1304,7 +1304,7 @@ const EVENTS = [
     location:"Mylos Beach Bar, Kos Town",
     color:"#0EA5E9",
     desc:"The biggest regular beach club night on the island. International DJs, a massive open-air dance floor and the converted windmill as a backdrop. Draws a large crowd of tourists and locals every weekend throughout the summer.",
-    tip:"Gets going properly after midnight. Check their social media for guest DJ announcements — some nights are truly special.",
+    tip:"Gets going properly after midnight. Check their social media for guest DJ announcements, some nights are truly special.",
   },
   {
     id:"ev4", type:"weekly", badge:"This Week",
@@ -1314,8 +1314,8 @@ const EVENTS = [
     time:"9:00 AM",
     location:"Tree of Hippocrates, Kos Town",
     color:"#10B981",
-    desc:"Guided walking tour of Kos Town's ancient sites led by local archaeologists and historians. Covers the Ancient Agora, Casa Romana, Roman Odeon and the Plane Tree of Hippocrates. Maximum 15 people — intimate and informative.",
-    tip:"Book in advance as spaces fill quickly. Wear comfortable shoes and bring water — lasts about 2 hours.",
+    desc:"Guided walking tour of Kos Town's ancient sites led by local archaeologists and historians. Covers the Ancient Agora, Casa Romana, Roman Odeon and the Plane Tree of Hippocrates. Maximum 15 people, intimate and informative.",
+    tip:"Book in advance as spaces fill quickly. Wear comfortable shoes and bring water, lasts about 2 hours.",
   },
   {
     id:"ev5", type:"weekly", badge:"This Week",
@@ -1326,11 +1326,11 @@ const EVENTS = [
     location:"Kos Harbour",
     color:"#0EA5E9",
     desc:"Four-hour sailing cruise around the coastline of Kos with swimming stops, snorkelling, food and an open bar. Watching the sun set from the water with a drink in hand is one of those Kos moments you'll never forget.",
-    tip:"Book through the harbour ticket booths or your hotel. Prices vary — shop around. A shared cruise is great value.",
+    tip:"Book through the harbour ticket booths or your hotel. Prices vary, shop around. A shared cruise is great value.",
   },
   // ── Seasonal & Annual ──
   {
-    id:"ev6", type:"seasonal", badge:"Coming Soon — June",
+    id:"ev6", type:"seasonal", badge:"Coming Soon, June",
     title:"Hippocratia Festival",
     emoji:"🎭",
     date:"June – August",
@@ -1341,15 +1341,15 @@ const EVENTS = [
     tip:"The opening ceremony at the Asklepion is spectacular. Check the municipality website for the full programme each year.",
   },
   {
-    id:"ev7", type:"seasonal", badge:"Coming Soon — July",
+    id:"ev7", type:"seasonal", badge:"Coming Soon, July",
     title:"Ancient Odeon Performances",
     emoji:"🎶",
     date:"July & August",
     time:"9:00 PM",
     location:"Roman Odeon, Kos Town",
     color:"#EAB308",
-    desc:"Live performances — theatre, dance and music — held in the ancient Roman Odeon under the stars. Part of the Hippocratia Festival programme. Watching a performance in a 2,000-year-old theatre is unforgettable.",
-    tip:"Bring a cushion — the ancient marble seats are hard! Also bring a light layer as it cools down after dark.",
+    desc:"Live performances, theatre, dance and music, held in the ancient Roman Odeon under the stars. Part of the Hippocratia Festival programme. Watching a performance in a 2,000-year-old theatre is unforgettable.",
+    tip:"Bring a cushion, the ancient marble seats are hard! Also bring a light layer as it cools down after dark.",
   },
   {
     id:"ev8", type:"seasonal", badge:"August",
@@ -1359,8 +1359,8 @@ const EVENTS = [
     time:"From 7:00 PM",
     location:"Mastichari Village",
     color:"#A855F7",
-    desc:"A beloved local tradition — the village of Mastichari celebrates its wine production with a free festival open to all. Free wine flows all evening, accompanied by delicious food and live traditional Greek music and dancing.",
-    tip:"Completely free entry and free wine all night! Take the bus or share a taxi — you will not want to drive home.",
+    desc:"A beloved local tradition, the village of Mastichari celebrates its wine production with a free festival open to all. Free wine flows all evening, accompanied by delicious food and live traditional Greek music and dancing.",
+    tip:"Completely free entry and free wine all night! Take the bus or share a taxi, you will not want to drive home.",
   },
   {
     id:"ev9", type:"seasonal", badge:"August",
@@ -1371,7 +1371,7 @@ const EVENTS = [
     location:"Antimachia Village",
     color:"#F97316",
     desc:"Antimachia celebrates its famous locally-produced honey with tastings, honey-based sweets, traditional music and folk dancing. A wonderfully authentic taste of real island life away from the tourist strip.",
-    tip:"Try the local thyme honey — it is extraordinary. You can buy jars directly from the producers. A perfect gift to take home.",
+    tip:"Try the local thyme honey, it is extraordinary. You can buy jars directly from the producers. A perfect gift to take home.",
   },
   {
     id:"ev10", type:"seasonal", badge:"August",
@@ -1386,7 +1386,7 @@ const EVENTS = [
   },
   {
     id:"ev11", type:"seasonal", badge:"May (Annual)",
-    title:"Medieval Festival — Antimachia Castle",
+    title:"Medieval Festival, Antimachia Castle",
     emoji:"⚔️",
     date:"May",
     time:"From 6:00 PM",
@@ -1397,7 +1397,7 @@ const EVENTS = [
   },
   {
     id:"ev12", type:"seasonal", badge:"June",
-    title:"Feast of Agios Ioannis — Pyli",
+    title:"Feast of Agios Ioannis, Pyli",
     emoji:"⛪",
     date:"23rd June",
     time:"From 8:00 PM",
@@ -1584,7 +1584,7 @@ function WeatherTab() {
         <div style={{ fontSize:64, marginBottom:12 }}>🌤️</div>
         <div style={{ fontSize:20, color:"#f0e6d3", fontFamily:"Georgia,serif", marginBottom:6 }}>Kos Island, Greece</div>
         <div style={{ fontSize:13, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.6, marginBottom:20 }}>
-          Live weather is on its way! We are connecting to our weather service — this will be available once the app is live online.
+          Live weather is on its way! We are connecting to our weather service, this will be available once the app is live online.
         </div>
         <button onClick={fetchWeather} style={{ padding:"12px 24px", background:"rgba(14,165,233,0.2)", border:"1px solid rgba(14,165,233,0.4)", borderRadius:12, color:"#0EA5E9", fontSize:14, cursor:"pointer", fontFamily:"sans-serif", fontWeight:600 }}>
           Try again
@@ -1610,7 +1610,7 @@ function WeatherTab() {
       ))}
       <div style={{ marginTop:8, padding:"12px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
         <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>
-          ☀️ Kos enjoys over <strong style={{ color:"#64748b" }}>300 sunny days per year</strong> — one of the sunniest islands in the Aegean.
+          ☀️ Kos enjoys over <strong style={{ color:"#64748b" }}>300 sunny days per year</strong>, one of the sunniest islands in the Aegean.
         </p>
       </div>
     </div>
@@ -1624,7 +1624,7 @@ function WeatherTab() {
   const uvLevel = uv => uv <= 2 ? ["Low","#10B981"] : uv <= 5 ? ["Moderate","#EAB308"] : uv <= 7 ? ["High","#F97316"] : uv <= 10 ? ["Very High","#ef4444"] : ["Extreme","#A855F7"];
   const [uvLabel, uvColor] = uvLevel(cur.uv_index);
 
-  // Sea temp (estimated from air — Aegean is typically air -4°C in summer)
+  // Sea temp (estimated from air, Aegean is typically air -4°C in summer)
   const seaTemp = Math.round(cur.temperature_2m - 3);
 
   return (
@@ -1733,7 +1733,7 @@ function WeatherTab() {
         const uv = cur.uv_index || 0;
 
         // Wind direction helpers
-        // Kos: N/NW winds (300-360, 0-60) = Meltemi — choppy north coast, calm south
+        // Kos: N/NW winds (300-360, 0-60) = Meltemi, choppy north coast, calm south
         // S/SW winds (180-270) = calm north coast, good for north beach swimming
         // E winds = generally light and calm
         const isMeltemi = (windDir >= 300 || windDir <= 60) && wind > 20;
@@ -1750,34 +1750,34 @@ function WeatherTab() {
 
         if (isStormy) {
           conditions = [
-            { icon:"🏛️", color:"#10B981", title:"Perfect for Sightseeing", desc:"Skip the beach today. Head to the Asklepion, Castle of the Knights or Casa Romana — all incredible and all indoors or sheltered.", beach:null },
-            { icon:"🎬", color:"#A855F7", title:"Orfeas Open Air Cinema", desc:"Check if Orfeas is showing tonight — a stormy evening under cover with a film is a great Plan B.", beach:null },
+            { icon:"🏛️", color:"#10B981", title:"Perfect for Sightseeing", desc:"Skip the beach today. Head to the Asklepion, Castle of the Knights or Casa Romana, all incredible and all indoors or sheltered.", beach:null },
+            { icon:"🎬", color:"#A855F7", title:"Orfeas Open Air Cinema", desc:"Check if Orfeas is showing tonight, a stormy evening under cover with a film is a great Plan B.", beach:null },
             { icon:"🍽️", color:"#F97316", title:"Long Lunch Day", desc:"Take your time over a proper Greek lunch at a taverna. Today is made for slow eating and cold wine.", beach:null },
           ];
         } else if (isRaining) {
           conditions = [
             { icon:"🏺", color:"#10B981", title:"Archaeological Museum", desc:"One of the best in the Dodecanese. The mosaic of Hippocrates alone is worth the visit.", beach:null },
-            { icon:"🛒", color:"#EAB308", title:"Covered Market & Old Town", desc:"Explore the covered bazaar and the old town streets — great for local honey, ceramics and souvenirs.", beach:null },
+            { icon:"🛒", color:"#EAB308", title:"Covered Market & Old Town", desc:"Explore the covered bazaar and the old town streets, great for local honey, ceramics and souvenirs.", beach:null },
             { icon:"☕", color:"#0EA5E9", title:"Café Day in Eleftherias Square", desc:"Pull up a chair in the central square, order a Greek coffee and watch the rain. Bliss.", beach:null },
           ];
         } else if (isCalmAndSunny) {
           conditions = [
-            { icon:"🏊", color:"#0EA5E9", title:"Ideal Swimming Conditions", desc:"Flat calm sea, clear skies, zero wind. All beaches are perfect today. Best day to visit the more exposed spots like Cavo Paradiso or Agios Theologos.", beach:"All beaches — especially Cavo Paradiso & Agios Theologos" },
+            { icon:"🏊", color:"#0EA5E9", title:"Ideal Swimming Conditions", desc:"Flat calm sea, clear skies, zero wind. All beaches are perfect today. Best day to visit the more exposed spots like Cavo Paradiso or Agios Theologos.", beach:"All beaches, especially Cavo Paradiso & Agios Theologos" },
             { icon:"🤿", color:"#0EA5E9", title:"Excellent Snorkelling & Diving", desc:"Maximum underwater visibility today. Head to Agios Fokas or Psalidi for snorkelling, or book a dive at the Kefalos sites.", beach:"Agios Fokas, Psalidi, Kefalos" },
             { icon:"🚴", color:"#10B981", title:"Perfect Cycling Day", desc:"No wind, dry roads, sunshine. Ideal for cycling the coastal path or heading up to Zia on two wheels.", beach:null },
-            { icon:"⛵", color:"#6366F1", title:"Sunset Cruise Tonight", desc:"Flat calm makes for perfect sailing. Book a sunset cruise from the harbour — conditions don't get better than this.", beach:null },
+            { icon:"⛵", color:"#6366F1", title:"Sunset Cruise Tonight", desc:"Flat calm makes for perfect sailing. Book a sunset cruise from the harbour, conditions don't get better than this.", beach:null },
           ];
         } else if (isMeltemi) {
           conditions = [
             { icon:"🏄", color:"#0EA5E9", title:"Prime Windsurfing & Kitesurfing", desc:"The Meltemi is blowing! North coast conditions are world-class right now. Marmari and Mastichari are firing. Get on the water.", beach:"Marmari, Mastichari, Psalidi" },
-            { icon:"🏊", color:"#10B981", title:"Swim on the South Coast", desc:"North coast is choppy today — but the south coast is sheltered from the Meltemi. Head to Kefalos, Agios Theologos or Limnionas for calm clear water.", beach:"Kefalos, Agios Theologos, Limnionas, Camel Beach" },
+            { icon:"🏊", color:"#10B981", title:"Swim on the South Coast", desc:"North coast is choppy today, but the south coast is sheltered from the Meltemi. Head to Kefalos, Agios Theologos or Limnionas for calm clear water.", beach:"Kefalos, Agios Theologos, Limnionas, Camel Beach" },
             { icon:"🧗", color:"#F97316", title:"Day Trip to Kalymnos", desc:"Meltemi means rock climbing conditions in Kalymnos are perfect. Take the morning ferry and spend the day on the cliffs.", beach:null },
-            { icon:"🚙", color:"#EAB308", title:"Jeep Safari Inland", desc:"Wind too strong for the beach? Head into the hills — Zia, Pyli and the mountain villages are sheltered and beautiful.", beach:null },
+            { icon:"🚙", color:"#EAB308", title:"Jeep Safari Inland", desc:"Wind too strong for the beach? Head into the hills, Zia, Pyli and the mountain villages are sheltered and beautiful.", beach:null },
           ];
         } else if (isSouthWind && isWindy) {
           conditions = [
             { icon:"🏊", color:"#0EA5E9", title:"North Coast Calm Today", desc:"South winds mean the north coast beaches are sheltered and calm. Tigaki, Marmari and Mastichari will have flat water.", beach:"Tigaki, Marmari, Mastichari, Lambi" },
-            { icon:"🤿", color:"#10B981", title:"Good Snorkelling — North Beaches", desc:"Calm water on the north coast means excellent visibility for snorkelling today.", beach:"Tigaki, Psalidi, Lambi" },
+            { icon:"🤿", color:"#10B981", title:"Good Snorkelling, North Beaches", desc:"Calm water on the north coast means excellent visibility for snorkelling today.", beach:"Tigaki, Psalidi, Lambi" },
             { icon:"⛵", color:"#6366F1", title:"Sailing Conditions", desc:"A south breeze makes for pleasant sailing. Check with harbour operators for conditions before booking.", beach:null },
           ];
         } else if (isLightBreeze) {
@@ -1785,25 +1785,25 @@ function WeatherTab() {
             { icon:"🏊", color:"#0EA5E9", title:"Great Swimming Everywhere", desc:"Light breeze keeps things comfortable without disturbing the sea. All beaches are in good condition today.", beach:"All beaches" },
             { icon:"🚴", color:"#10B981", title:"Ideal for Cycling", desc:"A light breeze is perfect cycling weather. Head along the coastal path or up toward the villages.", beach:null },
             { icon:"🎣", color:"#EC4899", title:"Good Fishing Conditions", desc:"Light winds are ideal for shore fishing. Contact Dream Catch Kos for a session at one of their secret spots.", beach:null },
-            { icon:"🏄", color:"#A855F7", title:"Beginner Windsurfing", desc:"Light and consistent breeze — perfect conditions for learning to windsurf. Schools at Marmari welcome all levels.", beach:"Marmari" },
+            { icon:"🏄", color:"#A855F7", title:"Beginner Windsurfing", desc:"Light and consistent breeze, perfect conditions for learning to windsurf. Schools at Marmari welcome all levels.", beach:"Marmari" },
           ];
         } else if (isWindy) {
           conditions = [
-            { icon:"🏄", color:"#0EA5E9", title:"Windsurfing & Kitesurfing", desc:"Good wind today — north coast conditions are ideal for intermediate and advanced riders. Marmari schools are open.", beach:"Marmari, Mastichari" },
+            { icon:"🏄", color:"#0EA5E9", title:"Windsurfing & Kitesurfing", desc:"Good wind today, north coast conditions are ideal for intermediate and advanced riders. Marmari schools are open.", beach:"Marmari, Mastichari" },
             { icon:"🏊", color:"#10B981", title:"Seek Sheltered Beaches", desc:"Avoid exposed north-facing beaches today. The south and southwest coastline will be much calmer.", beach:"Kefalos, Agios Theologos, Camel Beach, Limnionas" },
-            { icon:"🚙", color:"#EAB308", title:"Explore the Villages", desc:"A breezy day is perfect for heading inland to Zia, Pyli or Antimachia — cooler, sheltered and beautiful.", beach:null },
+            { icon:"🚙", color:"#EAB308", title:"Explore the Villages", desc:"A breezy day is perfect for heading inland to Zia, Pyli or Antimachia, cooler, sheltered and beautiful.", beach:null },
           ];
         } else if (isVeryWindy) {
           conditions = [
-            { icon:"🏄", color:"#0EA5E9", title:"Expert Kite & Windsurf Conditions", desc:"Strong winds — advanced riders only. Check with schools at Marmari before heading out. Not recommended for beginners.", beach:"Marmari (advanced only)" },
+            { icon:"🏄", color:"#0EA5E9", title:"Expert Kite & Windsurf Conditions", desc:"Strong winds, advanced riders only. Check with schools at Marmari before heading out. Not recommended for beginners.", beach:"Marmari (advanced only)" },
             { icon:"🏛️", color:"#10B981", title:"Sightseeing Day", desc:"Too windy for the beach. A great day for the Asklepion, archaeological sites or a drive around the island.", beach:null },
-            { icon:"🍽️", color:"#F97316", title:"Taverna Lunch in a Village", desc:"Head to Zia or Pyli for lunch — sheltered, beautiful and the food is outstanding.", beach:null },
+            { icon:"🍽️", color:"#F97316", title:"Taverna Lunch in a Village", desc:"Head to Zia or Pyli for lunch, sheltered, beautiful and the food is outstanding.", beach:null },
           ];
         }
 
         // UV warning if needed
         if (uv >= 8 && !isRaining) {
-          conditions.push({ icon:"🧴", color:"#ef4444", title:"Very High UV — Protect Yourself", desc:"UV index is "+Math.round(uv)+" today — very high. High-factor sunscreen essential, reapply every 2 hours. Seek shade between 12pm and 4pm.", beach:null });
+          conditions.push({ icon:"🧴", color:"#ef4444", title:"Very High UV, Protect Yourself", desc:"UV index is "+Math.round(uv)+" today, very high. High-factor sunscreen essential, reapply every 2 hours. Seek shade between 12pm and 4pm.", beach:null });
         }
 
         return (
@@ -1930,7 +1930,7 @@ function NearbyTab() {
       { name:"Speed Rentals Kardamena",      lat:36.7840, lng:27.1336, note:"Bikes, scooters and quads" },
       { name:"Mastichari Bike Hire",         lat:36.8462, lng:27.0065, note:"Convenient for exploring the north" },
       { name:"Kefalos Moto Rentals",         lat:36.7378, lng:26.9978, note:"Base yourself in the south and explore" },
-      { name:"Paradise Rentals",             lat:36.7838, lng:27.1170, note:"Near Paradise Beach — scooters only" },
+      { name:"Paradise Rentals",             lat:36.7838, lng:27.1170, note:"Near Paradise Beach, scooters only" },
     ],
   };
 
@@ -2102,7 +2102,7 @@ function App() {
       <div style={{ position:"relative", zIndex:1, padding:"48px 24px 16px", borderBottom:"1px solid rgba(240,230,211,0.08)" }}>
         <div style={{ fontSize:11, letterSpacing:4, color:"#94a3b8", textTransform:"uppercase", marginBottom:6, fontFamily:"sans-serif" }}>Your Local Island Guide</div>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
-          {/* Logo — taps go home, 5 taps = admin */}
+          {/* Logo, taps go home, 5 taps = admin */}
           <div onClick={handleLogoTap} style={{ cursor:"pointer", userSelect:"none", display:"flex", alignItems:"center", gap:12 }}>
             <div style={{ width:48, height:48, borderRadius:12, background:"linear-gradient(135deg,#0d3a5c,#061828)", border:"1px solid rgba(14,165,233,0.3)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"transform 0.15s ease", boxShadow: nav==="home"?"0 0 0 2px rgba(14,165,233,0.4)":"none" }}>
               <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
@@ -2120,7 +2120,7 @@ function App() {
             </div>
           </div>
 
-          {/* Right side — weather widget on home, list/map toggle on explore */}
+          {/* Right side, weather widget on home, list/map toggle on explore */}
           {nav==="home" && <MiniWeatherWidget onTap={() => setNav("weather")}/>}
           {nav==="explore" && (
             <div style={{ display:"flex", background:"rgba(255,255,255,0.06)", borderRadius:12, padding:4, gap:2 }}>
@@ -2371,7 +2371,7 @@ function App() {
           <div style={{ marginBottom:24 }}>
             <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:6 }}>For Business Owners</div>
             <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:8 }}>Get Your Business Listed</div>
-            <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Want your bar, restaurant or activity featured on Kos Unlocked? Get in touch and we'll add you to the guide — completely free while we grow our audience.</p>
+            <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Want your bar, restaurant or activity featured on Kos Unlocked? Get in touch and we'll add you to the guide, completely free while we grow our audience.</p>
           </div>
 
           {/* What you get */}
@@ -2380,7 +2380,7 @@ function App() {
               { icon:"📸", title:"Photo & Description", desc:"Your own card with a photo, description and your story told the way you want it." },
               { icon:"📞", title:"Direct Contact Buttons", desc:"Tourists can call you, visit your website or find you on Instagram with one tap." },
               { icon:"📍", title:"Map Listing", desc:"Your location pinned on the Kos Unlocked map so tourists can find you easily." },
-              { icon:"💡", title:"Local Tip from You", desc:"Add your own insider tip — a personal touch that makes tourists want to visit." },
+              { icon:"💡", title:"Local Tip from You", desc:"Add your own insider tip, a personal touch that makes tourists want to visit." },
               { icon:"🌍", title:"Reach Every Tourist", desc:"Kos gets over 1 million visitors a year. Every one of them is a potential customer." },
             ].map((f,i) => (
               <div key={i} style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"14px 0", borderBottom:"1px solid rgba(240,230,211,0.06)" }}>
@@ -2424,13 +2424,13 @@ function App() {
         <div style={{ position:"relative" }}>
           {/* Left fade hint */}
           <div style={{ position:"absolute", left:0, top:0, bottom:0, width:24, background:"linear-gradient(to right, rgba(8,18,32,0.98), transparent)", zIndex:2, pointerEvents:"none" }}/>
-          {/* Right fade hint — stronger to signal more content */}
+          {/* Right fade hint, stronger to signal more content */}
           <div style={{ position:"absolute", right:0, top:0, bottom:0, width:40, background:"linear-gradient(to left, rgba(8,18,32,0.98), transparent)", zIndex:2, pointerEvents:"none" }}/>
           {/* Swipe hint arrow */}
           <div style={{ position:"absolute", right:6, top:"50%", transform:"translateY(-50%)", zIndex:3, pointerEvents:"none", animation:"swipeHint 1.5s ease-in-out 0.8s 3 forwards" }}>
             <span style={{ fontSize:14, opacity:0.5 }}>›</span>
           </div>
-          {/* Shimmer overlay — sweeps once across all buttons on load */}
+          {/* Shimmer overlay, sweeps once across all buttons on load */}
           <div style={{ position:"absolute", top:0, left:0, right:0, bottom:0, zIndex:3, pointerEvents:"none", overflow:"hidden", borderRadius:0 }}>
             <div style={{ position:"absolute", top:0, bottom:0, width:"60px", background:"linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)", animation:"navShimmer 1.2s ease-in-out 0.4s 1 forwards", transform:"translateX(-60px)" }}/>
           </div>
@@ -2463,7 +2463,7 @@ function App() {
             })}
           </div>
         </div>
-        {/* Scroll hint text — shows briefly then fades */}
+        {/* Scroll hint text, shows briefly then fades */}
         <div style={{ textAlign:"center", fontSize:10, color:"#334155", fontFamily:"sans-serif", marginTop:4, animation:"fadeOutHint 0.8s ease-in-out 3s 1 forwards", letterSpacing:1 }}>
           ← swipe for more →
         </div>
