@@ -2320,31 +2320,42 @@ function App() {
         <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
           <div style={{ marginBottom:24 }}>
             <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:6 }}>For Business Owners</div>
-            <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:8 }}>Get Listed on Kos Unlocked</div>
-            <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Reach thousands of tourists visiting Kos every season. Choose the package that works for you.</p>
+            <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:8 }}>Get Your Business Listed</div>
+            <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Want your bar, restaurant or activity featured on Kos Unlocked? Get in touch and we'll add you to the guide — completely free while we grow our audience.</p>
           </div>
 
-          {LISTING_PACKAGES.map(pkg => (
-            <div key={pkg.id} style={{ position:"relative", background:pkg.popular?"linear-gradient(135deg,"+pkg.color+"18,rgba(255,255,255,0.05))":"rgba(255,255,255,0.04)", border:pkg.popular?"1.5px solid "+pkg.color+"60":"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"20px", marginBottom:14 }}>
-              {pkg.popular && <div style={{ position:"absolute", top:-10, left:20, background:pkg.color, color:"#fff", fontSize:11, fontFamily:"sans-serif", fontWeight:700, padding:"3px 12px", borderRadius:20, letterSpacing:1 }}>MOST POPULAR</div>}
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:14 }}>
-                <div style={{ fontSize:17, fontWeight:600, color:"#f0e6d3" }}>{pkg.name}</div>
-                <div style={{ fontSize:20, fontWeight:700, color:pkg.color, fontFamily:"sans-serif" }}>{pkg.price}</div>
-              </div>
-              {pkg.features.map((f,i) => (
-                <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
-                  <div style={{ width:16, height:16, borderRadius:"50%", background:pkg.color+"30", border:"1px solid "+pkg.color+"50", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, marginTop:1 }}>
-                    <div style={{ width:6, height:6, borderRadius:"50%", background:pkg.color }}/>
-                  </div>
-                  <div style={{ fontSize:13, color:"#cbd5e1", fontFamily:"sans-serif", lineHeight:1.4 }}>{f}</div>
+          {/* What you get */}
+          <div style={{ marginBottom:16 }}>
+            {[
+              { icon:"📸", title:"Photo & Description", desc:"Your own card with a photo, description and your story told the way you want it." },
+              { icon:"📞", title:"Direct Contact Buttons", desc:"Tourists can call you, visit your website or find you on Instagram with one tap." },
+              { icon:"📍", title:"Map Listing", desc:"Your location pinned on the Kos Unlocked map so tourists can find you easily." },
+              { icon:"💡", title:"Local Tip from You", desc:"Add your own insider tip — a personal touch that makes tourists want to visit." },
+              { icon:"🌍", title:"Reach Every Tourist", desc:"Kos gets over 1 million visitors a year. Every one of them is a potential customer." },
+            ].map((f,i) => (
+              <div key={i} style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"14px 0", borderBottom:"1px solid rgba(240,230,211,0.06)" }}>
+                <div style={{ width:40, height:40, borderRadius:12, background:"rgba(249,115,22,0.12)", border:"1px solid rgba(249,115,22,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{f.icon}</div>
+                <div>
+                  <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:3, fontFamily:"sans-serif" }}>{f.title}</div>
+                  <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.5 }}>{f.desc}</div>
                 </div>
-              ))}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
 
-          <div style={{ marginTop:8, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:20 }}>
-            <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", marginBottom:6 }}>Interested? Get in touch</div>
-            <p style={{ margin:"0 0 16px", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Send us a WhatsApp and we will get you set up within 24 hours.</p>
+          {/* Free while growing banner */}
+          <div style={{ background:"linear-gradient(135deg,rgba(16,185,129,0.12),rgba(255,255,255,0.03))", border:"1px solid rgba(16,185,129,0.3)", borderRadius:16, padding:"16px 18px", marginBottom:20, display:"flex", gap:12, alignItems:"center" }}>
+            <span style={{ fontSize:28, flexShrink:0 }}>🎉</span>
+            <div>
+              <div style={{ fontSize:14, fontWeight:600, color:"#10B981", marginBottom:3, fontFamily:"sans-serif" }}>Free while we grow</div>
+              <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.5 }}>We are building our audience right now. Get listed for free and be part of Kos Unlocked from the very beginning.</div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:20 }}>
+            <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", marginBottom:6 }}>Ready to get listed?</div>
+            <p style={{ margin:"0 0 16px", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Send us a WhatsApp with your business name and we will take care of the rest.</p>
             <a href="https://wa.me/306912345678?text=Hi%2C%20I%20would%20like%20to%20list%20my%20business%20on%20Kos%20Unlocked" target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block" }}>
               <div style={{ background:"#25D366", border:"none", borderRadius:14, padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:10, cursor:"pointer" }}>
                 <span style={{ fontSize:22 }}>&#128172;</span>
@@ -2354,12 +2365,6 @@ function App() {
             <div style={{ marginTop:10, textAlign:"center", fontSize:12, color:"#475569", fontFamily:"sans-serif" }}>
               Or email: hello@kosunlocked.com
             </div>
-          </div>
-
-          <div style={{ marginTop:16, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
-            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.7 }}>
-              &#128269; <strong style={{ color:"#64748b" }}>How it works:</strong> We add your business to the app with photos, description and your booking link. Tourists discover you directly. No commission on bookings — just a flat monthly fee. Cancel anytime.
-            </p>
           </div>
         </div>
       )}
