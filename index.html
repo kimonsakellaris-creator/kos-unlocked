@@ -1422,6 +1422,7 @@ const NAV = [
   { key:"ferry",   label:"Ferries", icon:"⛴" },
   { key:"bus",     label:"Island Buses", icon:"🚌" },
   { key:"localbus", label:"City Buses",  icon:"🏙️" },
+  { key:"taxi",     label:"Taxi",        icon:"🚕" },
   { key:"sos",     label:"Help",    icon:"🆘" },
   { key:"trip",    label:"My Trip",  icon:"🗺️" },
   { key:"islands", label:"Islands",  icon:"🏝️" },
@@ -2632,6 +2633,98 @@ function App() {
           {BUSES.map(b => <TTCard key={b.id} item={b} icon="&#128652;" isOpen={openTT===b.id} onToggle={() => setOpenTT(openTT===b.id?null:b.id)}/>)}
           <div style={{ marginTop:8, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
             <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>&#128652; <strong style={{ color:"#64748b" }}>Bus Station</strong> on Kleopatras Street, Kos Town. Tickets bought on board.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Taxi Price Guide */}
+      {nav==="taxi" && (
+        <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+          <div style={{ marginBottom:20 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#EAB308", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Getting Around</div>
+            <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>Taxi Price Guide</div>
+            <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.6 }}>All fares are per vehicle, not per person. A car of 4 pays the same as a solo traveller.</p>
+          </div>
+
+          {/* Taxi rank info */}
+          <div style={{ background:"rgba(234,179,8,0.1)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:14, padding:"14px 16px", marginBottom:16, display:"flex", gap:10, alignItems:"flex-start" }}>
+            <span style={{ fontSize:20, flexShrink:0 }}>📍</span>
+            <div>
+              <div style={{ fontSize:13, fontWeight:600, color:"#EAB308", fontFamily:"sans-serif", marginBottom:3 }}>Taxi Rank — Kos Town</div>
+              <p style={{ margin:0, fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Dolphin Square in the harbour, Kos Town. Taxis are metered and regulated. Always use the official rank — avoid unofficial drivers approaching you at the port or airport.</p>
+            </div>
+          </div>
+
+          {/* Night surcharge warning */}
+          <div style={{ background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:14, padding:"14px 16px", marginBottom:20, display:"flex", gap:10, alignItems:"flex-start" }}>
+            <span style={{ fontSize:20, flexShrink:0 }}>🌙</span>
+            <div>
+              <div style={{ fontSize:13, fontWeight:600, color:"#ef4444", fontFamily:"sans-serif", marginBottom:3 }}>Night Surcharge (00:00–05:00)</div>
+              <p style={{ margin:0, fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>A regulated night surcharge applies between midnight and 5am that roughly doubles the fare. This is not overcharging — it is the legal rate. A €38 daytime fare to Kos Town can reach €55–65 after midnight.</p>
+            </div>
+          </div>
+
+          {/* FROM AIRPORT */}
+          <div style={{ fontSize:13, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif", letterSpacing:1, textTransform:"uppercase", marginBottom:10 }}>From the Airport</div>
+
+          {[
+            { dest:"Kos Town", price:"€35–45", time:"25–30 min", night:"€55–65", note:"Most common route. Airport is 26km from Kos Town." },
+            { dest:"Kardamena", price:"€10–15", time:"5–10 min", night:"€20–25", note:"Very short distance — airport is only 5km from Kardamena." },
+            { dest:"Mastichari", price:"€20–28", time:"20 min", night:"€35–45", note:"Convenient for ferries to Kalymnos." },
+            { dest:"Kefalos", price:"€20–30", time:"15–20 min", night:"€35–50", note:"Southwest tip of the island." },
+            { dest:"Tigaki", price:"€30–40", time:"25 min", night:"€50–65", note:"Popular resort on the north coast." },
+            { dest:"Marmari", price:"€30–40", time:"25 min", night:"€50–60", note:"Windsurfing hub on the north coast." },
+            { dest:"Lambi", price:"€35–45", time:"30 min", night:"€55–65", note:"Northern suburb of Kos Town." },
+            { dest:"Psalidi", price:"€35–45", time:"30 min", night:"€55–65", note:"East of Kos Town, popular hotel strip." },
+          ].map((r, i) => (
+            <div key={i} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", marginBottom:8 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
+                <div style={{ fontSize:15, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>{r.dest}</div>
+                <div style={{ textAlign:"right" }}>
+                  <div style={{ fontSize:18, fontWeight:700, color:"#EAB308", fontFamily:"Georgia, serif" }}>{r.price}</div>
+                  <div style={{ fontSize:10, color:"#475569", fontFamily:"sans-serif" }}>daytime</div>
+                </div>
+              </div>
+              <div style={{ display:"flex", gap:16, marginBottom:r.note?6:0 }}>
+                <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif" }}>🕐 {r.time}</div>
+                <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>🌙 {r.night} after midnight</div>
+              </div>
+              {r.note && <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", fontStyle:"italic" }}>{r.note}</div>}
+            </div>
+          ))}
+
+          {/* Luggage note */}
+          <div style={{ marginTop:4, marginBottom:20, padding:"12px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:12 }}>
+            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>
+              🧳 <strong style={{ color:"#64748b" }}>Luggage surcharge:</strong> Expect €1–2 per large bag on top of the fare. Small bags and hand luggage are free.
+            </p>
+          </div>
+
+          {/* Taxi phone */}
+          <div style={{ fontSize:13, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif", letterSpacing:1, textTransform:"uppercase", marginBottom:10 }}>Book a Taxi</div>
+          <a href="tel:+302242022777" style={{ textDecoration:"none", display:"block", marginBottom:8 }}>
+            <div style={{ background:"rgba(234,179,8,0.12)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }}>
+              <span style={{ fontSize:24 }}>📞</span>
+              <div>
+                <div style={{ fontSize:14, fontWeight:600, color:"#EAB308", fontFamily:"sans-serif" }}>Kos Taxi Centre</div>
+                <div style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>+30 22420 22777</div>
+              </div>
+            </div>
+          </a>
+          <a href="tel:+302242023333" style={{ textDecoration:"none", display:"block" }}>
+            <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }}>
+              <span style={{ fontSize:24 }}>📞</span>
+              <div>
+                <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>Kos Taxi (alt)</div>
+                <div style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>+30 22420 23333</div>
+              </div>
+            </div>
+          </a>
+
+          <div style={{ marginTop:16, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.7 }}>
+              💡 <strong style={{ color:"#64748b" }}>Local tip:</strong> Prices above are approximate daytime metered fares. Always confirm the fare before getting in, especially for longer journeys. Tipping is not obligatory but rounding up is appreciated.
+            </p>
           </div>
         </div>
       )}
