@@ -1412,6 +1412,125 @@ function MiniWeatherWidget({ onTap }) {
   );
 }
 
+// ── Taxi Tab ─────────────────────────────────────────────────────────────────
+function TaxiTab() {
+  const LOCATIONS = ["Airport","Kos Town","Kardamena","Mastichari","Kefalos","Tigaki","Marmari","Lambi","Psalidi","Zia"];
+  const FARES = {
+    "Airport":    { "Kos Town":"€35–45|€55–65|25 min","Kardamena":"€10–15|€20–25|10 min","Mastichari":"€20–28|€35–45|20 min","Kefalos":"€20–30|€35–50|20 min","Tigaki":"€30–40|€50–65|25 min","Marmari":"€30–40|€50–60|25 min","Lambi":"€35–45|€55–65|30 min","Psalidi":"€35–45|€55–65|30 min","Zia":"€25–35|€45–55|30 min" },
+    "Kos Town":   { "Airport":"€35–45|€55–65|25 min","Kardamena":"€30–40|€50–60|35 min","Mastichari":"€20–28|€35–45|25 min","Kefalos":"€45–55|€70–80|55 min","Tigaki":"€15–20|€28–35|20 min","Marmari":"€20–28|€35–45|25 min","Lambi":"€8–12|€15–20|10 min","Psalidi":"€10–15|€18–25|12 min","Zia":"€20–28|€35–45|25 min" },
+    "Kardamena":  { "Airport":"€10–15|€20–25|10 min","Kos Town":"€30–40|€50–60|35 min","Mastichari":"€20–28|€35–45|25 min","Kefalos":"€15–22|€28–38|20 min","Tigaki":"€35–45|€55–70|40 min","Marmari":"€25–35|€40–55|30 min","Lambi":"€35–45|€55–65|40 min","Psalidi":"€35–45|€55–65|40 min","Zia":"€25–35|€40–55|30 min" },
+    "Mastichari": { "Airport":"€20–28|€35–45|20 min","Kos Town":"€20–28|€35–45|25 min","Kardamena":"€20–28|€35–45|25 min","Kefalos":"€25–35|€42–55|30 min","Tigaki":"€15–22|€28–38|20 min","Marmari":"€10–15|€18–25|12 min","Lambi":"€25–35|€42–55|30 min","Psalidi":"€25–35|€42–55|30 min","Zia":"€18–25|€30–42|22 min" },
+    "Kefalos":    { "Airport":"€20–30|€35–50|20 min","Kos Town":"€45–55|€70–80|55 min","Kardamena":"€15–22|€28–38|20 min","Mastichari":"€25–35|€42–55|30 min","Tigaki":"€45–55|€70–85|50 min","Marmari":"€35–45|€55–70|45 min","Lambi":"€50–60|€75–90|60 min","Psalidi":"€50–60|€75–90|60 min","Zia":"€35–45|€55–70|40 min" },
+    "Tigaki":     { "Airport":"€30–40|€50–65|25 min","Kos Town":"€15–20|€28–35|20 min","Kardamena":"€35–45|€55–70|40 min","Mastichari":"€15–22|€28–38|20 min","Kefalos":"€45–55|€70–85|50 min","Marmari":"€10–15|€18–25|12 min","Lambi":"€18–25|€30–42|22 min","Psalidi":"€18–25|€30–42|22 min","Zia":"€18–25|€30–42|22 min" },
+    "Marmari":    { "Airport":"€30–40|€50–60|25 min","Kos Town":"€20–28|€35–45|25 min","Kardamena":"€25–35|€40–55|30 min","Mastichari":"€10–15|€18–25|12 min","Kefalos":"€35–45|€55–70|45 min","Tigaki":"€10–15|€18–25|12 min","Lambi":"€22–30|€38–50|28 min","Psalidi":"€22–30|€38–50|28 min","Zia":"€15–22|€28–38|18 min" },
+    "Lambi":      { "Airport":"€35–45|€55–65|30 min","Kos Town":"€8–12|€15–20|10 min","Kardamena":"€35–45|€55–65|40 min","Mastichari":"€25–35|€42–55|30 min","Kefalos":"€50–60|€75–90|60 min","Tigaki":"€18–25|€30–42|22 min","Marmari":"€22–30|€38–50|28 min","Psalidi":"€12–18|€22–30|15 min","Zia":"€22–30|€38–50|28 min" },
+    "Psalidi":    { "Airport":"€35–45|€55–65|30 min","Kos Town":"€10–15|€18–25|12 min","Kardamena":"€35–45|€55–65|40 min","Mastichari":"€25–35|€42–55|30 min","Kefalos":"€50–60|€75–90|60 min","Tigaki":"€18–25|€30–42|22 min","Marmari":"€22–30|€38–50|28 min","Lambi":"€12–18|€22–30|15 min","Zia":"€20–28|€35–45|25 min" },
+    "Zia":        { "Airport":"€25–35|€45–55|30 min","Kos Town":"€20–28|€35–45|25 min","Kardamena":"€25–35|€40–55|30 min","Mastichari":"€18–25|€30–42|22 min","Kefalos":"€35–45|€55–70|40 min","Tigaki":"€18–25|€30–42|22 min","Marmari":"€15–22|€28–38|18 min","Lambi":"€22–30|€38–50|28 min","Psalidi":"€20–28|€35–45|25 min" },
+  };
+
+  const [taxiFrom, setTaxiFrom] = useState("Airport");
+  const [taxiTo, setTaxiTo]     = useState("Kos Town");
+
+  const fareData  = (FARES[taxiFrom] || {})[taxiTo] || null;
+  const fareParts = fareData ? fareData.split("|") : null;
+
+  const selectStyle = { width:"100%", background:"rgba(255,255,255,0.07)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:12, padding:"12px 14px", color:"#f0e6d3", fontSize:14, fontFamily:"sans-serif", appearance:"none", WebkitAppearance:"none", cursor:"pointer", outline:"none" };
+
+  function swap() {
+    const tmp = taxiFrom;
+    setTaxiFrom(taxiTo);
+    setTaxiTo(tmp);
+  }
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+      <div style={{ marginBottom:20 }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:"#EAB308", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Getting Around</div>
+        <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>Taxi Price Guide</div>
+        <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.6 }}>Fares are per vehicle, not per person. A family of 4 pays the same as a solo traveller.</p>
+      </div>
+
+      {/* FROM / TO selector */}
+      <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"20px 16px", marginBottom:16 }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+          <div>
+            <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", letterSpacing:2, textTransform:"uppercase", marginBottom:6 }}>From</div>
+            <select value={taxiFrom} onChange={e => { setTaxiFrom(e.target.value); if(e.target.value===taxiTo) setTaxiTo(LOCATIONS.find(l=>l!==e.target.value)); }} style={selectStyle}>
+              {LOCATIONS.map(l => <option key={l} value={l} style={{ background:"#0a1628" }}>{l}</option>)}
+            </select>
+          </div>
+          <div style={{ display:"flex", justifyContent:"center" }}>
+            <button onClick={swap} style={{ background:"rgba(234,179,8,0.15)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:50, width:38, height:38, cursor:"pointer", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", color:"#EAB308" }}>⇅</button>
+          </div>
+          <div>
+            <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", letterSpacing:2, textTransform:"uppercase", marginBottom:6 }}>To</div>
+            <select value={taxiTo} onChange={e => setTaxiTo(e.target.value)} style={selectStyle}>
+              {LOCATIONS.filter(l=>l!==taxiFrom).map(l => <option key={l} value={l} style={{ background:"#0a1628" }}>{l}</option>)}
+            </select>
+          </div>
+        </div>
+
+        {/* Result */}
+        {fareParts ? (
+          <div style={{ marginTop:20, background:"linear-gradient(135deg,rgba(234,179,8,0.12),rgba(255,255,255,0.03))", border:"1px solid rgba(234,179,8,0.35)", borderRadius:14, padding:"20px 18px" }}>
+            <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", marginBottom:8 }}>{taxiFrom} → {taxiTo}</div>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+              <div>
+                <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", marginBottom:2 }}>Daytime fare</div>
+                <div style={{ fontSize:36, fontWeight:700, color:"#EAB308", fontFamily:"Georgia, serif", lineHeight:1 }}>{fareParts[0]}</div>
+              </div>
+              <div style={{ textAlign:"right" }}>
+                <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", marginBottom:2 }}>🌙 After midnight</div>
+                <div style={{ fontSize:22, fontWeight:600, color:"#ef4444", fontFamily:"Georgia, serif", lineHeight:1 }}>{fareParts[1]}</div>
+              </div>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:6, paddingTop:12, borderTop:"1px solid rgba(240,230,211,0.08)" }}>
+              <span style={{ fontSize:14 }}>🕐</span>
+              <span style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>Approx. {fareParts[2]} journey time</span>
+            </div>
+          </div>
+        ) : (
+          <div style={{ marginTop:16, padding:"14px", textAlign:"center", fontSize:13, color:"#475569", fontFamily:"sans-serif" }}>Select a from and to location above</div>
+        )}
+      </div>
+
+      {/* Info banners */}
+      <div style={{ background:"rgba(234,179,8,0.1)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:14, padding:"14px 16px", marginBottom:10, display:"flex", gap:10, alignItems:"flex-start" }}>
+        <span style={{ fontSize:18, flexShrink:0 }}>📍</span>
+        <p style={{ margin:0, fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}><strong style={{ color:"#EAB308" }}>Taxi Rank</strong> — Dolphin Square in the harbour, Kos Town. Always use the official rank.</p>
+      </div>
+      <div style={{ background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:14, padding:"14px 16px", marginBottom:10, display:"flex", gap:10, alignItems:"flex-start" }}>
+        <span style={{ fontSize:18, flexShrink:0 }}>🌙</span>
+        <p style={{ margin:0, fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}><strong style={{ color:"#ef4444" }}>Night surcharge (00:00–05:00)</strong> roughly doubles the fare. This is the legal regulated rate, not overcharging.</p>
+      </div>
+      <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14, padding:"14px 16px", marginBottom:16, display:"flex", gap:10, alignItems:"flex-start" }}>
+        <span style={{ fontSize:18, flexShrink:0 }}>🧳</span>
+        <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>Large luggage surcharge of <strong style={{ color:"#64748b" }}>€1–2 per bag</strong>. Small bags are free. Tipping not obligatory but rounding up is appreciated.</p>
+      </div>
+
+      <div style={{ fontSize:11, letterSpacing:2, color:"#64748b", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:8 }}>Book a Taxi</div>
+      <a href="tel:+302242022777" style={{ textDecoration:"none", display:"block", marginBottom:8 }}>
+        <div style={{ background:"rgba(234,179,8,0.12)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }}>
+          <span style={{ fontSize:22 }}>📞</span>
+          <div>
+            <div style={{ fontSize:14, fontWeight:600, color:"#EAB308", fontFamily:"sans-serif" }}>Kos Taxi Centre</div>
+            <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>+30 22420 22777</div>
+          </div>
+        </div>
+      </a>
+      <a href="tel:+302242023333" style={{ textDecoration:"none", display:"block" }}>
+        <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }}>
+          <span style={{ fontSize:22 }}>📞</span>
+          <div>
+            <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>Kos Taxi (alt)</div>
+            <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>+30 22420 23333</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  );
+}
+
 // ── Main App ──────────────────────────────────────────────────────────────────
 const NAV = [
   { key:"home",    label:"Home",    icon:"🏠" },
@@ -2638,120 +2757,7 @@ function App() {
       )}
 
       {/* Taxi Price Guide */}
-      {nav==="taxi" && (() => {
-        // Fare matrix — [from][to] = { price, night, time }
-        const LOCATIONS = ["Airport","Kos Town","Kardamena","Mastichari","Kefalos","Tigaki","Marmari","Lambi","Psalidi","Zia"];
-        const FARES = {
-          "Airport":    { "Kos Town":"€35–45|€55–65|25 min","Kardamena":"€10–15|€20–25|10 min","Mastichari":"€20–28|€35–45|20 min","Kefalos":"€20–30|€35–50|20 min","Tigaki":"€30–40|€50–65|25 min","Marmari":"€30–40|€50–60|25 min","Lambi":"€35–45|€55–65|30 min","Psalidi":"€35–45|€55–65|30 min","Zia":"€25–35|€45–55|30 min" },
-          "Kos Town":   { "Airport":"€35–45|€55–65|25 min","Kardamena":"€30–40|€50–60|35 min","Mastichari":"€20–28|€35–45|25 min","Kefalos":"€45–55|€70–80|55 min","Tigaki":"€15–20|€28–35|20 min","Marmari":"€20–28|€35–45|25 min","Lambi":"€8–12|€15–20|10 min","Psalidi":"€10–15|€18–25|12 min","Zia":"€20–28|€35–45|25 min" },
-          "Kardamena":  { "Airport":"€10–15|€20–25|10 min","Kos Town":"€30–40|€50–60|35 min","Mastichari":"€20–28|€35–45|25 min","Kefalos":"€15–22|€28–38|20 min","Tigaki":"€35–45|€55–70|40 min","Marmari":"€25–35|€40–55|30 min","Lambi":"€35–45|€55–65|40 min","Psalidi":"€35–45|€55–65|40 min","Zia":"€25–35|€40–55|30 min" },
-          "Mastichari": { "Airport":"€20–28|€35–45|20 min","Kos Town":"€20–28|€35–45|25 min","Kardamena":"€20–28|€35–45|25 min","Kefalos":"€25–35|€42–55|30 min","Tigaki":"€15–22|€28–38|20 min","Marmari":"€10–15|€18–25|12 min","Lambi":"€25–35|€42–55|30 min","Psalidi":"€25–35|€42–55|30 min","Zia":"€18–25|€30–42|22 min" },
-          "Kefalos":    { "Airport":"€20–30|€35–50|20 min","Kos Town":"€45–55|€70–80|55 min","Kardamena":"€15–22|€28–38|20 min","Mastichari":"€25–35|€42–55|30 min","Tigaki":"€45–55|€70–85|50 min","Marmari":"€35–45|€55–70|45 min","Lambi":"€50–60|€75–90|60 min","Psalidi":"€50–60|€75–90|60 min","Zia":"€35–45|€55–70|40 min" },
-          "Tigaki":     { "Airport":"€30–40|€50–65|25 min","Kos Town":"€15–20|€28–35|20 min","Kardamena":"€35–45|€55–70|40 min","Mastichari":"€15–22|€28–38|20 min","Kefalos":"€45–55|€70–85|50 min","Marmari":"€10–15|€18–25|12 min","Lambi":"€18–25|€30–42|22 min","Psalidi":"€18–25|€30–42|22 min","Zia":"€18–25|€30–42|22 min" },
-          "Marmari":    { "Airport":"€30–40|€50–60|25 min","Kos Town":"€20–28|€35–45|25 min","Kardamena":"€25–35|€40–55|30 min","Mastichari":"€10–15|€18–25|12 min","Kefalos":"€35–45|€55–70|45 min","Tigaki":"€10–15|€18–25|12 min","Lambi":"€22–30|€38–50|28 min","Psalidi":"€22–30|€38–50|28 min","Zia":"€15–22|€28–38|18 min" },
-          "Lambi":      { "Airport":"€35–45|€55–65|30 min","Kos Town":"€8–12|€15–20|10 min","Kardamena":"€35–45|€55–65|40 min","Mastichari":"€25–35|€42–55|30 min","Kefalos":"€50–60|€75–90|60 min","Tigaki":"€18–25|€30–42|22 min","Marmari":"€22–30|€38–50|28 min","Psalidi":"€12–18|€22–30|15 min","Zia":"€22–30|€38–50|28 min" },
-          "Psalidi":    { "Airport":"€35–45|€55–65|30 min","Kos Town":"€10–15|€18–25|12 min","Kardamena":"€35–45|€55–65|40 min","Mastichari":"€25–35|€42–55|30 min","Kefalos":"€50–60|€75–90|60 min","Tigaki":"€18–25|€30–42|22 min","Marmari":"€22–30|€38–50|28 min","Lambi":"€12–18|€22–30|15 min","Zia":"€20–28|€35–45|25 min" },
-          "Zia":        { "Airport":"€25–35|€45–55|30 min","Kos Town":"€20–28|€35–45|25 min","Kardamena":"€25–35|€40–55|30 min","Mastichari":"€18–25|€30–42|22 min","Kefalos":"€35–45|€55–70|40 min","Tigaki":"€18–25|€30–42|22 min","Marmari":"€15–22|€28–38|18 min","Lambi":"€22–30|€38–50|28 min","Psalidi":"€20–28|€35–45|25 min" },
-        };
-
-        const [taxiFrom, setTaxiFrom] = React.useState("Airport");
-        const [taxiTo, setTaxiTo]   = React.useState("Kos Town");
-
-        const fareData = (FARES[taxiFrom] || {})[taxiTo] || null;
-        const fareParts = fareData ? fareData.split("|") : null;
-
-        const selectStyle = { flex:1, background:"rgba(255,255,255,0.07)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:12, padding:"12px 14px", color:"#f0e6d3", fontSize:14, fontFamily:"sans-serif", appearance:"none", WebkitAppearance:"none", cursor:"pointer", outline:"none" };
-
-        return (
-          <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
-            <div style={{ marginBottom:20 }}>
-              <div style={{ fontSize:11, letterSpacing:3, color:"#EAB308", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>Getting Around</div>
-              <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>Taxi Price Guide</div>
-              <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.6 }}>Fares are per vehicle, not per person. A family of 4 pays the same as a solo traveller.</p>
-            </div>
-
-            {/* FROM / TO selector */}
-            <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"20px 16px", marginBottom:16 }}>
-              <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-                <div>
-                  <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", letterSpacing:2, textTransform:"uppercase", marginBottom:6 }}>From</div>
-                  <select value={taxiFrom} onChange={e => { setTaxiFrom(e.target.value); if(e.target.value===taxiTo) setTaxiTo(LOCATIONS.find(l=>l!==e.target.value)); }} style={selectStyle}>
-                    {LOCATIONS.map(l => <option key={l} value={l} style={{ background:"#0a1628" }}>{l}</option>)}
-                  </select>
-                </div>
-                {/* Swap button */}
-                <div style={{ display:"flex", justifyContent:"center" }}>
-                  <button onClick={() => { const tmp=taxiFrom; setTaxiFrom(taxiTo); setTaxiTo(tmp); }} style={{ background:"rgba(234,179,8,0.15)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:50, width:38, height:38, cursor:"pointer", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center" }}>⇅</button>
-                </div>
-                <div>
-                  <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", letterSpacing:2, textTransform:"uppercase", marginBottom:6 }}>To</div>
-                  <select value={taxiTo} onChange={e => setTaxiTo(e.target.value)} style={selectStyle}>
-                    {LOCATIONS.filter(l=>l!==taxiFrom).map(l => <option key={l} value={l} style={{ background:"#0a1628" }}>{l}</option>)}
-                  </select>
-                </div>
-              </div>
-
-              {/* Result */}
-              {fareParts ? (
-                <div style={{ marginTop:20, background:"linear-gradient(135deg,rgba(234,179,8,0.12),rgba(255,255,255,0.03))", border:"1px solid rgba(234,179,8,0.35)", borderRadius:14, padding:"20px 18px" }}>
-                  <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", marginBottom:4 }}>{taxiFrom} → {taxiTo}</div>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
-                    <div>
-                      <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", marginBottom:2 }}>Daytime fare</div>
-                      <div style={{ fontSize:36, fontWeight:700, color:"#EAB308", fontFamily:"Georgia, serif", lineHeight:1 }}>{fareParts[0]}</div>
-                    </div>
-                    <div style={{ textAlign:"right" }}>
-                      <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", marginBottom:2 }}>🌙 After midnight</div>
-                      <div style={{ fontSize:22, fontWeight:600, color:"#ef4444", fontFamily:"Georgia, serif", lineHeight:1 }}>{fareParts[1]}</div>
-                    </div>
-                  </div>
-                  <div style={{ display:"flex", alignItems:"center", gap:6, paddingTop:12, borderTop:"1px solid rgba(240,230,211,0.08)" }}>
-                    <span style={{ fontSize:14 }}>🕐</span>
-                    <span style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>Approx. {fareParts[2]} journey time</span>
-                  </div>
-                </div>
-              ) : (
-                <div style={{ marginTop:16, padding:"14px", textAlign:"center", fontSize:13, color:"#475569", fontFamily:"sans-serif" }}>Select a from and to location above</div>
-              )}
-            </div>
-
-            {/* Info banners */}
-            <div style={{ background:"rgba(234,179,8,0.1)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:14, padding:"14px 16px", marginBottom:10, display:"flex", gap:10, alignItems:"flex-start" }}>
-              <span style={{ fontSize:18, flexShrink:0 }}>📍</span>
-              <p style={{ margin:0, fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}><strong style={{ color:"#EAB308" }}>Taxi Rank</strong> — Dolphin Square in the harbour, Kos Town. Always use the official rank.</p>
-            </div>
-            <div style={{ background:"rgba(239,68,68,0.08)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:14, padding:"14px 16px", marginBottom:10, display:"flex", gap:10, alignItems:"flex-start" }}>
-              <span style={{ fontSize:18, flexShrink:0 }}>🌙</span>
-              <p style={{ margin:0, fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}><strong style={{ color:"#ef4444" }}>Night surcharge (00:00–05:00)</strong> roughly doubles the fare. This is the legal regulated rate, not overcharging.</p>
-            </div>
-            <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14, padding:"14px 16px", marginBottom:16, display:"flex", gap:10, alignItems:"flex-start" }}>
-              <span style={{ fontSize:18, flexShrink:0 }}>🧳</span>
-              <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>Large luggage surcharge of <strong style={{ color:"#64748b" }}>€1–2 per bag</strong>. Small bags are free. Tipping not obligatory but rounding up is appreciated.</p>
-            </div>
-
-            {/* Call buttons */}
-            <div style={{ fontSize:11, letterSpacing:2, color:"#64748b", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:8 }}>Book a Taxi</div>
-            <a href="tel:+302242022777" style={{ textDecoration:"none", display:"block", marginBottom:8 }}>
-              <div style={{ background:"rgba(234,179,8,0.12)", border:"1px solid rgba(234,179,8,0.3)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }}>
-                <span style={{ fontSize:22 }}>📞</span>
-                <div>
-                  <div style={{ fontSize:14, fontWeight:600, color:"#EAB308", fontFamily:"sans-serif" }}>Kos Taxi Centre</div>
-                  <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>+30 22420 22777</div>
-                </div>
-              </div>
-            </a>
-            <a href="tel:+302242023333" style={{ textDecoration:"none", display:"block" }}>
-              <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }}>
-                <span style={{ fontSize:22 }}>📞</span>
-                <div>
-                  <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>Kos Taxi (alt)</div>
-                  <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>+30 22420 23333</div>
-                </div>
-              </div>
-            </a>
-          </div>
-        );
-      })()}
+      {nav==="taxi" && <TaxiTab/>}
 
       {/* Local City Buses */}
       {nav==="localbus" && (
