@@ -329,6 +329,30 @@ const BUSES = [
   { id:"u5", route:"Kos Town to Asklepion", line:"Line 5", duration:"20 min", color:"#0EA5E9", note:"Tourist shuttle to the ancient ruins. Summer only.", times:[{dep:"09:00",arr:"09:20",days:"Daily (summer)"},{dep:"11:00",arr:"11:20",days:"Daily (summer)"},{dep:"13:00",arr:"13:20",days:"Daily (summer)"}] },
 ];
 
+// ── DEAS Local City Buses ─────────────────────────────────────────────────────
+const LOCAL_BUSES = [
+  {
+    id:"d1", route:"Line 1, Kos Town to Agios Fokas", line:"DEAS Line 1", duration:"25 min", color:"#10B981",
+    note:"Runs via Psalidi Hotels. Frequent service throughout the day. Cash only on board. Check current timetable at the harbour kiosk.",
+    times:[{dep:"Every 30 min",arr:"approx 25 min",days:"Daily"},{dep:"From ~07:00",arr:"until ~23:00",days:"Summer schedule"}]
+  },
+  {
+    id:"d2", route:"Line 2, Kos Town to Lambi Beach", line:"DEAS Line 2", duration:"15 min", color:"#0EA5E9",
+    note:"Connects Kos Dolphin Square to Lambi Beach and nearby hotels. Frequent service all day. Cash only.",
+    times:[{dep:"Every 30 min",arr:"approx 15 min",days:"Daily"},{dep:"From ~07:00",arr:"until ~23:00",days:"Summer schedule"}]
+  },
+  {
+    id:"d3", route:"Line 3, Kos Town to Platani and Asklepion", line:"DEAS Line 3", duration:"20 min", color:"#F97316",
+    note:"The only direct city bus to the Asklepion ruins, via Platani village. Fewer departures than Lines 1 and 2. Does not run on Sundays.",
+    times:[{dep:"08:00",arr:"08:20",days:"Mon-Sat"},{dep:"10:00",arr:"10:20",days:"Mon-Sat"},{dep:"12:00",arr:"12:20",days:"Mon-Sat"},{dep:"14:00",arr:"14:20",days:"Mon-Sat"}]
+  },
+  {
+    id:"d5", route:"Line 5, Kos Town to Therma Hot Springs", line:"DEAS Line 5", duration:"30 min", color:"#EC4899",
+    note:"The only city bus that goes all the way to the thermal baths at Embros Therma. Limited departures, check the harbour kiosk for exact times.",
+    times:[{dep:"10:00",arr:"10:30",days:"Daily (summer)"},{dep:"13:00",arr:"13:30",days:"Daily (summer)"},{dep:"16:00",arr:"16:30",days:"Daily (summer)"}]
+  },
+];
+
 const CATS = [
   { key:"beaches",    label:"Beaches",    icon:"🏖️", color:"#0EA5E9" },
   { key:"restaurants",label:"Eat",        icon:"🍽️", color:"#F97316" },
@@ -1385,7 +1409,8 @@ const NAV = [
   { key:"nearby",  label:"Nearby",  icon:"📍" },
   { key:"weather", label:"Weather", icon:"🌤️" },
   { key:"ferry",   label:"Ferries", icon:"⛴" },
-  { key:"bus",     label:"Buses",   icon:"🚌" },
+  { key:"bus",     label:"Island Buses", icon:"🚌" },
+  { key:"localbus", label:"City Buses",  icon:"🏙️" },
   { key:"sos",     label:"Help",    icon:"🆘" },
   { key:"trip",    label:"My Trip",  icon:"🗺️" },
   { key:"islands", label:"Islands",  icon:"🏝️" },
@@ -2596,6 +2621,30 @@ function App() {
           {BUSES.map(b => <TTCard key={b.id} item={b} icon="&#128652;" isOpen={openTT===b.id} onToggle={() => setOpenTT(openTT===b.id?null:b.id)}/>)}
           <div style={{ marginTop:8, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
             <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>&#128652; <strong style={{ color:"#64748b" }}>Bus Station</strong> on Kleopatras Street, Kos Town. Tickets bought on board.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Local City Buses */}
+      {nav==="localbus" && (
+        <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+          <div style={{ marginBottom:20 }}>
+            <div style={{ fontSize:11, letterSpacing:3, color:"#10B981", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>DEAS Municipal Bus Service</div>
+            <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", marginBottom:6 }}>Kos Town City Buses</div>
+            <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>Local buses run within and around Kos Town. Tap a route for details.</p>
+          </div>
+          {/* Info banner */}
+          <div style={{ background:"rgba(232,160,32,0.1)", border:"1px solid rgba(232,160,32,0.3)", borderRadius:14, padding:"12px 16px", marginBottom:20, display:"flex", gap:10, alignItems:"flex-start" }}>
+            <span style={{ fontSize:18, flexShrink:0 }}>⚠️</span>
+            <p style={{ margin:0, fontSize:12, color:"#e8a020", fontFamily:"sans-serif", lineHeight:1.6 }}>
+              DEAS timetables change frequently, especially between seasons. Always verify the current schedule at the <strong>DEAS kiosk on the south side of Kos Town harbour</strong>, or call <strong>+30 22420 26276</strong>. Cash only on board.
+            </p>
+          </div>
+          {LOCAL_BUSES.map(b => <TTCard key={b.id} item={b} icon="🚍" isOpen={openTT===b.id} onToggle={() => setOpenTT(openTT===b.id?null:b.id)}/>)}
+          <div style={{ marginTop:8, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
+            <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.7 }}>
+              🚍 <strong style={{ color:"#64748b" }}>DEAS Bus Stop</strong> is on the south side of Kos Town harbour. Tickets are slightly cheaper at the kiosk than on the bus. The intercity KTEL buses (to Tigaki, Kardamena, Kefalos etc.) depart from Kleopatras Street.
+            </p>
           </div>
         </div>
       )}
