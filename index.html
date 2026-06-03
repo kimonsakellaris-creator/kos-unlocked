@@ -1336,35 +1336,11 @@ function HomePage({ onExplore }) {
           </p>
         </div>
 
-        {/* Quick stats */}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:10, marginBottom:32 }}>
-          {[
-            ["🏖️","16","Beaches"],
-            ["🍽️","21","Restaurants"],
-            ["🍹","26","Bars"],
-            ["🏛️","20","Sights"],
-            ["🏘️","12","Villages"],
-            ["🎯","12","Activities"],
-          ].map(([icon,num,label]) => (
-            <div key={label} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.07)", borderRadius:14, padding:"14px 10px", textAlign:"center" }}>
-              <div style={{ fontSize:20, marginBottom:4 }}>{icon}</div>
-              <div style={{ fontSize:20, fontWeight:700, color:"#f0e6d3", fontFamily:"Georgia, serif", lineHeight:1 }}>{num}</div>
-              <div style={{ fontSize:10, color:"#475569", fontFamily:"sans-serif", marginTop:3 }}>{label}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
 
-      {/* CTA */}
+      {/* Disclaimer */}
       <div style={{ position:"relative", zIndex:1 }}>
-        <button onClick={onExplore} style={{ width:"100%", padding:"18px", background:"linear-gradient(135deg,rgba(14,165,233,0.3),rgba(14,165,233,0.15))", border:"1.5px solid rgba(14,165,233,0.5)", borderRadius:16, color:"#7dd3fc", fontSize:16, cursor:"pointer", fontFamily:"Georgia, serif", fontWeight:600, letterSpacing:1, marginBottom:10 }}>
-          Start Exploring →
-        </button>
-        {/* PWA install button — shown by JS when available */}
-        <div id="pwa-btn" onClick={() => window.installPWA && window.installPWA()} style={{ display:"none", alignItems:"center", justifyContent:"center", gap:8, width:"100%", padding:"12px", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, cursor:"pointer", marginBottom:10 }}>
-          <span style={{ fontSize:16 }}>📲</span>
-          <span style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", fontWeight:600 }}>Add to Home Screen</span>
-        </div>
         <p style={{ margin:0, textAlign:"center", fontSize:11, color:"#334155", fontFamily:"sans-serif", lineHeight:1.6 }}>
           Listings are personal recommendations. Featured ⭐ partners support this guide.
         </p>
@@ -1535,21 +1511,42 @@ function TaxiTab() {
   );
 }
 
+// ── SVG Nav Icons ─────────────────────────────────────────────────────────────
+const NavIcon = ({ name, color="#94a3b8", size=20 }) => {
+  const s = size;
+  const icons = {
+    home:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>,
+    explore: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg>,
+    events:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>,
+    nearby:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
+    weather: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 2v1M12 13v1M4.22 4.22l.7.7M18.36 4.22l-.7.7M2 8h1M21 8h-1M6 16a4 4 0 0012 0"/><path d="M4 20h16"/></svg>,
+    ferry:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15l1.5-5h13L20 15"/><rect x="8" y="6" width="8" height="4" rx="1"/><path d="M12 6V3M2 18c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></svg>,
+    bus:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h.01M17 15h.01M8 19v2M16 19v2"/></svg>,
+    localbus:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 11h16M8 16h.01M16 16h.01M8 19v2M16 19v2M8 6V4h8v2"/></svg>,
+    taxi:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M3 12h18M10 4h4M12 4v3"/></svg>,
+    sos:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>,
+    trip:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>,
+    islands: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 100 18A9 9 0 0012 3z"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>,
+    listed:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>,
+  };
+  return icons[name] || null;
+};
+
 // ── Main App ──────────────────────────────────────────────────────────────────
 const NAV = [
-  { key:"home",    label:"Home",    icon:"🏠" },
-  { key:"explore", label:"Explore", icon:"🧭" },
-  { key:"events",  label:"Events",  icon:"🎉" },
-  { key:"nearby",  label:"Nearby",  icon:"📍" },
-  { key:"weather", label:"Weather", icon:"🌤️" },
-  { key:"ferry",   label:"Ferries", icon:"⛴" },
-  { key:"bus",     label:"Island Buses", icon:"🚌" },
-  { key:"localbus", label:"City Buses",  icon:"🏙️" },
-  { key:"taxi",     label:"Taxi",        icon:"🚕" },
-  { key:"sos",     label:"Help",    icon:"🆘" },
-  { key:"trip",    label:"My Trip",  icon:"🗺️" },
-  { key:"islands", label:"Islands",  icon:"🏝️" },
-  { key:"listed",  label:"List Us", icon:"⭐" },
+  { key:"home",     label:"Home",         icon:"home" },
+  { key:"explore",  label:"Explore",      icon:"explore" },
+  { key:"events",   label:"Events",       icon:"events" },
+  { key:"nearby",   label:"Nearby",       icon:"nearby" },
+  { key:"weather",  label:"Weather",      icon:"weather" },
+  { key:"ferry",    label:"Ferries",      icon:"ferry" },
+  { key:"bus",      label:"Island Buses", icon:"bus" },
+  { key:"localbus", label:"City Buses",   icon:"localbus" },
+  { key:"taxi",     label:"Taxi",         icon:"taxi" },
+  { key:"sos",      label:"Help",         icon:"sos" },
+  { key:"trip",     label:"My Trip",      icon:"trip" },
+  { key:"islands",  label:"Islands",      icon:"islands" },
+  { key:"listed",   label:"List Us",      icon:"listed" },
 ];
 
 // ── Surrounding Islands Data ──────────────────────────────────────────────────
@@ -2409,6 +2406,7 @@ function NearbyTab() {
 function App() {
   const [places, setPlaces] = useState(loadPlaces);
   const [nav, setNav] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [mapMode, setMapMode] = useState(false);
   const [activeCat, setActiveCat] = useState("beaches");
   const [selected, setSelected] = useState(null);
@@ -2444,6 +2442,12 @@ function App() {
     setSelected(selected && selected.id === item.id ? null : item);
     if (!mapMode && item.cat !== activeCat) setActiveCat(item.cat);
   }
+
+  // Scroll to top when nav changes
+  React.useEffect(() => {
+    const el = document.getElementById("main-scroll");
+    if (el) el.scrollTop = 0;
+  }, [nav]);
 
   function handleLogoTap() {
     const next = tapCount + 1;
@@ -2605,7 +2609,7 @@ function App() {
                   This guide is based on <strong style={{ color:"#64748b" }}>personal local experience</strong>. Businesses marked ⭐ are featured partners. All listings are independently selected and reflect genuine recommendations.
                 </p>
               </div>
-              <div style={{ padding:"14px 16px 120px" }}>
+              <div style={{ padding:"14px 16px 100px" }}>
                 {listItems.length===0 && <div style={{ textAlign:"center", padding:"40px 0", color:"#475569", fontFamily:"sans-serif" }}>No results found</div>}
                 {listItems.map((item) => {
                   const col = CAT_COLOR[item.cat];
@@ -2880,69 +2884,54 @@ function App() {
         </div>
       )}
 
-      {/* Bottom Nav */}
-      <div style={{ position:"fixed", bottom:0, left:"50%", transform:"translateX(-50%)", width:"100%", maxWidth:430, background:"rgba(8,18,32,0.98)", backdropFilter:"blur(24px)", borderTop:"1px solid rgba(255,255,255,0.06)", paddingBottom:24, zIndex:10 }}>
-        <div style={{ position:"relative" }}>
-          {/* Left fade hint */}
-          <div style={{ position:"absolute", left:0, top:0, bottom:0, width:24, background:"linear-gradient(to right, rgba(8,18,32,0.98), transparent)", zIndex:2, pointerEvents:"none" }}/>
-          {/* Right fade hint, stronger to signal more content */}
-          <div style={{ position:"absolute", right:0, top:0, bottom:0, width:40, background:"linear-gradient(to left, rgba(8,18,32,0.98), transparent)", zIndex:2, pointerEvents:"none" }}/>
-          {/* Swipe hint arrow */}
-          <div style={{ position:"absolute", right:6, top:"50%", transform:"translateY(-50%)", zIndex:3, pointerEvents:"none", animation:"swipeHint 1.5s ease-in-out 0.8s 3 forwards" }}>
-            <span style={{ fontSize:14, opacity:0.5 }}>›</span>
-          </div>
-          {/* Shimmer overlay, sweeps once across all buttons on load */}
-          <div style={{ position:"absolute", top:0, left:0, right:0, bottom:0, zIndex:3, pointerEvents:"none", overflow:"hidden", borderRadius:0 }}>
-            <div style={{ position:"absolute", top:0, bottom:0, width:"60px", background:"linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)", animation:"navShimmer 1.2s ease-in-out 0.4s 1 forwards", transform:"translateX(-60px)" }}/>
-          </div>
-          <div style={{ display:"flex", gap:8, overflowX:"auto", padding:"12px 16px 0", scrollbarWidth:"none", WebkitOverflowScrolling:"touch" }}>
-            {NAV.map((n, idx) => {
-              const isActive = nav === n.key;
-              return (
-                <button key={n.key} onClick={() => { setNav(n.key); setOpenTT(null); }} style={{
-                  flexShrink:0,
-                  padding:"9px 18px",
-                  borderRadius:50,
-                  border:"none",
-                  cursor:"pointer",
-                  fontFamily:"Georgia, serif",
-                  fontSize:13,
-                  fontWeight: isActive ? 600 : 400,
-                  letterSpacing: isActive ? 0.5 : 0,
-                  background: isActive ? "linear-gradient(135deg, rgba(14,165,233,0.35), rgba(14,165,233,0.2))" : "rgba(255,255,255,0.11)",
-                  color: isActive ? "#7dd3fc" : "#94a3b8",
-                  boxShadow: isActive ? "inset 0 0 0 1px rgba(14,165,233,0.6)" : "inset 0 0 0 1px rgba(255,255,255,0.15)",
-                  transition:"all 0.2s ease",
-                  whiteSpace:"nowrap",
-                  position:"relative",
-                  overflow:"hidden",
-                  animation: idx > 0 ? "none" : "none",
-                }}>
-                  {n.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        {/* Scroll hint text, shows briefly then fades */}
-        <div style={{ textAlign:"center", fontSize:10, color:"#334155", fontFamily:"sans-serif", marginTop:4, animation:"fadeOutHint 0.8s ease-in-out 3s 1 forwards", letterSpacing:1 }}>
-          ← swipe for more →
-        </div>
+      {/* Hamburger Menu Button */}
+      <div style={{ position:"fixed", bottom:28, right:20, zIndex:100 }}>
+        <button onClick={() => setMenuOpen(true)} style={{ width:56, height:56, borderRadius:"50%", background:"linear-gradient(135deg,rgba(14,165,233,0.9),rgba(8,100,180,0.9))", border:"1.5px solid rgba(14,165,233,0.6)", backdropFilter:"blur(16px)", boxShadow:"0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(14,165,233,0.2)", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:5 }}>
+          <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
+          <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
+          <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
+        </button>
       </div>
 
+      {/* Menu Overlay */}
+      {menuOpen && (
+        <div style={{ position:"fixed", inset:0, zIndex:200 }}>
+          {/* Backdrop */}
+          <div onClick={() => setMenuOpen(false)} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.6)", backdropFilter:"blur(4px)" }}/>
+          {/* Drawer */}
+          <div style={{ position:"absolute", bottom:0, left:"50%", transform:"translateX(-50%)", width:"100%", maxWidth:430, background:"linear-gradient(180deg,#0d1f38 0%,#08131f 100%)", borderTop:"1px solid rgba(14,165,233,0.2)", borderRadius:"24px 24px 0 0", paddingBottom:40, overflow:"hidden" }}>
+            {/* Handle */}
+            <div style={{ display:"flex", justifyContent:"center", paddingTop:12, marginBottom:4 }}>
+              <div style={{ width:40, height:4, borderRadius:2, background:"rgba(255,255,255,0.15)" }}/>
+            </div>
+            {/* Header */}
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"12px 24px 16px" }}>
+              <div>
+                <div style={{ fontSize:18, fontWeight:600, color:"#f0e6d3", fontFamily:"Georgia, serif", letterSpacing:2 }}>KOS UNLOCKED</div>
+                <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", letterSpacing:1 }}>Your local island guide</div>
+              </div>
+              <button onClick={() => setMenuOpen(false)} style={{ background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:"50%", width:36, height:36, cursor:"pointer", color:"#94a3b8", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center" }}>✕</button>
+            </div>
+            {/* Nav items — 2 column grid */}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, padding:"0 16px" }}>
+              {NAV.map(n => {
+                const isActive = nav === n.key;
+                return (
+                  <button key={n.key} onClick={() => { setNav(n.key); setOpenTT(null); setMenuOpen(false); window.scrollTo(0,0); }} style={{ padding:"14px 16px", borderRadius:16, border:"1.5px solid", borderColor:isActive?"rgba(14,165,233,0.5)":"rgba(255,255,255,0.08)", background:isActive?"linear-gradient(135deg,rgba(14,165,233,0.2),rgba(14,165,233,0.08))":"rgba(255,255,255,0.04)", cursor:"pointer", display:"flex", alignItems:"center", gap:10, transition:"all 0.15s" }}>
+                    <NavIcon name={n.icon} color={isActive?"#7dd3fc":"#64748b"} size={20}/>
+                    <span style={{ fontSize:14, color:isActive?"#7dd3fc":"#94a3b8", fontFamily:"sans-serif", fontWeight:isActive?600:400, textAlign:"left" }}>{n.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       <style dangerouslySetInnerHTML={{__html:`
-        @keyframes navShimmer {
-          0%   { transform: translateX(-60px); opacity: 1; }
-          100% { transform: translateX(100vw); opacity: 1; }
-        }
-        @keyframes swipeHint {
-          0%   { transform: translateY(-50%) translateX(0px); opacity: 0.5; }
-          50%  { transform: translateY(-50%) translateX(4px); opacity: 0.9; }
-          100% { transform: translateY(-50%) translateX(0px); opacity: 0.5; }
-        }
-        @keyframes fadeOutHint {
-          0%   { opacity: 1; }
-          100% { opacity: 0; }
+        @keyframes slideUp {
+          from { transform: translateX(-50%) translateY(100%); }
+          to   { transform: translateX(-50%) translateY(0); }
         }
       `}}/>
     </div>
