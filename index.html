@@ -390,9 +390,9 @@ const LOCAL_BUSES = [
 
 const CATS = [
   { key:"beaches",    label:"Beaches",    icon:"🏖️", color:"#0EA5E9" },
-  { key:"restaurants",label:"Eat",        icon:"🍽️", color:"#F97316" },
+  { key:"restaurants",label:"Eat",        icon:"food", color:"#F97316" },
   { key:"bars",       label:"Drink",      icon:"🍹", color:"#A855F7" },
-  { key:"sights",     label:"Culture",    icon:"🏛️", color:"#10B981" },
+  { key:"sights",     label:"Culture",    icon:"sight", color:"#10B981" },
   { key:"villages",   label:"Villages",   icon:"🏘️", color:"#EAB308" },
   { key:"activities", label:"Activities", icon:"🎯", color:"#EC4899" },
 ];
@@ -915,7 +915,7 @@ const EMERGENCY = [
   { id:"e2", category:"Kos Local Numbers", color:"#F97316", items:[
     { name:"Kos General Hospital", number:"22420 22300", desc:"Hippokrateion Hospital, Kos Town. 24hr A&E.", icon:"🏥" },
     { name:"Kos Tourist Police", number:"22420 22444", desc:"English-speaking police for tourist assistance", icon:"🛡️" },
-    { name:"Kos Port Authority", number:"22420 28507", desc:"Ferry and sea-related enquiries", icon:"⛵" },
+    { name:"Kos Port Authority", number:"22420 28507", desc:"Ferry and sea-related enquiries", icon:"sail" },
     { name:"Kos Airport", number:"22420 56000", desc:"Ippokratis International Airport", icon:"✈️" },
   ]},
   { id:"e3", category:"Useful Contacts", color:"#10B981", items:[
@@ -1384,21 +1384,11 @@ function MiniWeatherWidget({ onTap }) {
       .catch(() => {});
   }, []);
 
-  const wxIcon = code => {
-    if (!code && code !== 0) return "🌤️";
-    if (code === 0) return "☀️";
-    if (code <= 2)  return "🌤️";
-    if (code <= 3)  return "☁️";
-    if (code <= 48) return "🌫️";
-    if (code <= 65) return "🌧️";
-    if (code <= 75) return "❄️";
-    if (code <= 82) return "🌦️";
-    return "⛈️";
-  };
+
 
   return (
     <div onClick={onTap} style={{ cursor:"pointer", background:"rgba(14,165,233,0.1)", border:"1px solid rgba(14,165,233,0.25)", borderRadius:14, padding:"8px 14px", display:"flex", alignItems:"center", gap:8, transition:"all 0.2s" }}>
-      <span style={{ fontSize:22 }}>{wxIcon(wx?.weather_code)}</span>
+      <WX_ICON code={wx?.weather_code || 1} size={22}/>
       <div>
         <div style={{ fontSize:16, fontWeight:700, color:"#f0e6d3", fontFamily:"sans-serif", lineHeight:1 }}>
           {wx ? Math.round(wx.temperature_2m)+"°" : "--°"}
@@ -1560,6 +1550,21 @@ function NavIcon({ name, color, size }) {
   if (name === "humidity") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>;
   if (name === "uv")       return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>;
   if (name === "sunrise")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M17 18a5 5 0 00-10 0M12 2v7M4.22 10.22l1.42 1.42M19.78 10.22l-1.42 1.42M2 18h2M20 18h2"/></svg>;
+  if (name === "sunset")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M17 13a5 5 0 00-10 0"/><path d="M2 13h20"/><path d="M12 17v4M10 19l2 2 2-2"/></svg>;
+  if (name === "swim")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/><circle cx="7" cy="7" r="2"/><path d="M7 9v4M11 13l3-3 1.5 1.5"/></svg>;
+  if (name === "dive")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="6" r="2"/><path d="M12 8v6l3 4M9 12l-4 2M15 12l4 1"/><path d="M2 19c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0"/></svg>;
+  if (name === "cycle")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zm-3 11.5L5.5 11 9 6h5l2 5 2.5 1"/><path d="M9 6l2 5.5"/></svg>;
+  if (name === "sail")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M4 15l1.5-5h13L20 15"/><path d="M12 6V3M10 3c0 5-4 8-4 8h8s-4-3-4-8z"/><path d="M2 18c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></svg>;
+  if (name === "surf")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M2 16c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/><path d="M8 16l4-8 2 3"/><circle cx="14" cy="7" r="1.5"/></svg>;
+  if (name === "jeep")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="2" y="9" width="20" height="9" rx="2"/><path d="M5 9l2-4h10l2 4"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M2 13h20M9 9v4M15 9v4"/></svg>;
+  if (name === "climb")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2l-4 8h3v4l4-4h-3l4-8h-4z"/><path d="M5 20h14M8 17l1 3M15 17l1 3"/></svg>;
+  if (name === "fish")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M6.5 12C6.5 8 10 4 17 4c0 7-3.5 10.5-10.5 10.5"/><path d="M6.5 12C6.5 16 10 20 17 20c0-7-3.5-10.5-10.5-10.5"/><circle cx="15" cy="9" r="1"/><path d="M2 12l3 2-3 2"/></svg>;
+  if (name === "sight")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M3 21h18M5 21V10l7-7 7 7v11"/><path d="M9 21v-6h6v6"/></svg>;
+  if (name === "cinema")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 4v16M16 4v16M2 12h20M2 8h4M18 8h4M2 16h4M18 16h4"/></svg>;
+  if (name === "food")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>;
+  if (name === "coffee")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><path d="M9 2c0 2-2 2-2 4M13 2c0 2-2 2-2 4"/></svg>;
+  if (name === "market")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>;
+  if (name === "sunscreen") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="8" y="8" width="8" height="14" rx="2"/><path d="M12 2v4M8 8h8M10 12h4M10 15h4"/><circle cx="12" cy="5" r="1"/></svg>;
   if (name === "rain")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>;
   if (name === "wave")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/></svg>;
   if (name === "calendar") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>;
@@ -1938,23 +1943,24 @@ const WX_CODES = {
   80:"Light showers", 81:"Showers", 82:"Heavy showers", 95:"Thunderstorm", 99:"Thunderstorm with hail",
 };
 
-const WX_ICON = code => {
-  if (code === 0) return "☀️";
-  if (code <= 2)  return "🌤️";
-  if (code <= 3)  return "☁️";
-  if (code <= 48) return "🌫️";
-  if (code <= 55) return "🌦️";
-  if (code <= 65) return "🌧️";
-  if (code <= 75) return "❄️";
-  if (code <= 82) return "🌦️";
-  return "⛈️";
-};
+function WX_ICON({ code, size=40 }) {
+  var s = size;
+  var col = "#f0e6d3";
+  var p = { fill:"none", strokeWidth:"1.6", strokeLinecap:"round", strokeLinejoin:"round" };
+  if (code === 0) return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="4" stroke="#f59e0b" fill="#f59e0b" fillOpacity="0.3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="#f59e0b"/></svg>;
+  if (code <= 2)  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="10" cy="10" r="3.5" stroke="#f59e0b" fill="#f59e0b" fillOpacity="0.2"/><path d="M8 2v1M4.22 4.22l.7.7M2 8h1M18 8h1M16 4.22l-.7.7M8 16v-1" stroke="#f59e0b"/><path d="M6 14a4 4 0 108 0c0-1.5-.8-3-2-4" stroke="#94a3b8"/><path d="M4 17h14" stroke="#94a3b8"/><path d="M6 20h10" stroke="#94a3b8" strokeOpacity="0.5"/></svg>;
+  if (code <= 3)  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" stroke="#94a3b8"/><path d="M4 20h14" stroke="#94a3b8"/></svg>;
+  if (code <= 48) return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M5 12h14M3 8h18M3 16h18" stroke="#94a3b8" strokeOpacity="0.6"/></svg>;
+  if (code <= 65) return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" stroke="#94a3b8"/><line x1="8" y1="19" x2="8" y2="21" stroke="#60a5fa"/><line x1="12" y1="19" x2="12" y2="21" stroke="#60a5fa"/><line x1="16" y1="19" x2="16" y2="21" stroke="#60a5fa"/></svg>;
+  if (code <= 75) return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" stroke="#94a3b8"/><path d="M8 19l1 2M12 19l1 2M16 19l1 2" stroke="#e0f2fe" strokeWidth="2"/></svg>;
+  if (code <= 82) return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="8" cy="9" r="2.5" stroke="#f59e0b"/><path d="M8 3v1M3.5 5l.7.7M2 9h1" stroke="#f59e0b"/><path d="M20 17.58A5 5 0 0018 10h-1.26A6 6 0 106 16.25" stroke="#94a3b8"/><line x1="8" y1="19" x2="8" y2="21" stroke="#60a5fa"/><line x1="12" y1="19" x2="12" y2="21" stroke="#60a5fa"/></svg>;
+  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" stroke="#94a3b8"/><path d="M13 11l-4 6h6l-4 6" stroke="#fbbf24" strokeWidth="1.8"/></svg>;
+}
 
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 function WeatherTab() {
-  const { useEffect } = window.React || {};
   const [wx, setWx] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -1984,7 +1990,7 @@ function WeatherTab() {
       <div style={{ fontSize:11, letterSpacing:3, color:"#0EA5E9", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:20 }}>Live Weather</div>
       {/* Animated placeholder skeleton */}
       <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,0.1),rgba(6,24,40,0.4))", border:"1px solid rgba(14,165,233,0.2)", borderRadius:20, padding:"28px 20px", marginBottom:16, textAlign:"center" }}>
-        <div style={{ fontSize:72, marginBottom:8 }}>🌤️</div>
+        <div style={{ marginBottom:8 }}><WX_ICON code={1} size={72}/></div>
         <div style={{ fontSize:15, color:"#94a3b8", fontFamily:"sans-serif", marginBottom:4 }}>Loading Kos weather...</div>
         <div style={{ fontSize:13, color:"#475569", fontFamily:"sans-serif" }}>Fetching live conditions</div>
         <div style={{ marginTop:20, display:"flex", justifyContent:"center", gap:6 }}>
@@ -2013,7 +2019,7 @@ function WeatherTab() {
     <div style={{ padding:"24px 16px 120px" }}>
       <div style={{ fontSize:11, letterSpacing:3, color:"#0EA5E9", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:20 }}>Live Weather</div>
       <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,0.1),rgba(6,24,40,0.4))", border:"1px solid rgba(14,165,233,0.2)", borderRadius:20, padding:"32px 20px", textAlign:"center", marginBottom:16 }}>
-        <div style={{ fontSize:64, marginBottom:12 }}>🌤️</div>
+        <div style={{ marginBottom:12 }}><WX_ICON code={1} size={64}/></div>
         <div style={{ fontSize:20, color:"#f0e6d3", fontFamily:"Georgia,serif", marginBottom:6 }}>Kos Island, Greece</div>
         <div style={{ fontSize:13, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.6, marginBottom:20 }}>
           Live weather is on its way! We are connecting to our weather service, this will be available once the app is live online.
@@ -2042,7 +2048,7 @@ function WeatherTab() {
       ))}
       <div style={{ marginTop:8, padding:"12px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
         <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>
-          ☀️ Kos enjoys over <strong style={{ color:"#64748b" }}>300 sunny days per year</strong>, one of the sunniest islands in the Aegean.
+          Kos enjoys over <strong style={{ color:"#64748b" }}>300 sunny days per year</strong>, one of the sunniest islands in the Aegean.
         </p>
       </div>
     </div>
@@ -2095,19 +2101,19 @@ function WeatherTab() {
               {WX_CODES[cur.weather_code] || "Clear"}
             </div>
           </div>
-          <div style={{ fontSize:72, lineHeight:1 }}>{WX_ICON(cur.weather_code)}</div>
+          <div style={{ fontSize:72, lineHeight:1 }}><WX_ICON code={cur.weather_code}/></div>
         </div>
 
         {/* Stats row */}
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:8 }}>
           {[
-            ["💧", cur.relative_humidity_2m+"%", "Humidity"],
-            ["💨", Math.round(cur.wind_speed_10m)+" km/h", "Wind"],
-            ["🌊", temp(seaTemp), "Sea"],
-            ["☀️", "UV "+Math.round(cur.uv_index), uvLabel],
-          ].map(([icon,val,label]) => (
+            ["humidity", cur.relative_humidity_2m+"%", "Humidity", "#60a5fa"],
+            ["wind",     Math.round(cur.wind_speed_10m)+" km/h", "Wind", "#94a3b8"],
+            ["wave",     temp(seaTemp), "Sea", "#0ea5e9"],
+            ["uv",       "UV "+Math.round(cur.uv_index), uvLabel, uvColor],
+          ].map(([icon,val,label,col]) => (
             <div key={label} style={{ background:"rgba(255,255,255,0.05)", borderRadius:12, padding:"10px 8px", textAlign:"center" }}>
-              <div style={{ fontSize:18, marginBottom:4 }}>{icon}</div>
+              <div style={{ display:"flex", justifyContent:"center", marginBottom:4 }}><NavIcon name={icon} color={col} size={20}/></div>
               <div style={{ fontSize:13, fontWeight:600, color:label===uvLabel?uvColor:"#f0e6d3", fontFamily:"sans-serif" }}>{val}</div>
               <div style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", marginTop:2 }}>{label}</div>
             </div>
@@ -2118,11 +2124,11 @@ function WeatherTab() {
       {/* Sunrise / Sunset */}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:16 }}>
         {[
-          ["🌅","Sunrise", daily.sunrise[0].slice(11)],
-          ["🌇","Sunset",  daily.sunset[0].slice(11)],
+          ["sunrise","Sunrise", daily.sunrise[0].slice(11)],
+          ["sunset","Sunset",  daily.sunset[0].slice(11)],
         ].map(([icon,label,time]) => (
           <div key={label} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:10 }}>
-            <span style={{ fontSize:24 }}>{icon}</span>
+            <NavIcon name={icon} color={icon==="sunset"?"#f97316":"#e8a020"} size={24}/>
             <div>
               <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif" }}>{label}</div>
               <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>{time}</div>
@@ -2143,7 +2149,7 @@ function WeatherTab() {
               <div style={{ width:40, fontSize:13, color:isToday?"#0EA5E9":"#94a3b8", fontFamily:"sans-serif", fontWeight:isToday?700:400 }}>
                 {isToday ? "Today" : DAYS[d.getDay()]}
               </div>
-              <div style={{ fontSize:26, marginRight:12 }}>{WX_ICON(daily.weather_code[i])}</div>
+              <div style={{ fontSize:26, marginRight:12 }}><WX_ICON code={daily.weather_code[i]}/></div>
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif" }}>{WX_CODES[daily.weather_code[i]]}</div>
                 {rainProb > 20 && <div style={{ fontSize:11, color:"#38bdf8", fontFamily:"sans-serif" }}>💧 {rainProb}% rain</div>}
@@ -2158,7 +2164,7 @@ function WeatherTab() {
       </div>
 
       {/* Smart activity recommendations */}
-      {(() => {
+      {cur && (() => {
         const wind = cur.wind_speed_10m;
         const code = cur.weather_code;
         const windDir = cur.wind_direction_10m || 0;
@@ -2182,60 +2188,67 @@ function WeatherTab() {
 
         if (isStormy) {
           conditions = [
-            { icon:"🏛️", color:"#10B981", title:"Perfect for Sightseeing", desc:"Skip the beach today. Head to the Asklepion, Castle of the Knights or Casa Romana, all incredible and all indoors or sheltered.", beach:null },
-            { icon:"🎬", color:"#A855F7", title:"Orfeas Open Air Cinema", desc:"Check if Orfeas is showing tonight, a stormy evening under cover with a film is a great Plan B.", beach:null },
-            { icon:"🍽️", color:"#F97316", title:"Long Lunch Day", desc:"Take your time over a proper Greek lunch at a taverna. Today is made for slow eating and cold wine.", beach:null },
+            { icon:"sight", color:"#10B981", title:"Perfect for Sightseeing", desc:"Skip the beach today. Head to the Asklepion, Castle of the Knights or Casa Romana, all incredible and all indoors or sheltered.", beach:null },
+            { icon:"cinema", color:"#A855F7", title:"Orfeas Open Air Cinema", desc:"Check if Orfeas is showing tonight, a stormy evening under cover with a film is a great Plan B.", beach:null },
+            { icon:"food", color:"#F97316", title:"Long Lunch Day", desc:"Take your time over a proper Greek lunch at a taverna. Today is made for slow eating and cold wine.", beach:null },
           ];
         } else if (isRaining) {
           conditions = [
             { icon:"🏺", color:"#10B981", title:"Archaeological Museum", desc:"One of the best in the Dodecanese. The mosaic of Hippocrates alone is worth the visit.", beach:null },
-            { icon:"🛒", color:"#EAB308", title:"Covered Market & Old Town", desc:"Explore the covered bazaar and the old town streets, great for local honey, ceramics and souvenirs.", beach:null },
-            { icon:"☕", color:"#0EA5E9", title:"Café Day in Eleftherias Square", desc:"Pull up a chair in the central square, order a Greek coffee and watch the rain. Bliss.", beach:null },
+            { icon:"market", color:"#EAB308", title:"Covered Market & Old Town", desc:"Explore the covered bazaar and the old town streets, great for local honey, ceramics and souvenirs.", beach:null },
+            { icon:"coffee", color:"#0EA5E9", title:"Café Day in Eleftherias Square", desc:"Pull up a chair in the central square, order a Greek coffee and watch the rain. Bliss.", beach:null },
           ];
         } else if (isCalmAndSunny) {
           conditions = [
-            { icon:"🏊", color:"#0EA5E9", title:"Ideal Swimming Conditions", desc:"Flat calm sea, clear skies, zero wind. All beaches are perfect today. Best day to visit the more exposed spots like Cavo Paradiso or Agios Theologos.", beach:"All beaches, especially Cavo Paradiso & Agios Theologos" },
-            { icon:"🤿", color:"#0EA5E9", title:"Excellent Snorkelling & Diving", desc:"Maximum underwater visibility today. Head to Agios Fokas or Psalidi for snorkelling, or book a dive at the Kefalos sites.", beach:"Agios Fokas, Psalidi, Kefalos" },
-            { icon:"🚴", color:"#10B981", title:"Perfect Cycling Day", desc:"No wind, dry roads, sunshine. Ideal for cycling the coastal path or heading up to Zia on two wheels.", beach:null },
-            { icon:"⛵", color:"#6366F1", title:"Sunset Cruise Tonight", desc:"Flat calm makes for perfect sailing. Book a sunset cruise from the harbour, conditions don't get better than this.", beach:null },
+            { icon:"swim", color:"#0EA5E9", title:"Ideal Swimming Conditions", desc:"Flat calm sea, clear skies, zero wind. All beaches are perfect today. Best day to visit the more exposed spots like Cavo Paradiso or Agios Theologos.", beach:"All beaches, especially Cavo Paradiso & Agios Theologos" },
+            { icon:"dive", color:"#0EA5E9", title:"Excellent Snorkelling & Diving", desc:"Maximum underwater visibility today. Head to Agios Fokas or Psalidi for snorkelling, or book a dive at the Kefalos sites.", beach:"Agios Fokas, Psalidi, Kefalos" },
+            { icon:"cycle", color:"#10B981", title:"Perfect Cycling Day", desc:"No wind, dry roads, sunshine. Ideal for cycling the coastal path or heading up to Zia on two wheels.", beach:null },
+            { icon:"sail", color:"#6366F1", title:"Sunset Cruise Tonight", desc:"Flat calm makes for perfect sailing. Book a sunset cruise from the harbour, conditions don't get better than this.", beach:null },
           ];
         } else if (isMeltemi) {
           conditions = [
-            { icon:"🏄", color:"#0EA5E9", title:"Prime Windsurfing & Kitesurfing", desc:"The Meltemi is blowing! North coast conditions are world-class right now. Marmari and Mastichari are firing. Get on the water.", beach:"Marmari, Mastichari, Psalidi" },
-            { icon:"🏊", color:"#10B981", title:"Swim on the South Coast", desc:"North coast is choppy today, but the south coast is sheltered from the Meltemi. Head to Kefalos, Agios Theologos or Limnionas for calm clear water.", beach:"Kefalos, Agios Theologos, Limnionas, Camel Beach" },
-            { icon:"🧗", color:"#F97316", title:"Day Trip to Kalymnos", desc:"Meltemi means rock climbing conditions in Kalymnos are perfect. Take the morning ferry and spend the day on the cliffs.", beach:null },
-            { icon:"🚙", color:"#EAB308", title:"Jeep Safari Inland", desc:"Wind too strong for the beach? Head into the hills, Zia, Pyli and the mountain villages are sheltered and beautiful.", beach:null },
+            { icon:"surf", color:"#0EA5E9", title:"Prime Windsurfing & Kitesurfing", desc:"The Meltemi is blowing! North coast conditions are world-class right now. Marmari and Mastichari are firing. Get on the water.", beach:"Marmari, Mastichari, Psalidi" },
+            { icon:"swim", color:"#10B981", title:"Swim on the South Coast", desc:"North coast is choppy today, but the south coast is sheltered from the Meltemi. Head to Kefalos, Agios Theologos or Limnionas for calm clear water.", beach:"Kefalos, Agios Theologos, Limnionas, Camel Beach" },
+            { icon:"climb", color:"#F97316", title:"Day Trip to Kalymnos", desc:"Meltemi means rock climbing conditions in Kalymnos are perfect. Take the morning ferry and spend the day on the cliffs.", beach:null },
+            { icon:"jeep", color:"#EAB308", title:"Jeep Safari Inland", desc:"Wind too strong for the beach? Head into the hills, Zia, Pyli and the mountain villages are sheltered and beautiful.", beach:null },
           ];
         } else if (isSouthWind && isWindy) {
           conditions = [
-            { icon:"🏊", color:"#0EA5E9", title:"North Coast Calm Today", desc:"South winds mean the north coast beaches are sheltered and calm. Tigaki, Marmari and Mastichari will have flat water.", beach:"Tigaki, Marmari, Mastichari, Lambi" },
-            { icon:"🤿", color:"#10B981", title:"Good Snorkelling, North Beaches", desc:"Calm water on the north coast means excellent visibility for snorkelling today.", beach:"Tigaki, Psalidi, Lambi" },
-            { icon:"⛵", color:"#6366F1", title:"Sailing Conditions", desc:"A south breeze makes for pleasant sailing. Check with harbour operators for conditions before booking.", beach:null },
+            { icon:"swim", color:"#0EA5E9", title:"North Coast Calm Today", desc:"South winds mean the north coast beaches are sheltered and calm. Tigaki, Marmari and Mastichari will have flat water.", beach:"Tigaki, Marmari, Mastichari, Lambi" },
+            { icon:"dive", color:"#10B981", title:"Good Snorkelling, North Beaches", desc:"Calm water on the north coast means excellent visibility for snorkelling today.", beach:"Tigaki, Psalidi, Lambi" },
+            { icon:"sail", color:"#6366F1", title:"Sailing Conditions", desc:"A south breeze makes for pleasant sailing. Check with harbour operators for conditions before booking.", beach:null },
           ];
         } else if (isLightBreeze) {
           conditions = [
-            { icon:"🏊", color:"#0EA5E9", title:"Great Swimming Everywhere", desc:"Light breeze keeps things comfortable without disturbing the sea. All beaches are in good condition today.", beach:"All beaches" },
-            { icon:"🚴", color:"#10B981", title:"Ideal for Cycling", desc:"A light breeze is perfect cycling weather. Head along the coastal path or up toward the villages.", beach:null },
-            { icon:"🎣", color:"#EC4899", title:"Good Fishing Conditions", desc:"Light winds are ideal for shore fishing. Contact Dream Catch Kos for a session at one of their secret spots.", beach:null },
-            { icon:"🏄", color:"#A855F7", title:"Beginner Windsurfing", desc:"Light and consistent breeze, perfect conditions for learning to windsurf. Schools at Marmari welcome all levels.", beach:"Marmari" },
+            { icon:"swim", color:"#0EA5E9", title:"Great Swimming Everywhere", desc:"Light breeze keeps things comfortable without disturbing the sea. All beaches are in good condition today.", beach:"All beaches" },
+            { icon:"cycle", color:"#10B981", title:"Ideal for Cycling", desc:"A light breeze is perfect cycling weather. Head along the coastal path or up toward the villages.", beach:null },
+            { icon:"fish", color:"#EC4899", title:"Good Fishing Conditions", desc:"Light winds are ideal for shore fishing. Contact Dream Catch Kos for a session at one of their secret spots.", beach:null },
+            { icon:"surf", color:"#A855F7", title:"Beginner Windsurfing", desc:"Light and consistent breeze, perfect conditions for learning to windsurf. Schools at Marmari welcome all levels.", beach:"Marmari" },
           ];
         } else if (isWindy) {
           conditions = [
-            { icon:"🏄", color:"#0EA5E9", title:"Windsurfing & Kitesurfing", desc:"Good wind today, north coast conditions are ideal for intermediate and advanced riders. Marmari schools are open.", beach:"Marmari, Mastichari" },
-            { icon:"🏊", color:"#10B981", title:"Seek Sheltered Beaches", desc:"Avoid exposed north-facing beaches today. The south and southwest coastline will be much calmer.", beach:"Kefalos, Agios Theologos, Camel Beach, Limnionas" },
-            { icon:"🚙", color:"#EAB308", title:"Explore the Villages", desc:"A breezy day is perfect for heading inland to Zia, Pyli or Antimachia, cooler, sheltered and beautiful.", beach:null },
+            { icon:"surf", color:"#0EA5E9", title:"Windsurfing & Kitesurfing", desc:"Good wind today, north coast conditions are ideal for intermediate and advanced riders. Marmari schools are open.", beach:"Marmari, Mastichari" },
+            { icon:"swim", color:"#10B981", title:"Seek Sheltered Beaches", desc:"Avoid exposed north-facing beaches today. The south and southwest coastline will be much calmer.", beach:"Kefalos, Agios Theologos, Camel Beach, Limnionas" },
+            { icon:"jeep", color:"#EAB308", title:"Explore the Villages", desc:"A breezy day is perfect for heading inland to Zia, Pyli or Antimachia, cooler, sheltered and beautiful.", beach:null },
           ];
         } else if (isVeryWindy) {
           conditions = [
-            { icon:"🏄", color:"#0EA5E9", title:"Expert Kite & Windsurf Conditions", desc:"Strong winds, advanced riders only. Check with schools at Marmari before heading out. Not recommended for beginners.", beach:"Marmari (advanced only)" },
-            { icon:"🏛️", color:"#10B981", title:"Sightseeing Day", desc:"Too windy for the beach. A great day for the Asklepion, archaeological sites or a drive around the island.", beach:null },
-            { icon:"🍽️", color:"#F97316", title:"Taverna Lunch in a Village", desc:"Head to Zia or Pyli for lunch, sheltered, beautiful and the food is outstanding.", beach:null },
+            { icon:"surf", color:"#0EA5E9", title:"Expert Kite & Windsurf Conditions", desc:"Strong winds, advanced riders only. Check with schools at Marmari before heading out. Not recommended for beginners.", beach:"Marmari (advanced only)" },
+            { icon:"sight", color:"#10B981", title:"Sightseeing Day", desc:"Too windy for the beach. A great day for the Asklepion, archaeological sites or a drive around the island.", beach:null },
+            { icon:"food", color:"#F97316", title:"Taverna Lunch in a Village", desc:"Head to Zia or Pyli for lunch, sheltered, beautiful and the food is outstanding.", beach:null },
+          ];
+        } else {
+          // Default — pleasant day
+          conditions = [
+            { icon:"swim", color:"#0EA5E9", title:"Good Swimming Conditions", desc:"Decent beach day. Check conditions locally before heading to exposed beaches.", beach:"All beaches" },
+            { icon:"cycle", color:"#10B981", title:"Great for Cycling", desc:"Ideal weather for exploring the island on two wheels. The coastal path is beautiful.", beach:null },
+            { icon:"sail", color:"#6366F1", title:"Boat Trips Available", desc:"Conditions are suitable for boat excursions. Check with harbour operators for availability.", beach:null },
           ];
         }
 
         // UV warning if needed
         if (uv >= 8 && !isRaining) {
-          conditions.push({ icon:"🧴", color:"#ef4444", title:"Very High UV, Protect Yourself", desc:"UV index is "+Math.round(uv)+" today, very high. High-factor sunscreen essential, reapply every 2 hours. Seek shade between 12pm and 4pm.", beach:null });
+          conditions.push({ icon:"sunscreen", color:"#ef4444", title:"Very High UV, Protect Yourself", desc:"UV index is "+Math.round(uv)+" today, very high. High-factor sunscreen essential, reapply every 2 hours. Seek shade between 12pm and 4pm.", beach:null });
         }
 
         return (
@@ -2244,15 +2257,13 @@ function WeatherTab() {
             {conditions.map((c, i) => (
               <div key={i} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid "+c.color+"30", borderRadius:14, padding:"14px 16px", marginBottom:10 }}>
                 <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
-                  <div style={{ width:40, height:40, borderRadius:12, background:c.color+"18", border:"1px solid "+c.color+"30", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>
-                    {c.icon}
-                  </div>
+
                   <div style={{ flex:1 }}>
                     <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:4, fontFamily:"sans-serif" }}>{c.title}</div>
                     <div style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.5 }}>{c.desc}</div>
                     {c.beach && (
                       <div style={{ marginTop:6, display:"flex", alignItems:"center", gap:5 }}>
-                        <span style={{ fontSize:11 }}>📍</span>
+                        <NavIcon name="nearby" color={c.color} size={11}/>
                         <span style={{ fontSize:11, color:c.color, fontFamily:"sans-serif" }}>{c.beach}</span>
                       </div>
                     )}
