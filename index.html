@@ -1532,51 +1532,52 @@ function TaxiTab() {
 }
 
 // ── SVG Nav Icons ─────────────────────────────────────────────────────────────
-const NavIcon = ({ name, color="#94a3b8", size=20 }) => {
-  const s = size;
-  const icons = {
-    home:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>,
-    explore: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg>,
-    events:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>,
-    nearby:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
-    weather: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 2v1M12 13v1M4.22 4.22l.7.7M18.36 4.22l-.7.7M2 8h1M21 8h-1M6 16a4 4 0 0012 0"/><path d="M4 20h16"/></svg>,
-    ferry:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15l1.5-5h13L20 15"/><rect x="8" y="6" width="8" height="4" rx="1"/><path d="M12 6V3M2 18c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></svg>,
-    bus:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h.01M17 15h.01M8 19v2M16 19v2"/></svg>,
-    localbus:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 11h16M8 16h.01M16 16h.01M8 19v2M16 19v2M8 6V4h8v2"/></svg>,
-    taxi:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M3 12h18M10 4h4M12 4v3"/></svg>,
-    sos:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>,
-    trip:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>,
-    islands: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 100 18A9 9 0 0012 3z"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>,
-    photo:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg>,
-    contact: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.2 12.57 19.79 19.79 0 012.12 4 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
-    pin:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
-    tip:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>,
-    globe:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>,
-    sun:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>,
-    wind:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1014 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>,
-    humidity:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>,
-    uv:      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/><path d="M8 16l1-3 3 3 3-3 1 3" strokeWidth="1.5"/></svg>,
-    sunrise: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 18a5 5 0 00-10 0M12 2v7M4.22 10.22l1.42 1.42M19.78 10.22l-1.42 1.42M2 18h2M20 18h2M12 9l-2 3h4l-2 3"/></svg>,
-    rain:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>,
-    wave:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/></svg>,
-    calendar:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>,
-    clock:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>,
-    leaf:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 19.34M21 3c-1 5-3 8-6 11s-6.5 4-11 5c0-5 2-9 5-12s8-5 12-4z"/></svg>,
-    shop:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>,
-    medical: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>,
-    bike:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zm-3 11.5L5.5 11 9 6h5l2 5 2.5 1"/><path d="M9 6l2 5.5"/></svg>,
-    phone:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.2 12.57 19.79 19.79 0 012.12 4 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
-    ambulance:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="7" width="16" height="13" rx="1"/><path d="M16 12h4l3 5H16v-5z"/><circle cx="5.5" cy="20" r="2"/><circle cx="18.5" cy="20" r="2"/><path d="M8 10v5M5.5 12.5h5"/></svg>,
-    police:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L8 5H4l1 8c0 4 3 7 7 8 4-1 7-4 7-8l1-8h-4L12 2z"/><path d="M12 8v4M12 14h.01"/></svg>,
-    fire:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 17c1.38 0 2.5-1.12 2.5-2.5 0-1.5-1-3-2.5-4.5C9.5 11.5 8.5 13 8.5 14.5z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 1012 0c0-3-1.5-5-3-6.5-1 2-2 3-2 5-1.5-1.5-3-4-4-8.5z"/></svg>,
-    hospital:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="20" rx="1"/><path d="M12 8v8M8 12h8"/></svg>,
-    taxi2:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>,
-    listed:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>,
-    listed_old: null, width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>,
-  };
-  return icons[name] || null;
-};
+function NavIcon({ name, color, size }) {
+  color = color || "#94a3b8";
+  size = size || 20;
+  var s = size;
+  var p = { fill:"none", stroke:color, strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" };
+  if (name === "home")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>;
+  if (name === "explore")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="9"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg>;
+  if (name === "events")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>;
+  if (name === "nearby")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>;
+  if (name === "weather")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="8" r="4"/><path d="M12 2v1M12 13v1M4.22 4.22l.7.7M18.36 4.22l-.7.7M2 8h1M21 8h-1M6 16a4 4 0 0012 0"/><path d="M4 20h16"/></svg>;
+  if (name === "ferry")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M4 15l1.5-5h13L20 15"/><rect x="8" y="6" width="8" height="4" rx="1"/><path d="M12 6V3M2 18c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></svg>;
+  if (name === "bus")      return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h.01M17 15h.01M8 19v2M16 19v2"/></svg>;
+  if (name === "localbus") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 11h16M8 16h.01M16 16h.01M8 19v2M16 19v2M8 6V4h8v2"/></svg>;
+  if (name === "taxi")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M3 12h18M10 4h4M12 4v3"/></svg>;
+  if (name === "sos")      return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>;
+  if (name === "trip")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>;
+  if (name === "islands")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>;
+  if (name === "listed")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>;
+  if (name === "photo")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg>;
+  if (name === "contact")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.2 12.57 19.79 19.79 0 012.12 4 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;
+  if (name === "pin")      return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>;
+  if (name === "tip")      return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>;
+  if (name === "globe")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>;
+  if (name === "sun")      return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>;
+  if (name === "wind")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1014 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>;
+  if (name === "humidity") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>;
+  if (name === "uv")       return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>;
+  if (name === "sunrise")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M17 18a5 5 0 00-10 0M12 2v7M4.22 10.22l1.42 1.42M19.78 10.22l-1.42 1.42M2 18h2M20 18h2"/></svg>;
+  if (name === "rain")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>;
+  if (name === "wave")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/></svg>;
+  if (name === "calendar") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>;
+  if (name === "clock")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>;
+  if (name === "leaf")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M17 8C8 10 5.9 16.17 3.82 19.34M21 3c-1 5-3 8-6 11s-6.5 4-11 5c0-5 2-9 5-12s8-5 12-4z"/></svg>;
+  if (name === "shop")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>;
+  if (name === "medical")  return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>;
+  if (name === "bike")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zm-3 11.5L5.5 11 9 6h5l2 5 2.5 1"/><path d="M9 6l2 5.5"/></svg>;
+  if (name === "phone")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.2 12.57 19.79 19.79 0 012.12 4 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;
+  if (name === "ambulance") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="1" y="7" width="16" height="13" rx="1"/><path d="M16 12h4l3 5H16v-5z"/><circle cx="5.5" cy="20" r="2"/><circle cx="18.5" cy="20" r="2"/><path d="M8 10v5M5.5 12.5h5"/></svg>;
+  if (name === "police")   return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M12 2L8 5H4l1 8c0 4 3 7 7 8 4-1 7-4 7-8l1-8h-4L12 2z"/><path d="M12 8v4M12 14h.01"/></svg>;
+  if (name === "fire")     return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M8.5 14.5A2.5 2.5 0 0011 17c1.38 0 2.5-1.12 2.5-2.5 0-1.5-1-3-2.5-4.5C9.5 11.5 8.5 13 8.5 14.5z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 1012 0c0-3-1.5-5-3-6.5-1 2-2 3-2 5-1.5-1.5-3-4-4-8.5z"/></svg>;
+  if (name === "hospital") return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><rect x="2" y="3" width="20" height="20" rx="1"/><path d="M12 8v8M8 12h8"/></svg>;
+  if (name === "taxi2")    return <svg width={s} height={s} viewBox="0 0 24 24" {...p}><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>;
+  return null;
+}
 
+// ── Main App ──────────────────────────────────────────────────────────────────
 // ── Main App ──────────────────────────────────────────────────────────────────
 const NAV = [
   { key:"home",     label:"Home",         icon:"home" },
@@ -1861,7 +1862,7 @@ function EventsTab() {
       <div style={{ display:"flex", gap:8, marginBottom:20 }}>
         {EVENT_FILTERS.map(f => (
           <button key={f.key} onClick={() => setFilter(f.key)} style={{ flex:1, padding:"10px 8px", borderRadius:12, border:filter===f.key?"1.5px solid #F97316":"1.5px solid rgba(240,230,211,0.15)", background:filter===f.key?"rgba(249,115,22,0.15)":"rgba(255,255,255,0.04)", color:filter===f.key?"#F97316":"#94a3b8", fontSize:12, cursor:"pointer", fontFamily:"sans-serif", display:"flex", flexDirection:"column", alignItems:"center", gap:3 }}>
-            <span style={{ fontSize:18 }}>{f.icon}</span>
+            <NavIcon name={f.icon} color={filter===f.key?"#F97316":"#64748b"} size={18}/>
             <span>{f.label}</span>
           </button>
         ))}
@@ -2411,8 +2412,8 @@ function NearbyTab() {
         return (
           <a key={i} href={buildPlaceLink(place.lat, place.lng, place.name)} target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginBottom:10 }}>
             <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:14, padding:"14px 16px", display:"flex", alignItems:"center", gap:12, transition:"all 0.2s" }}>
-              <div style={{ width:44, height:44, borderRadius:12, background:cat.color+"20", border:"1px solid "+cat.color+"40", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>
-                {cat.icon}
+              <div style={{ width:44, height:44, borderRadius:12, background:cat.color+"20", border:"1px solid "+cat.color+"40", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                <NavIcon name={cat.key} color={cat.color} size={22}/>
               </div>
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:2 }}>{place.name}</div>
@@ -2642,7 +2643,7 @@ function App() {
                 <div style={{ display:"flex", gap:8, padding:"14px 16px 0", overflowX:"auto" }}>
                   {CATS.map(cat => (
                     <button key={cat.key} onClick={() => { setActiveCat(cat.key); setSelected(null); }} style={{ flexShrink:0, padding:"9px 16px", borderRadius:50, border:activeCat===cat.key?"1.5px solid "+cat.color:"1.5px solid rgba(240,230,211,0.15)", background:activeCat===cat.key?cat.color+"22":"rgba(255,255,255,0.04)", color:activeCat===cat.key?cat.color:"#94a3b8", fontSize:13, cursor:"pointer", display:"flex", alignItems:"center", gap:6, fontFamily:"sans-serif" }}>
-                      <span>{cat.icon}</span><span>{cat.label}</span>
+                      <NavIcon name={cat.key} color={activeCat===cat.key?cat.color:"#64748b"} size={16}/><span>{cat.label}</span>
                     </button>
                   ))}
                 </div>
