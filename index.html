@@ -920,7 +920,7 @@ const EMERGENCY = [
   ]},
   { id:"e3", category:"Useful Contacts", color:"#10B981", items:[
     { name:"Taxi Kos Town", number:"22420 23333", desc:"Main taxi rank in Kos Town centre", icon:"🚕" },
-    { name:"Pharmacy (24hr rota)", number:"1434", desc:"Dial to find the nearest open pharmacy", icon:"💊" },
+    { name:"Pharmacy (24hr rota)", number:"1434", desc:"Dial to find the nearest open pharmacy", icon:"medical" },
     { name:"Road Assistance (ELPA)", number:"10400", desc:"Breakdown and roadside assistance", icon:"🔧" },
     { name:"Water/Power Emergency", number:"22420 22242", desc:"DEYAK utility emergencies", icon:"⚡" },
   ]},
@@ -1547,7 +1547,32 @@ const NavIcon = ({ name, color="#94a3b8", size=20 }) => {
     sos:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>,
     trip:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>,
     islands: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 100 18A9 9 0 0012 3z"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>,
+    photo:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg>,
+    contact: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.2 12.57 19.79 19.79 0 012.12 4 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
+    pin:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
+    tip:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>,
+    globe:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a11.5 11.5 0 010 18M12 3a11.5 11.5 0 000 18"/></svg>,
+    sun:     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>,
+    wind:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1014 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>,
+    humidity:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>,
+    uv:      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/><path d="M8 16l1-3 3 3 3-3 1 3" strokeWidth="1.5"/></svg>,
+    sunrise: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 18a5 5 0 00-10 0M12 2v7M4.22 10.22l1.42 1.42M19.78 10.22l-1.42 1.42M2 18h2M20 18h2M12 9l-2 3h4l-2 3"/></svg>,
+    rain:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>,
+    wave:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 17c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0"/></svg>,
+    calendar:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>,
+    clock:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>,
+    leaf:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 19.34M21 3c-1 5-3 8-6 11s-6.5 4-11 5c0-5 2-9 5-12s8-5 12-4z"/></svg>,
+    shop:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>,
+    medical: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>,
+    bike:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zm-3 11.5L5.5 11 9 6h5l2 5 2.5 1"/><path d="M9 6l2 5.5"/></svg>,
+    phone:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.2 12.57 19.79 19.79 0 012.12 4 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
+    ambulance:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="7" width="16" height="13" rx="1"/><path d="M16 12h4l3 5H16v-5z"/><circle cx="5.5" cy="20" r="2"/><circle cx="18.5" cy="20" r="2"/><path d="M8 10v5M5.5 12.5h5"/></svg>,
+    police:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L8 5H4l1 8c0 4 3 7 7 8 4-1 7-4 7-8l1-8h-4L12 2z"/><path d="M12 8v4M12 14h.01"/></svg>,
+    fire:    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 17c1.38 0 2.5-1.12 2.5-2.5 0-1.5-1-3-2.5-4.5C9.5 11.5 8.5 13 8.5 14.5z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 1012 0c0-3-1.5-5-3-6.5-1 2-2 3-2 5-1.5-1.5-3-4-4-8.5z"/></svg>,
+    hospital:<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="20" rx="1"/><path d="M12 8v8M8 12h8"/></svg>,
+    taxi2:   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>,
     listed:  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>,
+    listed_old: null, width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>,
   };
   return icons[name] || null;
 };
@@ -1816,8 +1841,8 @@ const EVENTS = [
 
 const EVENT_FILTERS = [
   { key:"all",      label:"All",       icon:"🎉" },
-  { key:"weekly",   label:"This Week", icon:"📅" },
-  { key:"seasonal", label:"Seasonal",  icon:"🌞" },
+  { key:"weekly",   label:"This Week", icon:"clock" },
+  { key:"seasonal", label:"Seasonal",  icon:"leaf" },
 ];
 
 function EventsTab() {
@@ -1968,9 +1993,9 @@ function WeatherTab() {
         </div>
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:10, marginBottom:12 }}>
-        {["💧","💨","🌊","☀️"].map(icon => (
+        {["humidity","wind","wave","uv"].map(icon => (
           <div key={icon} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14, padding:"14px 8px", textAlign:"center" }}>
-            <div style={{ fontSize:22, marginBottom:6 }}>{icon}</div>
+            <div style={{ display:"flex", justifyContent:"center", marginBottom:6 }}><NavIcon name={icon} color="#0EA5E9" size={22}/></div>
             <div style={{ height:10, background:"rgba(255,255,255,0.08)", borderRadius:6, marginBottom:4 }}/>
             <div style={{ height:8, background:"rgba(255,255,255,0.05)", borderRadius:6, width:"60%", margin:"0 auto" }}/>
           </div>
@@ -2246,9 +2271,9 @@ function WeatherTab() {
 }
 
 const NEARBY_CATS = [
-  { key:"supermarket", label:"Markets",   icon:"🛒", color:"#10B981", query:"supermarket|mini market" },
-  { key:"pharmacy",    label:"Pharmacy",  icon:"💊", color:"#ef4444", query:"pharmacy|apothecary" },
-  { key:"bicycle",     label:"Bike Hire", icon:"🛵", color:"#F97316", query:"bike rental|scooter rental|bicycle hire" },
+  { key:"supermarket", label:"Markets",   icon:"shop", color:"#10B981", query:"supermarket|mini market" },
+  { key:"pharmacy",    label:"Pharmacy",  icon:"medical", color:"#ef4444", query:"pharmacy|apothecary" },
+  { key:"bicycle",     label:"Bike Hire", icon:"bike", color:"#F97316", query:"bike rental|scooter rental|bicycle hire" },
 ];
 
 function NearbyTab() {
@@ -2862,14 +2887,14 @@ function App() {
           {/* What you get */}
           <div style={{ marginBottom:16 }}>
             {[
-              { icon:"📸", title:"Photo & Description", desc:"Your own card with a photo, description and your story told the way you want it." },
-              { icon:"📞", title:"Direct Contact Buttons", desc:"Tourists can call you, visit your website or find you on Instagram with one tap." },
-              { icon:"📍", title:"Map Listing", desc:"Your location pinned on the Kos Unlocked map so tourists can find you easily." },
-              { icon:"💡", title:"Local Tip from You", desc:"Add your own insider tip, a personal touch that makes tourists want to visit." },
-              { icon:"🌍", title:"Reach Every Tourist", desc:"Kos gets over 1 million visitors a year. Every one of them is a potential customer." },
+              { icon:"photo", title:"Photo & Description", desc:"Your own card with a photo, description and your story told the way you want it." },
+              { icon:"contact", title:"Direct Contact Buttons", desc:"Tourists can call you, visit your website or find you on Instagram with one tap." },
+              { icon:"pin", title:"Map Listing", desc:"Your location pinned on the Kos Unlocked map so tourists can find you easily." },
+              { icon:"tip", title:"Local Tip from You", desc:"Add your own insider tip, a personal touch that makes tourists want to visit." },
+              { icon:"globe", title:"Reach Every Tourist", desc:"Kos gets over 1 million visitors a year. Every one of them is a potential customer." },
             ].map((f,i) => (
               <div key={i} style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"14px 0", borderBottom:"1px solid rgba(240,230,211,0.06)" }}>
-                <div style={{ width:40, height:40, borderRadius:12, background:"rgba(249,115,22,0.12)", border:"1px solid rgba(249,115,22,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{f.icon}</div>
+                <div style={{ width:40, height:40, borderRadius:12, background:"rgba(249,115,22,0.12)", border:"1px solid rgba(249,115,22,0.2)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><NavIcon name={f.icon} color="#F97316" size={20}/></div>
                 <div>
                   <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:3, fontFamily:"sans-serif" }}>{f.title}</div>
                   <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.5 }}>{f.desc}</div>
@@ -2880,7 +2905,7 @@ function App() {
 
           {/* Free while growing banner */}
           <div style={{ background:"linear-gradient(135deg,rgba(16,185,129,0.12),rgba(255,255,255,0.03))", border:"1px solid rgba(16,185,129,0.3)", borderRadius:16, padding:"16px 18px", marginBottom:20, display:"flex", gap:12, alignItems:"center" }}>
-            <span style={{ fontSize:28, flexShrink:0 }}>🎉</span>
+            <span style={{ flexShrink:0, display:"flex", alignItems:"center" }}><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg></span>
             <div>
               <div style={{ fontSize:14, fontWeight:600, color:"#10B981", marginBottom:3, fontFamily:"sans-serif" }}>Free while we grow</div>
               <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", lineHeight:1.5 }}>We are building our audience right now. Get listed for free and be part of Kos Unlocked from the very beginning.</div>
@@ -2893,7 +2918,7 @@ function App() {
             <p style={{ margin:"0 0 16px", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.6 }}>Send us a WhatsApp with your business name and we will take care of the rest.</p>
             <a href="https://wa.me/31649301578?text=Hi%2C%20I%20would%20like%20to%20list%20my%20business%20on%20Kos%20Unlocked" target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block" }}>
               <div style={{ background:"#25D366", border:"none", borderRadius:14, padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:10, cursor:"pointer" }}>
-                <span style={{ fontSize:22 }}>&#128172;</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span style={{ fontSize:15, fontWeight:700, color:"#fff", fontFamily:"sans-serif" }}>WhatsApp Us Now</span>
               </div>
             </a>
