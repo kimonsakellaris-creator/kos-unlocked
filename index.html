@@ -852,6 +852,7 @@ const LISTING_PACKAGES = [
 
 // ── Surrounding Islands Tab ──────────────────────────────────────────────────
 function IslandsTab() {
+  const [selected, setSelected] = useState(null);
 
   return (
     <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
