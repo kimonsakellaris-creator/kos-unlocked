@@ -615,92 +615,6 @@ function isOpenNow(hours) {
 }
 
 // ── Map ──────────────────────────────────────────────────────────────────────
-function MapView({ items, onSelect, selected }) {
-  const [mapCat, setMapCat] = useState("beaches");
-  const filteredItems = items.filter(i => i.cat === mapCat);
-  const col = CAT_COLOR[mapCat] || "#0EA5E9";
-  const mapUrl = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d61000!2d27.15!3d36.83!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sgr!4v1700000000000!5m2!1sen!2sgr";
-
-  return (
-    <div style={{ margin:"0 16px" }}>
-      {/* Google Map embed */}
-      <div style={{ borderRadius:16, overflow:"hidden", border:"1px solid rgba(14,165,233,0.25)", position:"relative" }}>
-        <iframe
-          src={selected ? "https://www.google.com/maps?q="+selected.lat+","+selected.lng+"&z=16&output=embed" : mapUrl}
-          width="100%" height="300"
-          style={{ border:0, display:"block", filter:"invert(90%) hue-rotate(180deg) saturate(0.8)" }}
-          allowFullScreen="" loading="lazy"
-          title="Kos Island Map"
-        />
-        <div style={{ position:"absolute", top:10, left:10, background:"rgba(8,18,32,0.85)", backdropFilter:"blur(8px)", border:"1px solid rgba(14,165,233,0.2)", borderRadius:10, padding:"5px 10px", fontSize:11, color:"#7dd3fc", fontFamily:"sans-serif", pointerEvents:"none" }}>
-          {selected ? "📍 "+selected.name : "🗺️ Kos Island"}
-        </div>
-        {selected && (
-          <button onClick={() => onSelect(null)} style={{ position:"absolute", top:10, right:10, background:"rgba(8,18,32,0.85)", border:"1px solid rgba(240,230,211,0.15)", borderRadius:8, padding:"5px 10px", color:"#94a3b8", fontSize:11, cursor:"pointer", fontFamily:"sans-serif" }}>✕ Reset</button>
-        )}
-      </div>
-
-      {/* Category tabs */}
-      <div style={{ display:"flex", gap:6, overflowX:"auto", padding:"12px 0 8px", scrollbarWidth:"none" }}>
-        {CATS.map(c => (
-          <button key={c.key} onClick={() => { setMapCat(c.key); onSelect(null); }} style={{ flexShrink:0, padding:"7px 14px", borderRadius:50, border:mapCat===c.key?"1.5px solid "+c.color:"1.5px solid rgba(240,230,211,0.12)", background:mapCat===c.key?c.color+"22":"rgba(255,255,255,0.04)", color:mapCat===c.key?c.color:"#64748b", fontSize:12, cursor:"pointer", fontFamily:"sans-serif", display:"flex", alignItems:"center", gap:5 }}>
-            <span>{c.icon}</span><span>{c.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Scrollable place pills */}
-      <div style={{ fontSize:11, color:"#475569", fontFamily:"sans-serif", marginBottom:6, letterSpacing:1, textTransform:"uppercase" }}>Tap a place to pin it on the map</div>
-      <div style={{ display:"flex", gap:8, overflowX:"auto", paddingBottom:8, scrollbarWidth:"none" }}>
-        {filteredItems.map(item => {
-          const isSel = selected && selected.id === item.id;
-          return (
-            <div key={item.id} onClick={() => onSelect(isSel ? null : item)} style={{ flexShrink:0, background:isSel?col+"22":"rgba(255,255,255,0.05)", border:"1px solid "+(isSel?col+"60":"rgba(240,230,211,0.08)"), borderRadius:12, padding:"8px 12px", display:"flex", alignItems:"center", gap:6, cursor:"pointer", transition:"all 0.2s" }}>
-              <span style={{ fontSize:16 }}>{item.emoji}</span>
-              <span style={{ fontSize:12, color:isSel?col:"#94a3b8", fontFamily:"sans-serif", fontWeight:isSel?600:400, whiteSpace:"nowrap" }}>{item.name}</span>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Selected place card */}
-      {selected && (
-        <div style={{ marginTop:4, background:"linear-gradient(135deg,"+CAT_COLOR[selected.cat]+"12,rgba(255,255,255,0.03))", border:"1px solid "+CAT_COLOR[selected.cat]+"40", borderRadius:16, overflow:"hidden" }}>
-          <div style={{ position:"relative", height:110 }}>
-            <img src={"https://source.unsplash.com/500x200/?"+encodeURIComponent(selected.name+" kos greece")} alt={selected.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} onError={e=>{e.target.style.display="none";}}/>
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(6,18,36,0.92))" }}/>
-            <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 14px", display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
-              <div>
-                <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", textShadow:"0 1px 4px rgba(0,0,0,0.8)" }}>{selected.name}</div>
-                <div style={{ fontSize:12, color:"#fcd34d", fontFamily:"sans-serif" }}>&#11088; {selected.rating}</div>
-              </div>
-              <span style={{ fontSize:22 }}>{selected.emoji}</span>
-            </div>
-          </div>
-          <div style={{ padding:"12px 16px" }}>
-            <p style={{ margin:"0 0 10px", fontSize:13, color:"#cbd5e1", lineHeight:1.5, fontFamily:"sans-serif" }}>{selected.desc}</p>
-            <div style={{ display:"flex", gap:8 }}>
-              <a href={"https://www.google.com/maps/?q="+selected.lat+","+selected.lng} target="_blank" rel="noreferrer" style={{ textDecoration:"none", flex:1 }}>
-                <div style={{ background:"rgba(14,165,233,0.15)", border:"1px solid rgba(14,165,233,0.3)", borderRadius:10, padding:"9px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
-                  <span style={{ fontSize:14 }}>📍</span>
-                  <span style={{ fontSize:12, color:"#0EA5E9", fontFamily:"sans-serif", fontWeight:600 }}>Directions</span>
-                </div>
-              </a>
-              {selected.phone && (
-                <a href={"tel:"+selected.phone} style={{ textDecoration:"none", flex:1 }}>
-                  <div style={{ background:"rgba(16,185,129,0.15)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:10, padding:"9px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
-                    <span style={{ fontSize:14 }}>📞</span>
-                    <span style={{ fontSize:12, color:"#10B981", fontFamily:"sans-serif", fontWeight:600 }}>Call</span>
-                  </div>
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 // ── Timetable Card ────────────────────────────────────────────────────────────
 function TTCard({ item, icon, isOpen, onToggle }) {
@@ -938,7 +852,6 @@ const LISTING_PACKAGES = [
 
 // ── Surrounding Islands Tab ──────────────────────────────────────────────────
 function IslandsTab() {
-  const [selected, setSelected] = useState(null);
 
   return (
     <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
@@ -2467,9 +2380,8 @@ function App() {
   const [places, setPlaces] = useState(loadPlaces);
   const [nav, setNav] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mapMode, setMapMode] = useState(false);
   const [activeCat, setActiveCat] = useState("beaches");
-  const [selected, setSelected] = useState(null);
+  const [openId, setOpenId] = useState(null);
   const [search, setSearch] = useState("");
   const [openTT, setOpenTT] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -2498,10 +2410,7 @@ function App() {
   }, [searchResults, places, activeCat]);
   const mapItems = searchResults || ALL_PLACES;
 
-  function handleSelect(item) {
-    setSelected(selected && selected.id === item.id ? null : item);
-    if (!mapMode && item.cat !== activeCat) setActiveCat(item.cat);
-  }
+
 
   // Scroll to top when nav changes
   React.useEffect(() => {
@@ -2599,13 +2508,7 @@ function App() {
                 <div style={{ fontSize:11, fontWeight:400, color:"#e8a020", letterSpacing:5, fontFamily:"Georgia, serif" }}>UNLOCKED</div>
               </div>
             </div>
-            {nav==="explore" && (
-              <div style={{ display:"flex", background:"rgba(255,255,255,0.06)", borderRadius:12, padding:4, gap:2 }}>
-                {[["list","&#9776; List"],["map","&#128506; Map"]].map(([v,label]) => (
-                  <button key={v} onClick={() => setMapMode(v==="map")} style={{ padding:"8px 12px", borderRadius:9, border:"none", cursor:"pointer", fontSize:12, fontFamily:"sans-serif", background:(mapMode?(v==="map"):(v==="list"))?"rgba(14,165,233,0.25)":"transparent", color:(mapMode?(v==="map"):(v==="list"))?"#0EA5E9":"#64748b" }} dangerouslySetInnerHTML={{ __html:label }}/>
-                ))}
-              </div>
-            )}
+
           </div>
         </div>
       )}
@@ -2622,41 +2525,11 @@ function App() {
             {searchResults && <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif", marginTop:6, paddingLeft:4 }}>{searchResults.length} result{searchResults.length!==1?"s":""} for "{search}"</div>}
           </div>
 
-          {mapMode ? (
-            <div style={{ paddingTop:16 }}>
-              <MapView items={mapItems} onSelect={handleSelect} selected={selected}/>
-              {selected ? (
-                <div style={{ margin:"12px 16px 0", border:"1px solid "+CAT_COLOR[selected.cat]+"44", borderRadius:16, overflow:"hidden" }}>
-                  <div style={{ position:"relative", height:120 }}>
-                    <img src={getPhotoUrl(selected.id, 500)} alt={selected.name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} onError={e=>{e.target.style.display="none";}}/>
-                    <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(6,24,40,0.9))" }}/>
-                    <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 16px", display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
-                      <div>
-                        <div style={{ fontSize:16, fontWeight:600, color:"#f0e6d3", textShadow:"0 1px 4px rgba(0,0,0,0.8)" }}>{selected.name}</div>
-                        <div style={{ fontSize:12, color:"#fcd34d", fontFamily:"sans-serif" }}>&#11088; {selected.rating}</div>
-                      </div>
-                      <span style={{ fontSize:22 }}>{selected.emoji}</span>
-                    </div>
-                  </div>
-                  <div style={{ padding:16, background:"linear-gradient(135deg,"+CAT_COLOR[selected.cat]+"12,rgba(255,255,255,0.03))" }}>
-                    <p style={{ margin:"0 0 10px", fontSize:13, color:"#cbd5e1", lineHeight:1.6, fontFamily:"sans-serif" }}>{selected.desc}</p>
-                    <div style={{ background:CAT_COLOR[selected.cat]+"18", border:"1px solid "+CAT_COLOR[selected.cat]+"33", borderRadius:10, padding:"10px 14px", display:"flex", gap:8 }}>
-                      <span>&#128161;</span>
-                      <p style={{ margin:0, fontSize:12, color:CAT_COLOR[selected.cat], fontFamily:"sans-serif", lineHeight:1.5 }}><strong>Local tip:</strong> {selected.tip}</p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <p style={{ textAlign:"center", color:"#475569", fontSize:13, fontFamily:"sans-serif", marginTop:16, fontStyle:"italic" }}>Tap a dot on the map to see details</p>
-              )}
-              <div style={{ height:100 }}/>
-            </div>
-          ) : (
-            <div>
+          <div>
               {!searchResults && (
                 <div style={{ display:"flex", gap:8, padding:"14px 16px 0", overflowX:"auto" }}>
                   {CATS.map(cat => (
-                    <button key={cat.key} onClick={() => { setActiveCat(cat.key); setSelected(null); }} style={{ flexShrink:0, padding:"9px 16px", borderRadius:50, border:activeCat===cat.key?"1.5px solid "+cat.color:"1.5px solid rgba(240,230,211,0.15)", background:activeCat===cat.key?cat.color+"22":"rgba(255,255,255,0.04)", color:activeCat===cat.key?cat.color:"#94a3b8", fontSize:13, cursor:"pointer", display:"flex", alignItems:"center", gap:6, fontFamily:"sans-serif" }}>
+                    <button key={cat.key} onClick={() => { setActiveCat(cat.key); setOpenId(null); }} style={{ flexShrink:0, padding:"9px 16px", borderRadius:50, border:activeCat===cat.key?"1.5px solid "+cat.color:"1.5px solid rgba(240,230,211,0.15)", background:activeCat===cat.key?cat.color+"22":"rgba(255,255,255,0.04)", color:activeCat===cat.key?cat.color:"#94a3b8", fontSize:13, cursor:"pointer", display:"flex", alignItems:"center", gap:6, fontFamily:"sans-serif" }}>
                       <NavIcon name={cat.key} color={activeCat===cat.key?cat.color:"#64748b"} size={16}/><span>{cat.label}</span>
                     </button>
                   ))}
@@ -2673,9 +2546,9 @@ function App() {
                 {listItems.length===0 && <div style={{ textAlign:"center", padding:"40px 0", color:"#475569", fontFamily:"sans-serif" }}>No results found</div>}
                 {listItems.map((item) => {
                   const col = CAT_COLOR[item.cat];
-                  const isOpen = selected && selected.id === item.id;
+                  const isOpen = openId === item.id;
                   return (
-                    <div key={item.id} onClick={() => handleSelect(item)} style={{ background:isOpen?"linear-gradient(135deg,"+col+"18,rgba(255,255,255,0.04))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+col+"55":"1px solid rgba(240,230,211,0.08)", borderRadius:16, marginBottom:12, cursor:"pointer", transition:"all 0.25s", overflow:"hidden" }}>
+                    <div key={item.id} onClick={() => { setOpenId(openId===item.id?null:item.id); }} style={{ background:isOpen?"linear-gradient(135deg,"+col+"18,rgba(255,255,255,0.04))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+col+"55":"1px solid rgba(240,230,211,0.08)", borderRadius:16, marginBottom:12, cursor:"pointer", transition:"all 0.25s", overflow:"hidden" }}>
                       {/* Photo header */}
                       <div style={{ position:"relative", height:isOpen?140:80, overflow:"hidden", transition:"height 0.3s ease" }}>
                         <img
@@ -2766,6 +2639,15 @@ function App() {
                               )}
                             </div>
                           )}
+                          {/* Directions button */}
+                          {item.lat && item.lng && (
+                            <a href={"https://www.google.com/maps/?q="+item.lat+","+item.lng} target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginTop:8 }}>
+                              <div style={{ background:"rgba(14,165,233,0.12)", border:"1px solid rgba(14,165,233,0.3)", borderRadius:10, padding:"9px 12px", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                                <NavIcon name="nearby" color="#0EA5E9" size={14}/>
+                                <span style={{ fontSize:12, color:"#0EA5E9", fontFamily:"sans-serif", fontWeight:600 }}>Directions in Google Maps</span>
+                              </div>
+                            </a>
+                          )}
                           {/* Share button */}
                           <div onClick={() => {
                             const text = item.name + " on Kos, Greece. " + item.tip + " Find it on Kos Unlocked: https://kos-unlocked.vercel.app";
@@ -2785,7 +2667,6 @@ function App() {
                 })}
               </div>
             </div>
-          )}
         </div>
       )}
 
