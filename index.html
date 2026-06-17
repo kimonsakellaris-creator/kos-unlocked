@@ -2739,9 +2739,7 @@ function App() {
                           )}
                           {/* Book button - featured only */}
                           {item.featured && item.phone && (
-                            <a href={item.whatsapp
-                              ? "https://wa.me/"+item.whatsapp.replace(/[^0-9]/g,"")+"?text="+encodeURIComponent("Hi! I'd like to make a reservation at "+item.name+". Could you help me with availability?")
-                              : "tel:"+item.phone.replace(/\s/g,"")}
+                            <a href={item.whatsapp ? ("https://wa.me/"+item.whatsapp.replace(/\D/g,"")+"?text="+encodeURIComponent("Hi! I would like to make a reservation at "+item.name+". Could you help me with availability?")) : ("tel:"+item.phone)}
                               target={item.whatsapp ? "_blank" : "_self"}
                               rel="noreferrer"
                               style={{ textDecoration:"none", display:"block", marginTop:8 }}>
