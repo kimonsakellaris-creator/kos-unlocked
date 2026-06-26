@@ -2529,6 +2529,7 @@ function App() {
   const [places, setPlaces] = useState(loadPlaces);
   const [nav, setNav] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuTouched, setMenuTouched] = useState(false);
   const [activeCat, setActiveCat] = useState("beaches");
   const [openId, setOpenId] = useState(null);
   const [search, setSearch] = useState("");
@@ -2980,9 +2981,9 @@ function App() {
       )}
 
       {/* Hamburger Menu Button */}
-      <style>{`@keyframes menuPulse { 0%,100%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(14,165,233,0.2),0 0 0 0 rgba(14,165,233,0.5)} 50%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(14,165,233,0.2),0 0 0 12px rgba(14,165,233,0)} }`}</style>
+      <style>{`@keyframes menuPulse { 0%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 0 rgba(14,165,233,0.8),0 0 0 0 rgba(14,165,233,0.4)} 60%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 10px rgba(14,165,233,0.15),0 0 0 20px rgba(14,165,233,0)} 100%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 0 rgba(14,165,233,0),0 0 0 0 rgba(14,165,233,0)} }`}</style>
       <div style={{ position:"fixed", bottom:28, right:20, zIndex:100 }}>
-        <button onClick={() => setMenuOpen(true)} style={{ width:56, height:56, borderRadius:"50%", background:"linear-gradient(135deg,rgba(14,165,233,0.9),rgba(8,100,180,0.9))", border:"1.5px solid rgba(14,165,233,0.6)", backdropFilter:"blur(16px)", animation:"menuPulse 1s ease-out 0.5s 3", boxShadow:"0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(14,165,233,0.2)", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:5 }}>
+        <button onClick={() => { setMenuOpen(true); setMenuTouched(true); }} style={{ width:56, height:56, borderRadius:"50%", background:"linear-gradient(135deg,rgba(14,165,233,0.9),rgba(8,100,180,0.9))", border:"1.5px solid rgba(14,165,233,0.6)", backdropFilter:"blur(16px)", animation:menuTouched ? "none" : "menuPulse 1.4s ease-out 0.5s infinite", boxShadow:"0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(14,165,233,0.2)", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:5 }}>
           <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
           <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
           <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
