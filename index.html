@@ -2980,8 +2980,9 @@ function App() {
       )}
 
       {/* Hamburger Menu Button */}
+      <style>{`@keyframes menuPulse { 0%,100%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(14,165,233,0.2),0 0 0 0 rgba(14,165,233,0.5)} 50%{box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(14,165,233,0.2),0 0 0 12px rgba(14,165,233,0)} }`}</style>
       <div style={{ position:"fixed", bottom:28, right:20, zIndex:100 }}>
-        <button onClick={() => setMenuOpen(true)} style={{ width:56, height:56, borderRadius:"50%", background:"linear-gradient(135deg,rgba(14,165,233,0.9),rgba(8,100,180,0.9))", border:"1.5px solid rgba(14,165,233,0.6)", backdropFilter:"blur(16px)", boxShadow:"0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(14,165,233,0.2)", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:5 }}>
+        <button onClick={() => setMenuOpen(true)} style={{ width:56, height:56, borderRadius:"50%", background:"linear-gradient(135deg,rgba(14,165,233,0.9),rgba(8,100,180,0.9))", border:"1.5px solid rgba(14,165,233,0.6)", backdropFilter:"blur(16px)", animation:"menuPulse 1s ease-out 0.5s 3", boxShadow:"0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(14,165,233,0.2)", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:5 }}>
           <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
           <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
           <div style={{ width:20, height:2, background:"#fff", borderRadius:2 }}/>
