@@ -460,11 +460,118 @@ const FERRIES = [
 ];
 
 const BUSES = [
-  { id:"u1", route:"Kos Town to Tigaki", line:"Line 1", duration:"25 min", color:"#F97316", note:"Serves the main tourist beach strip.", times:[{dep:"08:00",arr:"08:25",days:"Daily"},{dep:"10:00",arr:"10:25",days:"Daily"},{dep:"12:00",arr:"12:25",days:"Daily"},{dep:"14:00",arr:"14:25",days:"Daily"},{dep:"16:00",arr:"16:25",days:"Daily"}] },
-  { id:"u2", route:"Kos Town to Kardamena", line:"Line 2", duration:"45 min", color:"#A855F7", note:"Stops at Paradise Beach and Bubble Beach en route.", times:[{dep:"09:00",arr:"09:45",days:"Daily"},{dep:"11:30",arr:"12:15",days:"Daily"},{dep:"14:30",arr:"15:15",days:"Daily"},{dep:"17:00",arr:"17:45",days:"Daily"}] },
-  { id:"u3", route:"Kos Town to Kefalos", line:"Line 3", duration:"1h 15m", color:"#10B981", note:"Longest route, covers the whole south coast.", times:[{dep:"09:30",arr:"10:45",days:"Daily"},{dep:"13:00",arr:"14:15",days:"Daily"},{dep:"17:30",arr:"18:45",days:"Mon-Sat"}] },
-  { id:"u4", route:"Kos Town to Zia Village", line:"Line 4", duration:"35 min", color:"#EAB308", note:"Perfect for the famous sunset at Zia.", times:[{dep:"10:00",arr:"10:35",days:"Daily"},{dep:"14:00",arr:"14:35",days:"Daily"},{dep:"17:00",arr:"17:35",days:"Daily"}] },
-  { id:"u5", route:"Kos Town to Asklepion", line:"Line 5", duration:"20 min", color:"#0EA5E9", note:"Tourist shuttle to the ancient ruins. Summer only.", times:[{dep:"09:00",arr:"09:20",days:"Daily (summer)"},{dep:"11:00",arr:"11:20",days:"Daily (summer)"},{dep:"13:00",arr:"13:20",days:"Daily (summer)"}] },
+  { id:"u1", route:"Kos Town to Tigaki", line:"Line 1", duration:"25 min", price:"€2.50", color:"#F97316", note:"Frequent service to the popular north coast beach. Same timetable Mon–Sat.",
+    times:[
+      {dep:"09:00",arr:"09:25",days:"Mon–Sat"},{dep:"10:15",arr:"10:40",days:"Mon–Sat"},{dep:"11:15",arr:"11:40",days:"Mon–Sat"},
+      {dep:"12:15",arr:"12:40",days:"Mon–Sat"},{dep:"13:00",arr:"13:25",days:"Mon–Sat"},{dep:"15:00",arr:"15:25",days:"Mon–Sat"},
+      {dep:"16:00",arr:"16:25",days:"Mon–Sat"},{dep:"17:30",arr:"17:55",days:"Mon–Sat"},{dep:"19:00",arr:"19:25",days:"Mon–Sat"},
+      {dep:"20:30",arr:"20:55",days:"Mon–Sat"},{dep:"21:45",arr:"22:10",days:"Mon–Sat"},{dep:"23:00",arr:"23:25",days:"Mon–Sat"},
+      {dep:"10:15",arr:"10:40",days:"Sunday"},{dep:"11:30",arr:"11:55",days:"Sunday"},{dep:"13:00",arr:"13:25",days:"Sunday"},
+      {dep:"15:00",arr:"15:25",days:"Sunday"},{dep:"16:30",arr:"16:55",days:"Sunday"},{dep:"18:00",arr:"18:25",days:"Sunday"},
+      {dep:"19:30",arr:"19:55",days:"Sunday"},{dep:"21:00",arr:"21:25",days:"Sunday"}
+    ],
+    return_times:[
+      {dep:"08:10",arr:"08:35",days:"Mon–Sat"},{dep:"09:30",arr:"09:55",days:"Mon–Sat"},{dep:"10:45",arr:"11:10",days:"Mon–Sat"},
+      {dep:"11:45",arr:"12:10",days:"Mon–Sat"},{dep:"12:45",arr:"13:10",days:"Mon–Sat"},{dep:"13:30",arr:"13:55",days:"Mon–Sat"},
+      {dep:"15:30",arr:"15:55",days:"Mon–Sat"},{dep:"16:30",arr:"16:55",days:"Mon–Sat"},{dep:"18:00",arr:"18:25",days:"Mon–Sat"},
+      {dep:"19:30",arr:"19:55",days:"Mon–Sat"},{dep:"21:00",arr:"21:25",days:"Mon–Sat"},{dep:"22:15",arr:"22:40",days:"Mon–Sat"},
+      {dep:"23:30",arr:"23:55",days:"Mon–Sat"},
+      {dep:"09:30",arr:"09:55",days:"Sunday"},{dep:"10:45",arr:"11:10",days:"Sunday"},{dep:"12:00",arr:"12:25",days:"Sunday"},
+      {dep:"13:30",arr:"13:55",days:"Sunday"},{dep:"15:30",arr:"15:55",days:"Sunday"},{dep:"17:00",arr:"17:25",days:"Sunday"},
+      {dep:"18:30",arr:"18:55",days:"Sunday"},{dep:"20:00",arr:"20:25",days:"Sunday"},{dep:"21:30",arr:"21:55",days:"Sunday"}
+    ]
+  },
+  { id:"u2", route:"Kos Town to Marmari", line:"Line 2", duration:"25 min", price:"€2.50", color:"#A855F7", note:"Serves the Marmari beach area. Same timetable Mon–Sat.",
+    times:[
+      {dep:"09:00",arr:"09:25",days:"Mon–Sat"},{dep:"10:15",arr:"10:40",days:"Mon–Sat"},{dep:"11:15",arr:"11:40",days:"Mon–Sat"},
+      {dep:"12:15",arr:"12:40",days:"Mon–Sat"},{dep:"13:00",arr:"13:25",days:"Mon–Sat"},{dep:"15:00",arr:"15:25",days:"Mon–Sat"},
+      {dep:"16:00",arr:"16:25",days:"Mon–Sat"},{dep:"17:30",arr:"17:55",days:"Mon–Sat"},{dep:"19:00",arr:"19:25",days:"Mon–Sat"},
+      {dep:"20:30",arr:"20:55",days:"Mon–Sat"},{dep:"21:45",arr:"22:10",days:"Mon–Sat"},{dep:"23:00",arr:"23:25",days:"Mon–Sat"},
+      {dep:"10:15",arr:"10:40",days:"Sunday"},{dep:"11:30",arr:"11:55",days:"Sunday"},{dep:"13:00",arr:"13:25",days:"Sunday"},
+      {dep:"15:00",arr:"15:25",days:"Sunday"},{dep:"16:30",arr:"16:55",days:"Sunday"},{dep:"18:00",arr:"18:25",days:"Sunday"},
+      {dep:"19:30",arr:"19:55",days:"Sunday"},{dep:"21:00",arr:"21:25",days:"Sunday"}
+    ],
+    return_times:[
+      {dep:"08:00",arr:"08:25",days:"Mon–Sat"},{dep:"09:35",arr:"10:00",days:"Mon–Sat"},{dep:"10:50",arr:"11:15",days:"Mon–Sat"},
+      {dep:"11:50",arr:"12:15",days:"Mon–Sat"},{dep:"12:50",arr:"13:15",days:"Mon–Sat"},{dep:"13:35",arr:"14:00",days:"Mon–Sat"},
+      {dep:"15:35",arr:"16:00",days:"Mon–Sat"},{dep:"16:35",arr:"17:00",days:"Mon–Sat"},{dep:"18:05",arr:"18:30",days:"Mon–Sat"},
+      {dep:"19:35",arr:"20:00",days:"Mon–Sat"},{dep:"21:05",arr:"21:30",days:"Mon–Sat"},{dep:"22:20",arr:"22:45",days:"Mon–Sat"},
+      {dep:"23:35",arr:"24:00",days:"Mon–Sat"},
+      {dep:"09:30",arr:"09:55",days:"Sunday"},{dep:"10:50",arr:"11:15",days:"Sunday"},{dep:"12:00",arr:"12:25",days:"Sunday"},
+      {dep:"13:30",arr:"13:55",days:"Sunday"},{dep:"15:30",arr:"15:55",days:"Sunday"},{dep:"17:00",arr:"17:25",days:"Sunday"},
+      {dep:"18:30",arr:"18:55",days:"Sunday"},{dep:"20:00",arr:"20:25",days:"Sunday"},{dep:"21:30",arr:"21:55",days:"Sunday"}
+    ]
+  },
+  { id:"u3", route:"Kos Town to Mastichari", line:"Line 3", duration:"35 min", price:"€4.00", color:"#10B981", note:"Also serves the Mastichari ferry port for Kalymnos connections. Same timetable Mon–Sat.",
+    times:[
+      {dep:"08:00",arr:"08:35",days:"Mon–Sat"},{dep:"09:00",arr:"09:35",days:"Mon–Sat"},{dep:"10:00",arr:"10:35",days:"Mon–Sat"},
+      {dep:"10:45",arr:"11:20",days:"Mon–Sat"},{dep:"13:00",arr:"13:35",days:"Mon–Sat"},{dep:"14:30",arr:"15:05",days:"Mon–Sat"},
+      {dep:"16:30",arr:"17:05",days:"Mon–Sat"},{dep:"18:45",arr:"19:20",days:"Mon–Sat"},{dep:"21:00",arr:"21:35",days:"Mon–Sat"},
+      {dep:"23:00",arr:"23:35",days:"Mon–Sat"},
+      {dep:"10:00",arr:"10:35",days:"Sunday"},{dep:"13:00",arr:"13:35",days:"Sunday"},{dep:"17:00",arr:"17:35",days:"Sunday"}
+    ],
+    return_times:[
+      {dep:"08:10",arr:"08:45",days:"Mon–Sat"},{dep:"09:45",arr:"10:20",days:"Mon–Sat"},{dep:"10:15",arr:"10:50",days:"Mon–Sat"},
+      {dep:"11:50",arr:"12:25",days:"Mon–Sat"},{dep:"14:30",arr:"15:05",days:"Mon–Sat"},{dep:"15:40",arr:"16:15",days:"Mon–Sat"},
+      {dep:"17:50",arr:"18:25",days:"Mon–Sat"},{dep:"18:45",arr:"19:20",days:"Mon–Sat"},{dep:"20:10",arr:"20:45",days:"Mon–Sat"},
+      {dep:"09:10",arr:"09:45",days:"Sunday"},{dep:"11:45",arr:"12:20",days:"Sunday"},{dep:"16:00",arr:"16:35",days:"Sunday"}
+    ]
+  },
+  { id:"u4", route:"Kos Town to Kardamena", line:"Line 4", duration:"45 min", price:"€4.20", color:"#EC4899", note:"Stops at Paradise Beach en route. Less service on Sundays.",
+    times:[
+      {dep:"08:00",arr:"08:45",days:"Mon–Sat"},{dep:"10:00",arr:"10:45",days:"Mon–Sat"},{dep:"13:00",arr:"13:45",days:"Mon–Sat"},
+      {dep:"14:30",arr:"15:15",days:"Mon–Sat"},{dep:"16:30",arr:"17:15",days:"Mon–Sat"},{dep:"18:45",arr:"19:30",days:"Mon–Sat"},
+      {dep:"21:00",arr:"21:45",days:"Mon–Sat"},{dep:"23:00",arr:"23:45",days:"Mon–Sat"},
+      {dep:"10:00",arr:"10:45",days:"Sunday"},{dep:"13:00",arr:"13:45",days:"Sunday"},{dep:"17:00",arr:"17:45",days:"Sunday"}
+    ],
+    return_times:[
+      {dep:"07:50",arr:"08:35",days:"Mon–Sat"},{dep:"09:50",arr:"10:35",days:"Mon–Sat"},{dep:"11:30",arr:"12:15",days:"Mon–Sat"},
+      {dep:"14:10",arr:"14:55",days:"Mon–Sat"},{dep:"15:20",arr:"16:05",days:"Mon–Sat"},{dep:"17:30",arr:"18:15",days:"Mon–Sat"},
+      {dep:"19:50",arr:"20:35",days:"Mon–Sat"},
+      {dep:"08:50",arr:"09:35",days:"Sunday"},{dep:"11:30",arr:"12:15",days:"Sunday"},{dep:"15:50",arr:"16:35",days:"Sunday"}
+    ]
+  },
+  { id:"u5", route:"Kos Town to Kefalos", line:"Line 5", duration:"1h 15m", price:"€5.50", color:"#0EA5E9", note:"Longest route on the island, covers the whole south coast. No Saturday afternoon service.",
+    times:[
+      {dep:"10:00",arr:"11:15",days:"Mon–Fri"},{dep:"13:00",arr:"14:15",days:"Mon–Fri"},{dep:"14:30",arr:"15:45",days:"Mon–Fri"},
+      {dep:"16:30",arr:"17:45",days:"Mon–Fri"},{dep:"21:00",arr:"22:15",days:"Mon–Fri"},{dep:"23:00",arr:"24:15",days:"Mon–Fri"},
+      {dep:"10:00",arr:"11:15",days:"Saturday"},{dep:"13:00",arr:"14:15",days:"Saturday"},
+      {dep:"16:30",arr:"17:45",days:"Saturday"},{dep:"21:00",arr:"22:15",days:"Saturday"},{dep:"23:00",arr:"24:15",days:"Saturday"},
+      {dep:"10:00",arr:"11:15",days:"Sunday"},{dep:"13:00",arr:"14:15",days:"Sunday"},{dep:"17:00",arr:"18:15",days:"Sunday"}
+    ],
+    return_times:[
+      {dep:"07:30",arr:"08:45",days:"Mon–Sat"},{dep:"09:00",arr:"10:15",days:"Mon–Fri"},{dep:"11:15",arr:"12:30",days:"Mon–Sat"},
+      {dep:"15:00",arr:"16:15",days:"Mon–Sat"},{dep:"16:30",arr:"17:45",days:"Mon–Sat"},{dep:"18:00",arr:"19:15",days:"Mon–Sat"},
+      {dep:"08:30",arr:"09:45",days:"Sunday"},{dep:"11:15",arr:"12:30",days:"Sunday"},{dep:"15:30",arr:"16:45",days:"Sunday"}
+    ]
+  },
+  { id:"u6", route:"Kos Town to Zia", line:"Line 6", duration:"30 min", price:"€2.50", color:"#EAB308", note:"No Sunday service. Great for the sunset viewpoint.",
+    times:[
+      {dep:"09:30",arr:"10:00",days:"Mon–Sat"},{dep:"11:45",arr:"12:15",days:"Mon–Sat"},{dep:"16:00",arr:"16:30",days:"Mon–Sat"}
+    ],
+    return_times:[
+      {dep:"10:10",arr:"10:40",days:"Mon–Sat"},{dep:"12:15",arr:"12:45",days:"Mon–Sat"},{dep:"16:30",arr:"17:00",days:"Mon–Sat"}
+    ]
+  },
+  { id:"u7", route:"Kos Town to Pyli", line:"Line 7", duration:"30 min", price:"€2.50", color:"#6366F1", note:"Limited service. No Sunday buses.",
+    times:[
+      {dep:"10:15",arr:"10:45",days:"Mon–Fri"},{dep:"13:00",arr:"13:30",days:"Mon–Fri"},{dep:"16:00",arr:"16:30",days:"Mon–Fri"},
+      {dep:"10:15",arr:"10:45",days:"Saturday"},{dep:"13:00",arr:"13:30",days:"Saturday"}
+    ],
+    return_times:[
+      {dep:"07:30",arr:"08:00",days:"Mon–Fri"},{dep:"10:40",arr:"11:10",days:"Mon–Fri"},{dep:"13:30",arr:"14:00",days:"Mon–Fri"},
+      {dep:"10:40",arr:"11:10",days:"Saturday"},{dep:"13:30",arr:"14:00",days:"Saturday"}
+    ]
+  },
+  { id:"u8", route:"Kos Town to Antimachia", line:"Line 8", duration:"40 min", price:"€4.00", color:"#F43F5E", note:"Very limited service. No Sunday return bus.",
+    times:[
+      {dep:"10:00",arr:"10:40",days:"Mon–Sat"},{dep:"13:00",arr:"13:40",days:"Mon–Sat"},{dep:"21:00",arr:"21:40",days:"Mon–Sat"},
+      {dep:"10:00",arr:"10:40",days:"Sunday"},{dep:"13:00",arr:"13:40",days:"Sunday"},{dep:"17:00",arr:"17:40",days:"Sunday"}
+    ],
+    return_times:[
+      {dep:"08:00",arr:"08:40",days:"Mon–Sat"}
+    ]
+  }
 ];
 
 // ── DEAS Local City Buses ─────────────────────────────────────────────────────
@@ -815,25 +922,39 @@ function isOpenNow(hours) {
 // ── Timetable Card ────────────────────────────────────────────────────────────
 function TTCard({ item, icon, isOpen, onToggle }) {
   const col = item.color;
+  const [direction, setDirection] = React.useState("outbound");
+  const hasReturn = item.return_times && item.return_times.length > 0;
+  const routeParts = item.route.split(" to ");
+  const origin = routeParts[0] || "Kos Town";
+  const dest = routeParts[1] || "Destination";
+  const outLabel = origin + " → " + dest;
+  const retLabel = dest + " → " + origin;
+  const times = direction === "outbound" ? item.times : (item.return_times || []);
   return (
-    <div onClick={onToggle} style={{ background:isOpen?"linear-gradient(135deg,"+col+"15,rgba(255,255,255,0.03))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+col+"50":"1px solid rgba(240,230,211,0.08)", borderRadius:16, padding:"16px 18px", marginBottom:12, cursor:"pointer", transition:"all 0.25s" }}>
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+    <div style={{ background:isOpen?"linear-gradient(135deg,"+col+"15,rgba(255,255,255,0.03))":"rgba(255,255,255,0.04)", border:isOpen?"1px solid "+col+"50":"1px solid rgba(240,230,211,0.08)", borderRadius:16, padding:"16px 18px", marginBottom:12, transition:"all 0.25s" }}>
+      <div onClick={onToggle} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer" }}>
         <div style={{ display:"flex", gap:12, alignItems:"center" }}>
           <div style={{ width:40, height:40, borderRadius:12, background:col+"20", border:"1px solid "+col+"40", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{icon}</div>
           <div>
             <div style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", marginBottom:2 }}>{item.route}</div>
-            <div style={{ fontSize:11, color:col, fontFamily:"sans-serif" }}>{item.operator||item.line} · {item.duration}</div>
+            <div style={{ fontSize:11, color:col, fontFamily:"sans-serif" }}>{item.operator||item.line} · {item.duration}{item.price ? " · "+item.price : ""}</div>
           </div>
         </div>
         <div style={{ fontSize:18, color:"#64748b", transform:isOpen?"rotate(180deg)":"none", transition:"transform 0.2s" }}>&#8964;</div>
       </div>
       {isOpen && (
         <div style={{ marginTop:14, paddingTop:14, borderTop:"1px solid rgba(240,230,211,0.08)" }}>
+          {hasReturn && (
+            <div style={{ display:"flex", gap:6, marginBottom:14 }} onClick={e => e.stopPropagation()}>
+              <div onClick={() => setDirection("outbound")} style={{ flex:1, padding:"7px 0", borderRadius:8, textAlign:"center", fontSize:12, fontFamily:"sans-serif", fontWeight:500, cursor:"pointer", background:direction==="outbound"?col+"25":"rgba(255,255,255,0.04)", border:"1px solid "+(direction==="outbound"?col+"60":"rgba(240,230,211,0.08)"), color:direction==="outbound"?col:"#94a3b8", transition:"all 0.2s" }}>{outLabel}</div>
+              <div onClick={() => setDirection("return")} style={{ flex:1, padding:"7px 0", borderRadius:8, textAlign:"center", fontSize:12, fontFamily:"sans-serif", fontWeight:500, cursor:"pointer", background:direction==="return"?col+"25":"rgba(255,255,255,0.04)", border:"1px solid "+(direction==="return"?col+"60":"rgba(240,230,211,0.08)"), color:direction==="return"?col:"#94a3b8", transition:"all 0.2s" }}>{retLabel}</div>
+            </div>
+          )}
           <div style={{ marginBottom:12 }}>
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:2, marginBottom:4 }}>
               {["Departs","Arrives","Days"].map(h => <div key={h} style={{ fontSize:10, color:"#64748b", fontFamily:"sans-serif", textTransform:"uppercase", letterSpacing:1, paddingBottom:4 }}>{h}</div>)}
             </div>
-            {item.times.map((t,i) => (
+            {times.map((t,i) => (
               <div key={i} style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:2, padding:"8px 0", borderTop:"1px solid rgba(240,230,211,0.06)" }}>
                 <div style={{ fontSize:14, color:"#f0e6d3", fontFamily:"sans-serif", fontWeight:600 }}>{t.dep}</div>
                 <div style={{ fontSize:14, color:"#94a3b8", fontFamily:"sans-serif" }}>{t.arr}</div>
@@ -841,6 +962,12 @@ function TTCard({ item, icon, isOpen, onToggle }) {
               </div>
             ))}
           </div>
+          {item.price && (
+            <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.08)", borderRadius:10, padding:"8px 14px", marginBottom:8, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <span style={{ fontSize:12, color:"#94a3b8", fontFamily:"sans-serif" }}>Ticket price</span>
+              <span style={{ fontSize:14, fontWeight:600, color:"#f0e6d3", fontFamily:"sans-serif" }}>{item.price}</span>
+            </div>
+          )}
           <div style={{ background:col+"12", border:"1px solid "+col+"30", borderRadius:10, padding:"10px 14px", display:"flex", gap:8 }}>
             <span>&#8505;&#65039;</span>
             <p style={{ margin:0, fontSize:12, color:col, fontFamily:"sans-serif", lineHeight:1.5 }}>{item.note}</p>
@@ -2907,6 +3034,16 @@ function App() {
             <div style={{ fontSize:11, letterSpacing:3, color:"#F97316", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:4 }}>KTEL Kos Island Bus Network</div>
             <p style={{ margin:0, fontSize:13, color:"#64748b", fontFamily:"sans-serif" }}>All buses depart from the main bus station in Kos Town.</p>
           </div>
+          <a href="https://www.google.com/maps/?q=36.891453603639576,27.287623695170552" target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginBottom:14 }}>
+            <div style={{ background:"rgba(14,165,233,0.08)", border:"1px solid rgba(14,165,233,0.3)", borderRadius:14, padding:"12px 16px", display:"flex", alignItems:"center", gap:12 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <div>
+                <div style={{ fontSize:13, fontWeight:600, color:"#0EA5E9", fontFamily:"sans-serif" }}>KTEL Bus Station — Kos Town</div>
+                <div style={{ fontSize:12, color:"#64748b", fontFamily:"sans-serif" }}>Tap to open in Google Maps</div>
+              </div>
+              <svg style={{ marginLeft:"auto" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </div>
+          </a>
           {BUSES.map(b => <TTCard key={b.id} item={b} icon="&#128652;" isOpen={openTT===b.id} onToggle={() => setOpenTT(openTT===b.id?null:b.id)}/>)}
           <div style={{ marginTop:8, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(240,230,211,0.06)", borderRadius:14 }}>
             <p style={{ margin:0, fontSize:12, color:"#475569", fontFamily:"sans-serif", lineHeight:1.6 }}>&#128652; <strong style={{ color:"#64748b" }}>Bus Station</strong> on Kleopatras Street, Kos Town. Tickets bought on board.</p>
