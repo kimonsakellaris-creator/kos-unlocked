@@ -1247,9 +1247,9 @@ function IslandsTab() {
                 </div>
 
                 {/* Ferry link */}
-                <a href={"https://www.google.com/search?q=ferry+kos+to+"+island.name} target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginTop:12 }}>
-                  <div style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:12, padding:"11px 16px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-                    <span style={{ fontSize:13, color:"#94a3b8", fontFamily:"sans-serif" }}>&#9972; Find ferries from Kos to {island.name}</span>
+                <a href={{"i1":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=KLY","i2":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=PSR","i3":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=NIS","i4":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=TLO","i5":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=LER","i6":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=SYM","i7":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=RHO","i8":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=BJV","i9":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=SMI","i10":"https://www.ferryscanner.com/en/ferry-tickets?origin=KOS&destination=ASY"}[island.id] || "https://www.ferryscanner.com/en/ferry-tickets?origin=KOS"} target="_blank" rel="noreferrer" style={{ textDecoration:"none", display:"block", marginTop:12 }}>
+                  <div style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:12, padding:"11px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", background:"rgba(249,115,22,0.08)", border:"1px solid rgba(249,115,22,0.3)", borderRadius:10 }}>
+                    <span style={{ fontSize:13, color:"#F97316", fontFamily:"sans-serif", fontWeight:500 }}>🎫 Book ferry tickets to {island.name}</span>
                     <span style={{ fontSize:12, color:"#475569" }}>↗</span>
                   </div>
                 </a>
@@ -1860,13 +1860,12 @@ const NAV = [
   { key:"events",   label:"Events",       icon:"events" },
   { key:"nearby",   label:"Nearby",       icon:"nearby" },
   { key:"weather",  label:"Weather",      icon:"weather" },
-  { key:"ferry",    label:"Ferries",      icon:"ferry" },
-  { key:"bus",      label:"Island Buses", icon:"bus" },
+    { key:"bus",      label:"Island Buses", icon:"bus" },
   { key:"localbus", label:"City Buses",   icon:"localbus" },
   { key:"taxi",     label:"Taxi",         icon:"taxi" },
   { key:"sos",      label:"Help",         icon:"sos" },
   { key:"trip",     label:"My Trip",      icon:"trip" },
-  { key:"islands",  label:"Islands",      icon:"islands" },
+  { key:"islands",  label:"Islands & Ferries", icon:"islands" },
   { key:"listed",   label:"Contact Us",   icon:"listed" },
 ];
 
@@ -1973,6 +1972,74 @@ const ISLANDS = [
       "Secluded pebble beaches accessible by boat",
     ],
     tip:"Stay overnight if you can, the day trippers leave by 4pm and Symi transforms into something magical. The harbour at dusk with a glass of wine is unforgettable.",
+  },
+  {
+    id:"i7",
+    name:"Rhodes",
+    emoji:"🏛️",
+    distance:"3h 45min by ferry",
+    color:"#EAB308",
+    tagline:"The Island of Knights and Endless Beaches",
+    desc:"Rhodes is the largest island in the Dodecanese and one of the most visited in Greece, for good reason. The medieval Old Town, a UNESCO World Heritage Site, is one of the best preserved in the world. The Street of the Knights, the Palace of the Grand Master and the ancient walls are extraordinary. Beyond the history, Rhodes has some of the finest beaches in the Aegean, a buzzing nightlife scene, and a string of charming villages in the interior.",
+    highlights:[
+      "UNESCO World Heritage medieval Old Town",
+      "Palace of the Grand Master of the Knights",
+      "Lindos village and acropolis, spectacular views",
+      "Some of the finest beaches in the Aegean",
+      "Vibrant nightlife in Rhodes Town",
+    ],
+    tip:"Book your ferry well ahead in August. Rhodes fills up fast and the overnight ferry is a great option if you want more time.",
+  },
+  {
+    id:"i8",
+    name:"Bodrum (Turkey)",
+    emoji:"🕌",
+    distance:"30 min by ferry",
+    color:"#F43F5E",
+    tagline:"A Day Trip to Turkey — Culture, Bazaars and History",
+    desc:"Bodrum is just 30 minutes from Kos by ferry and makes for one of the most unique day trips you can do from the island. The Castle of St Peter, built by the Knights of Rhodes, dominates the harbour and houses the Museum of Underwater Archaeology. The bazaar is excellent for shopping, the fish restaurants along the harbour are superb, and the contrast between Greek island life and Turkish culture makes for a fascinating day out.",
+    highlights:[
+      "Castle of St Peter and Museum of Underwater Archaeology",
+      "Authentic Turkish bazaar and spice markets",
+      "Superb fresh fish restaurants on the harbour",
+      "Dramatic contrast of cultures just 30 minutes away",
+      "Mausoleum of Halicarnassus, one of the Seven Wonders",
+    ],
+    tip:"Bring your passport — you will need it. Check visa requirements for your nationality before you go. The ferry runs daily in summer.",
+  },
+  {
+    id:"i9",
+    name:"Samos",
+    emoji:"🍷",
+    distance:"2h by ferry",
+    color:"#16A34A",
+    tagline:"The Island of Pythagoras, Wine and Lush Green Mountains",
+    desc:"Samos is one of the greenest and most beautiful islands in the Aegean, a lush, mountainous island covered in pine forests, vineyards and olive groves. It was the birthplace of Pythagoras and Epicurus, and its ancient history is extraordinary — the Heraion, one of the largest temples ever built in the ancient world, still stands here. The island produces excellent wine, particularly its famous sweet Muscat, and the scenery ranges from dramatic mountain villages to turquoise beaches.",
+    highlights:[
+      "Birthplace of Pythagoras — ancient history everywhere",
+      "Heraion, one of the great temples of the ancient world",
+      "Famous Samos Muscat wine, produced here for centuries",
+      "Lush green mountains, pine forests and hidden waterfalls",
+      "Beautiful north coast beaches facing the Turkish coast",
+    ],
+    tip:"Hire a car — Samos rewards exploration. The mountain villages of Manolates and Vourliotes are stunning and the road between them is one of the most beautiful drives in the Aegean.",
+  },
+  {
+    id:"i10",
+    name:"Astypalea",
+    emoji:"🦋",
+    distance:"3h by ferry",
+    color:"#0891B2",
+    tagline:"The Butterfly of the Aegean — Whitewashed and Wonderfully Remote",
+    desc:"Astypalea is one of the most striking islands in all of Greece, shaped like a butterfly with two wings of land connected by a narrow isthmus. It sits between the Cyclades and the Dodecanese, with an atmosphere that is somewhere between the two — whitewashed Cycladic architecture crowned by a magnificent Venetian castle, combined with the wild, unhurried spirit of the Dodecanese. The island is relatively difficult to reach, which means it has remained remarkably unspoiled.",
+    highlights:[
+      "Magnificent Venetian castle above the Chora",
+      "Stunning butterfly-shaped coastline and remote coves",
+      "Whitewashed Cycladic-style capital with windmills",
+      "Some of the clearest water and most unspoiled beaches in Greece",
+      "Wonderfully authentic with very few mass tourists",
+    ],
+    tip:"Astypalea is worth the journey. Go for at least two nights — it takes a day to decompress, and by day two you will never want to leave.",
   },
 ];
 
