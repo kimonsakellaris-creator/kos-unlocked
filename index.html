@@ -1462,6 +1462,15 @@ function TripPlannerTab({ places }) {
 function HomePage({ onNav }) {
   const places = loadPlaces();
   const count = c => ((places && places[c]) || []).length;
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Kalimera" : "Kalispera";
+  const headline =
+    hour < 5  ? ["Still up?", ""] :
+    hour < 11 ? ["What's the plan", "today?"] :
+    hour < 15 ? ["Beach, shade", "or both?"] :
+    hour < 18 ? ["Where's the", "sunset tonight?"] :
+    hour < 22 ? ["Where are you", "eating tonight?"] :
+                ["One more stop", "before bed?"];
 
   const TILES = [
     { key:"beaches",    icon:"swim",  label:"Beaches", sub:count("beaches")+" spots",        col:"#0EA5E9" },
@@ -1492,9 +1501,9 @@ function HomePage({ onNav }) {
       <div style={{ position:"relative", zIndex:1 }}>
 
         <div style={{ marginBottom:18 }}>
-          <div style={{ fontSize:11, letterSpacing:3, color:"#e8a020", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:8 }}>Kalimera</div>
+          <div style={{ fontSize:11, letterSpacing:3, color:"#e8a020", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:8 }}>{greeting}</div>
           <div style={{ fontFamily:"Georgia, serif", fontSize:28, fontWeight:300, lineHeight:1.15, color:"#f0e6d3" }}>
-            What&apos;s the plan<br/>today?
+            {headline[0]}<br/>{headline[1]}
           </div>
         </div>
 
