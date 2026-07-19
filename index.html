@@ -1459,62 +1459,137 @@ function TripPlannerTab({ places }) {
 }
 
 // ── Home Page ────────────────────────────────────────────────────────────────
-function HomePage({ onExplore }) {
+function HomePage({ onNav }) {
+  const places = loadPlaces();
+  const count = c => ((places && places[c]) || []).length;
+
+  const TILES = [
+    { key:"beaches",    icon:"swim",  label:"Beaches", sub:count("beaches")+" spots",        col:"#0EA5E9" },
+    { key:"restaurants",icon:"pin",   label:"Eat",     sub:count("restaurants")+" tavernas", col:"#F97316" },
+    { key:"activities", icon:"dive",  label:"Do",      sub:count("activities")+" activities",col:"#EC4899" },
+    { key:"sights",     icon:"photo", label:"Culture", sub:count("sights")+" sights",        col:"#10B981" },
+  ];
+
+  const QUICK = [
+    { nav:"islands", icon:"islands", label:"Islands & ferries" },
+    { nav:"bus",     icon:"bus",     label:"Bus timetables" },
+    { nav:"taxi",    icon:"taxi",    label:"Taxi fares" },
+    { nav:"sos",     icon:"sos",     label:"Emergency help" },
+  ];
+
+  const tileStyle = {
+    background:"rgba(255,255,255,0.05)",
+    border:"1px solid rgba(255,255,255,0.08)",
+    borderRadius:16, padding:"14px", minHeight:96,
+    display:"flex", flexDirection:"column", justifyContent:"space-between",
+    cursor:"pointer"
+  };
+
   return (
-    <div style={{ position:"relative", zIndex:1, minHeight:"100vh", display:"flex", flexDirection:"column", justifyContent:"space-between", padding:"60px 24px 140px" }}>
-      {/* Background glow */}
-      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, background:"radial-gradient(ellipse at 30% 20%, rgba(14,165,233,0.12) 0%, transparent 55%), radial-gradient(ellipse at 70% 80%, rgba(232,160,32,0.08) 0%, transparent 55%)", pointerEvents:"none", zIndex:0 }}/>
+    <div style={{ position:"relative", zIndex:1, padding:"20px 18px 140px" }}>
+      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, background:"radial-gradient(ellipse at 30% 20%, rgba(14,165,233,0.12) 0%, transparent 55%)", pointerEvents:"none", zIndex:0 }}/>
 
-      {/* Logo */}
       <div style={{ position:"relative", zIndex:1 }}>
-        {/* Hero text */}
-        <div style={{ fontSize:11, letterSpacing:4, color:"#e8a020", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:16, marginTop:8 }}>Welcome to Kos</div>
-        <h1 style={{ fontFamily:"Georgia, serif", fontSize:36, fontWeight:300, lineHeight:1.15, marginBottom:24, background:"linear-gradient(135deg,#f0e6d3 40%,#7dd3fc 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
-          The island is<br/>yours to discover.
-        </h1>
 
-        {/* Personal note */}
-        <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"22px 20px", marginBottom:24, position:"relative" }}>
-          <p style={{ margin:"0 0 16px", fontSize:15, color:"#cbd5e1", lineHeight:1.8, fontFamily:"Georgia, serif", fontStyle:"italic" }}>
-            "Everything you'll find in this guide is based on my own personal experience of living on this island. These are the places I love, the beaches I go to and the spots I take my friends when they visit."
-          </p>
-          <div style={{ marginTop:0, fontSize:12, color:"#e8a020", fontFamily:"sans-serif", letterSpacing:1, marginBottom:18 }}>— Your local guide, Kimon</div>
-          <div style={{ borderTop:"1px solid rgba(240,230,211,0.08)", paddingTop:16 }}>
-            <div style={{ fontSize:14, fontWeight:600, color:"#cbd5e1", fontFamily:"Georgia, serif", marginBottom:8, letterSpacing:0.3 }}>Your guide to the island</div>
-            <p style={{ margin:0, fontSize:13, color:"#cbd5e1", fontFamily:"sans-serif", lineHeight:1.7 }}>
-              Use the menu at the bottom of the screen to explore beaches, restaurants, bars, activities, ferry and bus timetables, surrounding islands, live weather, a trip planner and more. Swipe the menu left to see all sections.
-            </p>
+        <div style={{ marginBottom:18 }}>
+          <div style={{ fontSize:11, letterSpacing:3, color:"#e8a020", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:8 }}>Kalimera</div>
+          <div style={{ fontFamily:"Georgia, serif", fontSize:28, fontWeight:300, lineHeight:1.15, color:"#f0e6d3" }}>
+            What&apos;s the plan<br/>today?
           </div>
         </div>
 
-        {/* Disclaimer card */}
-        <div style={{ background:"rgba(232,160,32,0.08)", border:"1px solid rgba(232,160,32,0.2)", borderRadius:16, padding:"16px 18px", marginBottom:24 }}>
-          <div style={{ fontSize:13, fontWeight:600, color:"#e8a020", fontFamily:"sans-serif", marginBottom:8 }}>A word before you explore</div>
-          <p style={{ margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.7 }}>
-            Kos is a living, breathing island full of hidden gems, family-run tavernas down side streets and secret beaches only locals know about. This guide is a starting point, not the whole picture.
-          </p>
-          <p style={{ margin:"10px 0 0", fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.7 }}>
-            The real magic of Kos is getting off the main road, wandering into a bar that catches your eye, sitting down at a taverna because it smells good and stumbling across a cove that isn't on any map. Use this guide to get oriented, then go explore for yourself.
-          </p>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:14 }}>
+          {TILES.map(t => (
+            <div key={t.key} onClick={() => onNav("explore", t.key)} style={tileStyle}>
+              <NavIcon name={t.icon} color={t.col} size={22}/>
+              <div>
+                <div style={{ fontSize:14, color:"#f0e6d3", fontWeight:600, fontFamily:"sans-serif" }}>{t.label}</div>
+                <div style={{ fontSize:11, color:"#64748b", fontFamily:"sans-serif", marginTop:2 }}>{t.sub}</div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Under construction banner */}
-        <div style={{ background:"rgba(234,179,8,0.08)", border:"1px solid rgba(234,179,8,0.25)", borderRadius:14, padding:"12px 16px", marginBottom:24, display:"flex", gap:10, alignItems:"center" }}>
-          <span style={{ fontSize:20, flexShrink:0 }}>🚧</span>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:22 }}>
+          {QUICK.map(q => (
+            <div key={q.nav} onClick={() => onNav(q.nav)} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:14, padding:"12px 13px", display:"flex", alignItems:"center", gap:9, cursor:"pointer" }}>
+              <NavIcon name={q.icon} color="#7dd3fc" size={17}/>
+              <div style={{ fontSize:12, color:"#cbd5e1", fontFamily:"sans-serif", lineHeight:1.3 }}>{q.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"20px 18px", marginBottom:12 }}>
+          <p style={{ margin:"0 0 14px", fontSize:14, color:"#cbd5e1", lineHeight:1.75, fontFamily:"Georgia, serif", fontStyle:"italic" }}>
+            &ldquo;Everything you&apos;ll find in this guide is based on my own personal experience of living on this island. These are the places I love, the beaches I go to and the spots I take my friends when they visit.&rdquo;
+          </p>
+          <div style={{ fontSize:12, color:"#e8a020", fontFamily:"sans-serif", letterSpacing:1 }}>&mdash; Your local guide, Kimon</div>
+        </div>
+
+        <div onClick={() => onNav("about")} style={{ background:"rgba(232,160,32,0.1)", border:"1px solid rgba(232,160,32,0.3)", borderRadius:14, padding:"13px 16px", marginBottom:16, display:"flex", alignItems:"center", justifyContent:"space-between", cursor:"pointer" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:9 }}>
+            <NavIcon name="tip" color="#e8a020" size={17}/>
+            <span style={{ fontSize:13, fontWeight:600, color:"#e8a020", fontFamily:"sans-serif" }}>About Us</span>
+          </div>
+          <span style={{ fontSize:14, color:"#e8a020" }}>&rsaquo;</span>
+        </div>
+
+        <div style={{ background:"rgba(234,179,8,0.08)", border:"1px solid rgba(234,179,8,0.25)", borderRadius:14, padding:"12px 16px", marginBottom:20 }}>
           <p style={{ margin:0, fontSize:12, color:"#ca8a04", fontFamily:"sans-serif", lineHeight:1.6 }}>
-            <strong>Work in progress</strong>, This app is still being built and improved. Some information may be incomplete. We're adding more local gems every day!
+            <strong>Work in progress.</strong> This app is still being built and improved. More local gems are added every week.
           </p>
         </div>
 
-
-      </div>
-
-      {/* Disclaimer */}
-      <div style={{ position:"relative", zIndex:1 }}>
         <p style={{ margin:0, textAlign:"center", fontSize:11, color:"#334155", fontFamily:"sans-serif", lineHeight:1.6 }}>
           Listings are personal recommendations. Featured partners support this guide.
         </p>
+
       </div>
+    </div>
+  );
+}
+
+function AboutPage() {
+  const card = { background:"rgba(255,255,255,0.04)", border:"1px solid rgba(240,230,211,0.1)", borderRadius:18, padding:"20px 18px", marginBottom:16 };
+  const body = { margin:0, fontSize:13, color:"#94a3b8", fontFamily:"sans-serif", lineHeight:1.75 };
+  const head = { fontSize:14, fontWeight:600, color:"#f0e6d3", fontFamily:"Georgia, serif", marginBottom:9, letterSpacing:0.3 };
+
+  return (
+    <div style={{ position:"relative", zIndex:1, padding:"20px 16px 120px" }}>
+
+      <div style={{ marginBottom:22 }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:"#e8a020", textTransform:"uppercase", fontFamily:"sans-serif", marginBottom:6 }}>About Us</div>
+        <div style={{ fontSize:22, fontWeight:400, color:"#f0e6d3", fontFamily:"Georgia, serif" }}>Your guide to the island</div>
+      </div>
+
+      <div style={card}>
+        <p style={{ margin:"0 0 14px", fontSize:14, color:"#cbd5e1", lineHeight:1.8, fontFamily:"Georgia, serif", fontStyle:"italic" }}>
+          &ldquo;Everything you&apos;ll find in this guide is based on my own personal experience of living on this island. These are the places I love, the beaches I go to and the spots I take my friends when they visit.&rdquo;
+        </p>
+        <div style={{ fontSize:12, color:"#e8a020", fontFamily:"sans-serif", letterSpacing:1 }}>&mdash; Your local guide, Kimon</div>
+      </div>
+
+      <div style={card}>
+        <div style={head}>How to use this guide</div>
+        <p style={body}>
+          Use the menu at the bottom of the screen to explore beaches, restaurants, bars, activities, ferry and bus timetables, surrounding islands, live weather, a trip planner and more. Swipe the menu left to see all sections.
+        </p>
+      </div>
+
+      <div style={{ background:"rgba(232,160,32,0.08)", border:"1px solid rgba(232,160,32,0.2)", borderRadius:16, padding:"17px 18px", marginBottom:16 }}>
+        <div style={{ fontSize:13, fontWeight:600, color:"#e8a020", fontFamily:"sans-serif", marginBottom:9 }}>A word before you explore</div>
+        <p style={body}>
+          Kos is a living, breathing island full of hidden gems, family-run tavernas down side streets and secret beaches only locals know about. This guide is a starting point, not the whole picture.
+        </p>
+        <p style={{ ...body, marginTop:11 }}>
+          The real magic of Kos is getting off the main road, wandering into a bar that catches your eye, sitting down at a taverna because it smells good and stumbling across a cove that isn&apos;t on any map. Use this guide to get oriented, then go explore for yourself.
+        </p>
+      </div>
+
+      <p style={{ margin:"22px 0 0", textAlign:"center", fontSize:11, color:"#334155", fontFamily:"sans-serif", lineHeight:1.6 }}>
+        Listings are personal recommendations. Featured partners support this guide.
+      </p>
+
     </div>
   );
 }
@@ -1777,6 +1852,7 @@ const NAV = [
   { key:"trip",     label:"My Trip",      icon:"trip" },
   { key:"islands",  label:"Islands & Ferries", icon:"islands" },
   { key:"listed",   label:"Contact Us",   icon:"listed" },
+  { key:"about",    label:"About Us",     icon:"tip" },
 ];
 
 // ── Surrounding Islands Data ──────────────────────────────────────────────────
@@ -3052,7 +3128,8 @@ function App() {
       )}
 
       {/* Nearby */}
-      {nav==="home" && <HomePage onExplore={() => setNav("explore")}/>}
+      {nav==="home" && <HomePage onNav={(k, cat) => { if (cat) setActiveCat(cat); setNav(k); }}/>}
+      {nav==="about" && <AboutPage/>}
       {nav==="events" && <EventsTab/>}
       {nav==="islands" && <IslandsTab/>}
       {nav==="trip" && <TripPlannerTab places={places}/>}
